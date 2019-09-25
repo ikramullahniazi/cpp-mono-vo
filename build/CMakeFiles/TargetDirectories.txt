@@ -1,0 +1,4 @@
+/home/matt/Projects/cpp-mono-vo/build/CMakeFiles/rebuild_cache.dir
+/home/matt/Projects/cpp-mono-vo/build/CMakeFiles/MonoVO.dir
+/home/matt/Projects/cpp-mono-vo/build/CMakeFiles/edit_cache.dir
+/home/matt/Projects/cpp-mono-vo/build/CMakeFiles/MonoVO-demo.dir

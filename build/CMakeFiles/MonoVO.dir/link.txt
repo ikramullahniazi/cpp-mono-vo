@@ -1,0 +1,2 @@
+/usr/bin/ar qc libMonoVO.a  CMakeFiles/MonoVO.dir/src/FeatureTracker.cpp.o
+/usr/bin/ranlib libMonoVO.a
