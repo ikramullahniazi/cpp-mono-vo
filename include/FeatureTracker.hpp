@@ -1,3 +1,6 @@
+#ifndef FEATURE_TRACKER_HPP_INCLUDE
+#define FEATURE_TRACKER_HPP_INCLUDE
+
 /*
  * This class tracks features from a previous frame into the current frame.
  * If needed, it also detects new features to maintain a minimum number.
@@ -14,7 +17,7 @@
 class FeatureTracker {
   public:
     FeatureTracker();
-    process_image(cv::Mat image);
+    bool process_image(cv::Mat image);
   private:
     // Pixel values of tracked points
     std::vector<cv::Point2f> prev_pts_, cur_pts_;
@@ -24,4 +27,4 @@ class FeatureTracker {
     Camera cam_;
 };
 
-
+#endif

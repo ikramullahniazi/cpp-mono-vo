@@ -27,6 +27,7 @@ add_library( ${PROJECT_NAME}
   src/FeatureTracker.cpp
   src/Camera.cpp
   src/Map.cpp
+  src/Estimator.cpp
 	)
 
 add_executable(${PROJECT_NAME}-demo src/demo.cpp)
