@@ -18,7 +18,7 @@ class FeatureTracker {
   public:
     FeatureTracker();
     bool process_image(cv::Mat image);
-    std::vector<std::vector<cv::Point2f> > get_data(); // idk how to extract data here, maybe use a pcl cloud instead?
+    std::vector<std::vector<cv::Point2f> > get_data(); // idk how to extract data here, maybe use a pcl cloud instead? Maybe a std::tuple?
   private:
     // Pixel values of tracked points
     std::vector<cv::Point2f> prev_pts_, cur_pts_;
