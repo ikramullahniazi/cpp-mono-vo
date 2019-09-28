@@ -5,6 +5,8 @@
 
 #include <opencv2/core.hpp> 
 
+#include "Landmark.hpp"
+
 // Manages the point cloud the estimator builds as it processes images
 
 class Map {
@@ -12,7 +14,7 @@ class Map {
     Map();
     bool add_feature();
   private:
-    std::vector<cv::Point3f> points_;
+    std::vector<Landmark> landmarks_;
 };
 
 #endif

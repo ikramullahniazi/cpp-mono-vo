@@ -28,6 +28,8 @@ add_library( ${PROJECT_NAME}
   src/Camera.cpp
   src/Map.cpp
   src/Estimator.cpp
+  src/Feature.cpp
+  src/Landmark.cpp
 	)
 
 add_executable(${PROJECT_NAME}-demo src/demo.cpp)

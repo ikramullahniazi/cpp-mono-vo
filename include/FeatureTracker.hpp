@@ -13,17 +13,22 @@
 #include <opencv2/video.hpp> // for optical flow
 
 #include "Camera.hpp"
+#include "Feature.hpp"
 
 class FeatureTracker {
   public:
-    FeatureTracker();
+    // Constructor
+    FeatureTracker(Camera cam);
+
+    // Create features from incoming image
     bool process_image(cv::Mat image);
-    <std::vector<cv::Point2f> get_data(); // idk how to extract data here, maybe use a pcl cloud instead? Maybe a std::tuple? I think I want more than just the raw pixelskind of like how VINS-MONO moves data around
+
+    // Return features
+    std::vector<Feature> get_data();
+
   private:
-    // Pixel values of tracked points
-    std::vector<cv::Point2f> prev_pts_, cur_pts_;
-    // Undistorted/normalized coordinates of tracked points
-    std::vector<cv::Point2f> prev_pts_undist_, cur_pts_undist_;
+    // Current and previous points for tracking
+    std::vector<Feature> prev_pts, cur_pts;
     
     Camera cam_;
 };
