@@ -19,3 +19,10 @@ std::vector<cv::Point2f> Camera::normalize_points(std::vector<cv::Point2f> pixel
   cv::undistortPoints(pixel_coords, normalized_pts, intrinsic_params_, cv::Mat() );
   return normalized_pts;
 }
+
+
+std::vector<cv::Point2f> project_points(std::vector<cv::Point3f> world_points)
+{
+  return std::vector<cv::Point2f>;
+}
+
