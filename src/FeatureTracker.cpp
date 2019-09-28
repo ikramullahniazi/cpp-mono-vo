@@ -12,6 +12,7 @@ bool FeatureTracker::process_image(cv::Mat image)
 
 std::vector<Feature> FeatureTracker::get_data()
 {
-  return std::vector<Feature>;
+  std::vector<Feature> temp;
+  return temp;
 }
 

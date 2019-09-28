@@ -1,5 +1,11 @@
 #include "Camera.hpp"
 
+Camera::Camera()
+{
+
+}
+
+
 Camera::Camera(cv::Mat K, cv::Mat dist)
 {
   // Check K conforms
@@ -23,6 +29,7 @@ std::vector<cv::Point2f> Camera::normalize_points(std::vector<cv::Point2f> pixel
 
 std::vector<cv::Point2f> project_points(std::vector<cv::Point3f> world_points)
 {
-  return std::vector<cv::Point2f>;
+  std::vector<cv::Point2f> temp;
+  return temp;
 }
 
