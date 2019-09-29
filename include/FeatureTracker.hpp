@@ -7,6 +7,8 @@
  */
 
 #include <vector>
+#include <algorithm> // for copy()
+#include <iterator> // for back_insertej
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp> // for color map conversions, goodFeaturesToTrack
@@ -24,13 +26,26 @@ class FeatureTracker {
     bool process_image(cv::Mat image);
 
     // Return features
-    std::vector<Feature> get_data();
+    bool get_data(std::vector<Feature> out_vec);
 
   private:
     // Current and previous points for tracking
-    std::vector<Feature> prev_pts, cur_pts;
-    
+    // cur_pts is the features from the most recent image
+    // prev_pts is the features from the image before that one
+    std::vector<Feature> prev_pts, cur_pts, new_pts;
+
+    // counter for giving features IDs
+    uint64_t id_counter_; 
+
+    // Mask for ignoring regions of image
+    cv::Mat mask_;
+
+    // Self explanatory
     Camera cam_;
+
+    // TODO
+    // -> 
+    // Detector det_;
 };
 
 #endif
