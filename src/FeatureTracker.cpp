@@ -9,6 +9,9 @@ FeatureTracker::FeatureTracker(Camera cam)
 
 bool FeatureTracker::process_image(cv::Mat image)
 {
+  std::vector<cv::Point2f> temp_corners;
+  new_pts.clear(); // This is where work is done before pushing to cur_pts
+
   // TODO: Add a flag/check for descriptors so can either 
   // use optical flow tracking or descriptor matching
   // TODO: Write a Detector class that FeatureTrackers own
@@ -17,8 +20,21 @@ bool FeatureTracker::process_image(cv::Mat image)
     // Initialize features
 
     // 1. Detect features in the image
+    cv::goodFeaturesToTrack(image, temp_corners, 500, 0.01, 10, cv::Mat(), 3, 3, 0, 0.04);
+    std::vector<cv::Point2f> temp_norms = cam_.normalize_points(temp_corners);
 
     // 2. Create Feature for each and give id
+    for (int i = 0; i < temp_corners.size(); i++)
+    {
+      Feature temp_feature = Feature(temp_corners[i], temp_norms[i]);
+      temp_feature.id = ++id_counter_; // First feature has ID 1
+      new_pts.push_back(temp_feature);
+    }
+
+    // Fill cur and prev 
+    cur_pts = new_pts;
+    prev_pts = new_pts;
+    return true;
 
   } else {
     // Track features into new frame
@@ -39,6 +55,7 @@ bool FeatureTracker::process_image(cv::Mat image)
     cur_pts = new_pts;
     new_pts.clear();
 
+    return true;
   }
 
   return false;
