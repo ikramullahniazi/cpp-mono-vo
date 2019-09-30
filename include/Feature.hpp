@@ -17,7 +17,8 @@ class Feature {
     cv::Point2f normalized_coords;
     cv::Point2f raw_coords;
     cv::Mat descriptor; // Unused for purely optical flow tracking
-    uint64_t id;
+    uint64_t id; // unique identifier for this feature
+    uint64_t frame_id; // what frame was this observation from?
   private:
     // Nothing yet
 };

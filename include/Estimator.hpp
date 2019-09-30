@@ -14,12 +14,14 @@
 class Estimator {
   public:
     Estimator();
+    Estimator(Camera cam);
     bool process_image(Camera cam, std::vector<Feature> features); // note: this actually only takes in the features
   private:
     // Estimator needs to compare features to previously triangulated points,
     // so needs to store a map
     Map map_;
-    cv::Mat rvec, tvec; // Store current pose?
+    Camera cam_;
+    cv::Mat rvec_, tvec_; // Store current pose?
 };
 
 #endif

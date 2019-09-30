@@ -37,6 +37,9 @@ class FeatureTracker {
     // counter for giving features IDs
     uint64_t id_counter_; 
 
+    // counter for number of frames processed
+    uint64_t frame_counter_;
+
     // Mask for ignoring regions of image
     cv::Mat mask_;
 

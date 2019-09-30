@@ -4,11 +4,13 @@ FeatureTracker::FeatureTracker(Camera cam)
 {
   cam_ = cam;
   id_counter_ = 0;
+  frame_counter_ = 0;
   // TODO: mask_ = cv::Mat::zeros(cam_.width, cam_.height, CV_8UC1);
 }
 
 bool FeatureTracker::process_image(cv::Mat image)
 {
+  frame_counter_++;
   std::vector<cv::Point2f> temp_corners;
   new_pts.clear(); // This is where work is done before pushing to cur_pts
 
@@ -28,6 +30,7 @@ bool FeatureTracker::process_image(cv::Mat image)
     {
       Feature temp_feature = Feature(temp_corners[i], temp_norms[i]);
       temp_feature.id = ++id_counter_; // First feature has ID 1
+      temp_feature.frame_id = frame_counter_; // 
       new_pts.push_back(temp_feature);
     }
 
