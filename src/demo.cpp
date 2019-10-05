@@ -1,6 +1,6 @@
-#include "Camera.hpp"
-#include "Estimator.hpp"
-#include "FeatureTracker.hpp"
+#include "Utils/Camera.hpp"
+#include "Estimator/Estimator.hpp"
+#include "FeatureTracker/FeatureTracker.hpp"
 
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp> // for imshow
@@ -23,8 +23,9 @@ int main() {
   std::vector<cv::Mat> images;
   std::string path = "/disks/storage/Datasets/Kitti/dataset/sequences/00/image_0/*";
   cv::glob(path, filenames);
+  std::cout << filenames.size() << " images found" << std::endl;
 
-  for (size_t i = 0; i < filenames.size(); i++)
+  for (size_t i = 0; i < 50; i++)
   {
     cv::Mat im = cv::imread(filenames[i]);
     images.push_back(im);

@@ -18,18 +18,22 @@ find_package(yaml-cpp REQUIRED)
 include_directories(
 	${PROJECT_SOURCE_DIR}
 	${PROJECT_SOURCE_DIR}/include
+  ${PROJECT_SOURCE_DIR}/include/Estimator
+  ${PROJECT_SOURCE_DIR}/include/FeatureTracker
+	${PROJECT_SOURCE_DIR}/include/Optimizer
+	${PROJECT_SOURCE_DIR}/include/Utils
 	${OpenCV_INCLUDE_DIRS}
 	${GTSAM_INCLUDE_DIR}
 	${YAML_CPP_INCLUDE_DIR}
 	)
 
 add_library( ${PROJECT_NAME}
-  src/FeatureTracker.cpp
-  src/Camera.cpp
-  src/Map.cpp
-  src/Estimator.cpp
-  src/Feature.cpp
-  src/Landmark.cpp
+  src/FeatureTracker/FeatureTracker.cpp
+  src/Utils/Camera.cpp
+  src/Utils/Map.cpp
+  src/Estimator/Estimator.cpp
+  src/Utils/Feature.cpp
+  src/Utils/Landmark.cpp
 	)
 
 add_executable(${PROJECT_NAME}-demo src/demo.cpp)
