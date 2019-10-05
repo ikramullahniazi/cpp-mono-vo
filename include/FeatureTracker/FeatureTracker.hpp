@@ -14,8 +14,8 @@
 #include <opencv2/imgproc.hpp> // for color map conversions, goodFeaturesToTrack
 #include <opencv2/video.hpp> // for optical flow
 
-#include "Camera.hpp"
-#include "Feature.hpp"
+#include "Utils/Camera.hpp"
+#include "Utils/Feature.hpp"
 
 class FeatureTracker {
   public:

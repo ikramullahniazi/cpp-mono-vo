@@ -5,7 +5,7 @@
 
 #include <opencv2/core.hpp> 
 
-#include "Landmark.hpp"
+#include "Utils/Landmark.hpp"
 
 // Manages the point cloud the estimator builds as it processes images
 

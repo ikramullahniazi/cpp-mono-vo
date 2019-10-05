@@ -5,7 +5,7 @@
 
 #include <opencv2/core.hpp>
 
-#include "Feature.hpp" // Features are measurments of landmarks
+#include "Utils/Feature.hpp" // Features are measurments of landmarks
 
 // This class represents 3D landmarks 
 

@@ -7,9 +7,9 @@
 #include <opencv2/core.hpp>
 #include <opencv2/calib3d.hpp> // For essential matrix/pnp/etc
 
-#include "Camera.hpp" // Find a better way than to pass the camera around?
-#include "Feature.hpp"
-#include "Map.hpp"
+#include "Utils/Camera.hpp" // Find a better way than to pass the camera around?
+#include "Utils/Feature.hpp"
+#include "Utils/Map.hpp"
 
 class Estimator {
   public:
