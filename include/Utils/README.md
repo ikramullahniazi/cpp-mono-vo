@@ -17,3 +17,7 @@ The Landmark class contains relevant information for 3D map features.
 ## Map
 
 The Map class contains landmarks and other relevant information.
+
+## ImageGenerator
+
+The ImageGenerator class reads images from a file returns them in order
