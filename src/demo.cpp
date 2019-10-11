@@ -32,7 +32,7 @@ int main() {
   }
 
   // Initialize map from first two images
-  // ...
+  //
   
   return 0;
 }
