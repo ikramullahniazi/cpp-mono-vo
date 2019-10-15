@@ -6,15 +6,20 @@
 #include <opencv2/core.hpp>
 
 #include "Utils/Feature.hpp"
+#include "Tracker/TrackerParams.hpp"
 
 class Tracker {
   public:
     Tracker();
-    // TODO: How to actually extract tracking functionality?
-    // Current thought: take in prev, cur -> return new prev, cur
-    // What's the best way to return two vectors?
+    Tracker(TrackerParams params);
+
+    std::vector<Feature> track_features(
+        const std::vector<Feature> previous_features,
+        const cv::Mat previous_image,
+        const cv::Mat new_image);
   private:
-    // 
+    // This contains the parameters to pass to the tracking/matching method.
+    TrackerParams params_;
 };
 
 #endif

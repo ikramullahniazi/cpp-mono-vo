@@ -2,7 +2,6 @@
 
 // Create a params object with defaults for given detector.
 // Parameters can then be changed after creation.
-// NOTE: Image height/width MUST be set before this can be used.
 DetectorParams::DetectorParams()
 {
   config_();

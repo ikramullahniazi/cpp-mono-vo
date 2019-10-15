@@ -8,7 +8,6 @@ class DetectorParams {
     void config_();
 
     // Data
-
     // TODO: Move this to Tracker class
     int minimum_features_;
 
