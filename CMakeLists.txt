@@ -22,6 +22,7 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/include/FeatureTracker
 	${PROJECT_SOURCE_DIR}/include/Optimizer
 	${PROJECT_SOURCE_DIR}/include/Utils
+  ${PROJECT_SOURCE_DIR}/include/Utils/ImageGenerator
   ${PROJECT_SOURCE_DIR}/include/Detector
   ${PROJECT_SOURCE_DIR}/include/Detector/Detectors
   ${PROJECT_SOURCE_DIR}/include/Tracker
