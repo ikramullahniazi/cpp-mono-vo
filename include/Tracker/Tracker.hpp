@@ -20,6 +20,9 @@ class Tracker {
   private:
     // This contains the parameters to pass to the tracking/matching method.
     TrackerParams params_;
+
+    // Unroll features into vector of 2d points
+    std::vector<cv::Point2f> unpack_feature_vector_(std::vector<Feature> features);
 };
 
 #endif

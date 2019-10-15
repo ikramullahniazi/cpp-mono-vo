@@ -16,7 +16,10 @@ class Feature {
     // Data is publicly accessible
     cv::Point2f normalized_coords;
     cv::Point2f raw_coords;
-    cv::Mat descriptor; // Unused for purely optical flow tracking
+
+    // If not using an actual descriptor (ie ORB), this can store the pixel 
+    // patch around the feature for direct methods(?).
+    cv::Mat descriptor;
     uint64_t id; // unique identifier for this feature
     uint64_t frame_id; // what frame was this observation from?
   private:
