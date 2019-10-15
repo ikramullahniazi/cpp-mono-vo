@@ -2,6 +2,7 @@
 #define TRACKER_PARAMS_HPP_INCLUDE
 
 #include <opencv2/core.hpp>
+#include <opencv2/video/tracking.hpp>
 
 class TrackerParams {
   public:
@@ -14,7 +15,7 @@ class TrackerParams {
     int max_level_;
     cv::TermCriteria term_criteria_;
     int flags_;
-    doubel min_eig_threshold_;
+    double min_eig_threshold_;
 };
 
 #endif

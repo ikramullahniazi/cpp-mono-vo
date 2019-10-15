@@ -13,9 +13,8 @@ void TrackerParams::config_()
   win_size_ = cv::Size(21,21);
   term_criteria_ = 
     cv::TermCriteria(cv::TermCriteria::COUNT|cv::TermCriteria::EPS,
-        20,
-        0,
-        0.03);
-  flags_ = cv::OPTFLOW_LK_GET_MIN_EIGENVALS;
+        30,
+        0.01);
+  flags_ = cv::OPTFLOW_LK_GET_MIN_EIGENVALS ;
   min_eig_threshold_ = 0.0001;
 }
