@@ -1,10 +1,23 @@
 # cpp-mono-vo
-Implementing a monocular visual odometry pipeline
 
-## Dependencies
+This is a monocular visual odometry pipeline I am writing as a personal project.
+
+## Prerequisites
+
+This is written and tested on Ubuntu 18.04.
+
+### Libraries
 
 * OpenCV 4.1.0
-* C++-11 
 
-Note: Right now, I stylistically prefer to not modify my input variables, and instead generate new output ones. This is probably less efficient than modifying in-place, so a change may be coming. I will not be prematurely optimizing, though.
+## Installation
 
+Clone the repository and
+
+```
+mkdir build && cd build
+cmake ..
+make -j4
+```
+
+## Configuration
