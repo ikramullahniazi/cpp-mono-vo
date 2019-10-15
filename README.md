@@ -1,7 +1,7 @@
 # cpp-mono-vo
 
 This is a monocular visual odometry pipeline I am writing as a personal project.
-I will be working with OpenCV functions; see 
+The purpose of this project is to learn the new OpenCV 4 API as well as practice modern C++; see 
 [here](https://github.com/mattboler/matlab-VO) for a repository where I 
 implement common visual navigation functions in Matlab.
 
