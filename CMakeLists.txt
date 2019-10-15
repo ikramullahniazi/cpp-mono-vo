@@ -52,3 +52,15 @@ target_link_libraries( ${PROJECT_NAME}-demo
 	${GTSAM_LIBRARIES}
 	)
 
+#[[ Examples
+For some reason, adding more than one causes compiler errors
+
+add_executable(detector_example examples/Detector/example_Detector.cpp)
+
+target_link_libraries(detector_example
+  ${PROJECT_NAME}
+  ${OpenCV_LIBRARIES}
+  ${GTSAM_LIBRARIES}
+  }
+
+]]
