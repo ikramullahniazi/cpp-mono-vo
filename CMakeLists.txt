@@ -35,6 +35,7 @@ add_library( ${PROJECT_NAME}
   src/Estimator/Estimator.cpp
   src/FeatureTracker/FeatureTracker.cpp
   src/Detector/Detector.cpp
+  src/Detector/DetectorParams.cpp
   src/Tracker/Tracker.cpp
   src/Utils/Camera.cpp
   src/Utils/Map.cpp
@@ -50,3 +51,10 @@ target_link_libraries( ${PROJECT_NAME}-demo
 	${GTSAM_LIBRARIES}
 	)
 
+# Building examples
+add_executable(demo_detector examples/example_Detector.cpp)
+
+target_link_libraries( demo_detector
+  ${PROJECT_NAME}
+  ${OpenCV_LIBRARIES}
+  )
