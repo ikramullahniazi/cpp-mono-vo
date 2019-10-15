@@ -17,11 +17,4 @@ class Tracker {
     // 
 };
 
-class TrackerParams {
-  public:
-    TrackerParams();
-  private:
-    //
-};
-
 #endif
