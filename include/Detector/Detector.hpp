@@ -20,10 +20,12 @@ class Detector {
     Detector(DetectorParams params);
 
     // Detect feature points in an incoming image.
-    // Include functionality for forcing features to be 
+    // This should be overwritten by child classes. 
+    // TODO: Include functionality for forcing features to be 
     // spread across image.
-    std::vector<Feature> detect_features(const cv::Mat image, const std::vector<Feature> previous_features);
-    std::vector<Feature> detect_features(const cv::Mat image, const std::vector<Feature> previous_features, const cv::Mat mask);
+    // TODO: Mask can also be used to add more features to an image that already has had features detected, should there be functionality to automatically form a mask from existing features?
+    std::vector<Feature> detect_features(const cv::Mat image);
+    std::vector<Feature> detect_features(const cv::Mat image, const cv::Mat mask);
     
   private:
     // This contains the parameters to pass to the feature detection method.

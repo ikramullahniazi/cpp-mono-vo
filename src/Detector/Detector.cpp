@@ -17,7 +17,13 @@ Detector::Detector(DetectorParams params)
   params_ = params;
 }
 
-std::vector<Feature> detect_features(const cv::Mat image, const std::vector<Feature> previous_features)
+std::vector<Feature> detect_features(const cv::Mat image)
+{
+  cv::Mat mask;
+  return detect_features(image, previous_features, mask);
+}
+
+std::vector<Feature> detect_features(const cv::Mat image, const cv::Mat mask)
 {
   std::vector<cv::Point2f> temp_output;
   std::vector<Feature> output;
@@ -25,24 +31,19 @@ std::vector<Feature> detect_features(const cv::Mat image, const std::vector<Feat
       params_.max_count_,
       params_.quality_level_,
       params_.min_distance_,
-      cv::Mat(),
+      mask,
       params_.block_size_,
       params_.gradient_size_,
       params_.use_harris_detector_,
-      params_.k_);
+      params_.k);
 
-  for (cv::Point2f pt : output) {
-    // Convert cv::Point2f to Feature
+  for (cv::Point2f pt : temp_output) {
     Feature temp_feature(pt);
     temp_feature.id = feature_counter_++;
     output.push_back(temp_feature);
   }
-
+  
   return output;
-}
-
-std::vector<Feature> detect_features(const cv::Mat image, const std::vector<Feature> previous_features, const cv::Mat mask)
-{
 
 }
 
