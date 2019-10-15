@@ -52,10 +52,3 @@ target_link_libraries( ${PROJECT_NAME}-demo
 	${GTSAM_LIBRARIES}
 	)
 
-# Building examples
-add_executable(demo_detector examples/example_Detector.cpp)
-
-target_link_libraries( demo_detector
-  ${PROJECT_NAME}
-  ${OpenCV_LIBRARIES}
-  )
