@@ -22,7 +22,6 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/include/FeatureTracker
 	${PROJECT_SOURCE_DIR}/include/Optimizer
 	${PROJECT_SOURCE_DIR}/include/Utils
-  ${PROJECT_SOURCE_DIR}/include/Utils/ImageGenerator
   ${PROJECT_SOURCE_DIR}/include/Detector
   ${PROJECT_SOURCE_DIR}/include/Detector/Detectors
   ${PROJECT_SOURCE_DIR}/include/Tracker
@@ -33,10 +32,12 @@ include_directories(
 	)
 
 add_library( ${PROJECT_NAME}
+  src/Estimator/Estimator.cpp
   src/FeatureTracker/FeatureTracker.cpp
+  src/Detector/Detector.cpp
+  src/Tracker/Tracker.cpp
   src/Utils/Camera.cpp
   src/Utils/Map.cpp
-  src/Estimator/Estimator.cpp
   src/Utils/Feature.cpp
   src/Utils/Landmark.cpp
 	)
