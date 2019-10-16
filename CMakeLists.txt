@@ -35,7 +35,7 @@ add_library( ${PROJECT_NAME}
   src/Estimator/Estimator.cpp
   src/FeatureTracker/FeatureTracker.cpp
   src/Detector/Detector.cpp
-  src/Detector/DetectorParams.cpp
+  src/Detector/Detectors/DefaultDetector.cpp
   src/Tracker/Tracker.cpp
   src/Tracker/TrackerParams.cpp
   src/Utils/Camera.cpp

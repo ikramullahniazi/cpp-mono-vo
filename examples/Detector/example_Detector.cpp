@@ -3,7 +3,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/imgcodecs.hpp>
 
-#include "Detector.hpp"
+#include "Detector/Detectors/DefaultDetector.hpp"
 
 // This example demonstrates how to use a Detector to extract features from an 
 // image.
@@ -17,7 +17,7 @@ int main() {
   cv::cvtColor(image_color, image_mono, cv::COLOR_BGR2GRAY);
 
   // Create detector
-  Detector det;
+  DefaultDetector det;
 
   std::vector<Feature> detections = det.detect_features(image_mono);
 

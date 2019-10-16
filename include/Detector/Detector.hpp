@@ -9,7 +9,20 @@
 #include <opencv2/imgproc.hpp> // For gftt
 
 #include "Utils/Feature.hpp"
-#include "Detector/DetectorParams.hpp"
+
+/*
+ * Parameters class
+ */
+
+class DetectorParams {
+  public:
+    // Methods
+    DetectorParams();
+
+    // All DetectorParams objects must have this function for variable set-up.
+    void config_();
+
+};
 
 /*
  * The detector class take in images and detects feature points.
@@ -23,18 +36,10 @@ class Detector {
     // Detect feature points in an incoming image.
     // This expects a monochrome image.
     // This should be overwritten by child classes. 
-    // TODO: Include functionality for forcing features to be 
-    // spread across image.
-    // TODO: Mask can also be used to add more features to an image that already
-    // has had features detected, should there be functionality to automatically
-    // form a mask from existing features?
     std::vector<Feature> detect_features(const cv::Mat image);
     std::vector<Feature> detect_features(const cv::Mat image, 
         const cv::Mat mask);
 
-    cv::Mat draw_features(const cv::Mat image, 
-        const std::vector<Feature> features);
-    
   private:
     // This contains the parameters to pass to the feature detection method.
     DetectorParams params_;

@@ -22,7 +22,8 @@ class Tracker {
     TrackerParams params_;
 
     // Unroll features into vector of 2d points
-    std::vector<cv::Point2f> unpack_feature_vector_(std::vector<Feature> features);
+    std::vector<cv::Point2f> unpack_feature_vector_(
+        std::vector<Feature> features);
 };
 
 #endif

@@ -48,7 +48,8 @@ class FeatureTracker {
 
     // TODO
     // -> 
-    // Detector det_;
+    // Detector detector_;
+    // Tracker tracker_;
 };
 
 #endif

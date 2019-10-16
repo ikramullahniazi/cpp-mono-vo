@@ -24,6 +24,7 @@ std::vector<Feature> Tracker::track_features(
     std::vector<cv::Point2f> previous_points = unpack_feature_vector_(previous_features);
 
     // 2. Track
+    // TODO: Use subpixel optimization
     std::vector<cv::Point2f> next_points;
     std::vector<uint8_t> status;
     cv::Mat err;
