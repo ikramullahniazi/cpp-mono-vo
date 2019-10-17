@@ -46,21 +46,18 @@ add_library( ${PROJECT_NAME}
 
 add_executable(${PROJECT_NAME}-demo src/demo.cpp)
 
+# This does not work
 target_link_libraries( ${PROJECT_NAME}-demo
 	${PROJECT_NAME}
 	${OpenCV_LIBRARIES}
 	${GTSAM_LIBRARIES}
 	)
 
-#[[ Examples
-For some reason, adding more than one causes compiler errors
-
+# For some reason, adding more than one causes compiler errors
 add_executable(detector_example examples/Detector/example_Detector.cpp)
 
 target_link_libraries(detector_example
   ${PROJECT_NAME}
   ${OpenCV_LIBRARIES}
   ${GTSAM_LIBRARIES}
-  }
-
-]]
+  )

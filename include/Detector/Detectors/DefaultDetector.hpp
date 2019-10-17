@@ -24,7 +24,6 @@ class DefaultDetectorParams: public DetectorParams {
     void config_();
 
     // Data
-    int minimum_features_;
     int max_corners_;
     double quality_level_;
     double min_distance_;

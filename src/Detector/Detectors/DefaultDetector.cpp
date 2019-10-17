@@ -1,6 +1,31 @@
 #include "Detector/Detectors/DefaultDetector.hpp"
 
 /*
+ * This is the parameters class for the default detector implementation
+ */
+
+DefaultDetectorParams::DefaultDetectorParams()
+{
+  config_();
+}
+
+void DefaultDetectorParams::config_()
+{
+  // Default values taken from
+  // https://docs.opencv.org/4.1.0/d2/d1d/samples_2cpp_2lkdemo_8cpp-example.html
+  max_corners_ = 500;
+  quality_level_ = 0.01;
+  min_distance_ = 10;
+  block_size_ = 3;
+  gradient_size_ = 3;
+  use_harris_detector_ = 0;
+  k_ = 0.04;
+}
+
+
+
+
+/*
  * This is the default (reference) implementation of a feature detector.
  * It uses goodFeaturesToTrack to detect corners.
  */
