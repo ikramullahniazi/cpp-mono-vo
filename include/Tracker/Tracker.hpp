@@ -1,4 +1,4 @@
-#ifndef TRACKER_HPP_INCLUDE
+pliifndef TRACKER_HPP_INCLUDE
 #define TRACKER_HPP_INCLUDE
 
 #include <vector>
@@ -6,7 +6,20 @@
 #include <opencv2/core.hpp>
 
 #include "Utils/Feature.hpp"
-#include "Tracker/TrackerParams.hpp"
+
+class TrackerParams {
+  public:
+    // Methods
+    TrackerParams();
+    void config_();
+
+    // Data
+    cv::Size win_size_;
+    int max_level_;
+    cv::TermCriteria term_criteria_;
+    int flags_;
+    double min_eig_threshold_;
+};
 
 class Tracker {
   public:
