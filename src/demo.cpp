@@ -21,13 +21,13 @@ int main() {
   // Grab images
   std::vector<std::string> filenames;
   std::vector<cv::Mat> images;
-  std::string path = "/disks/storage/Datasets/Kitti/dataset/sequences/00/image_0/*";
+  std::string path = "../data/*.png";
   cv::glob(path, filenames);
   std::cout << filenames.size() << " images found" << std::endl;
 
-  for (size_t i = 0; i < 50; i++)
+  for (filename : filenames)
   {
-    cv::Mat im = cv::imread(filenames[i]);
+    cv::Mat im = cv::imread(filename);
     images.push_back(im);
   }
 
