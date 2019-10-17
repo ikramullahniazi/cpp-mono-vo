@@ -17,39 +17,38 @@
 #include "Utils/Camera.hpp"
 #include "Utils/Feature.hpp"
 
+// Including superclass -> use any detector
+#include "Detector/Detector.hpp"
+
 class FeatureTracker {
   public:
     // Constructor
-    FeatureTracker(Camera cam);
+    FeatureTracker(Camera camera);
 
     // Create features from incoming image
-    bool process_image(cv::Mat image);
+    bool process_image(const cv::Mat image);
 
     // Return features
-    bool get_data(std::vector<Feature> out_vec);
+    std::vector<Feature> get_data();
 
   private:
+    // Owned objects
+    Camera camera_;
+    Detector detector_;
+
+    // Data
+
     // Current and previous points for tracking
     // cur_pts is the features from the most recent image
     // prev_pts is the features from the image before that one
+    // new_pts is a workspace for processing detections before adding to system
     std::vector<Feature> prev_pts, cur_pts, new_pts;
-
-    // counter for giving features IDs
-    uint64_t id_counter_; 
 
     // counter for number of frames processed
     uint64_t frame_counter_;
 
     // Mask for ignoring regions of image
     cv::Mat mask_;
-
-    // Self explanatory
-    Camera cam_;
-
-    // TODO
-    // -> 
-    // Detector detector_;
-    // Tracker tracker_;
 };
 
 #endif

@@ -1,42 +1,27 @@
 #include "FeatureTracker.hpp"
 
-FeatureTracker::FeatureTracker(Camera cam)
+FeatureTracker::FeatureTracker(Camera camera)
 {
-  cam_ = cam;
-  id_counter_ = 0;
+  camera_ = camera;
   frame_counter_ = 0;
   // TODO: mask_ = cv::Mat::zeros(cam_.width, cam_.height, CV_8UC1);
 }
 
-bool FeatureTracker::process_image(cv::Mat image)
+bool FeatureTracker::process_image(const cv::Mat image)
 {
-  frame_counter_++;
-  std::vector<cv::Point2f> temp_corners;
   new_pts.clear(); // This is where work is done before pushing to cur_pts
 
-  // TODO: Add a flag/check for descriptors so can either 
-  // use optical flow tracking or descriptor matching
-  // TODO: Write a Detector class that FeatureTrackers own
-
-  if (id_counter_ == 0) { // Haven't processed an image yet
+  if (cur_pts.size() == 0) { // Haven't processed an image yet
     // Initialize features
+    new_pts = detector_.detect_features(image);
 
-    // 1. Detect features in the image
-    cv::goodFeaturesToTrack(image, temp_corners, 500, 0.01, 10, cv::Mat(), 3, 3, 0, 0.04);
-    std::vector<cv::Point2f> temp_norms = cam_.normalize_points(temp_corners);
-
-    // 2. Create Feature for each and give id
-    for (int i = 0; i < temp_corners.size(); i++)
-    {
-      Feature temp_feature = Feature(temp_corners[i], temp_norms[i]);
-      temp_feature.id = ++id_counter_; // First feature has ID 1
-      temp_feature.frame_id = frame_counter_; // 
-      new_pts.push_back(temp_feature);
-    }
+    // TODO: populate frame_id field in points
 
     // Fill cur and prev 
     cur_pts = new_pts;
     prev_pts = new_pts;
+
+    frame_counter_++;
     return true;
 
   } else {
@@ -58,24 +43,16 @@ bool FeatureTracker::process_image(cv::Mat image)
     cur_pts = new_pts;
     new_pts.clear();
 
+    frame_counter_++;
     return true;
   }
-
+  
+  frame_counter_++;
   return false;
 }
 
-bool FeatureTracker::get_data(std::vector<Feature> out_vec)
+std::vector<Feature> FeatureTracker::get_data()
 {
-  if (id_counter_ == 0) // No features yet
-  { 
-    return false;
-  } 
-  else 
-  {
-    out_vec = cur_pts;
-
-    // TODO: Implement checks before returning true
-    return true;
-  }
+  return cur_pts;
 }
 
