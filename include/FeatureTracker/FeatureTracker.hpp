@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <algorithm> // for copy()
-#include <iterator> // for back_insertej
+#include <iterator> // for back_insert
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp> // for color map conversions, goodFeaturesToTrack

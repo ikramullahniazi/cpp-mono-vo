@@ -11,7 +11,14 @@
 
 int main() {
   
-  // This is just a test run on some Kitti data
+  /*
+   * Part 1: Set up tracking system.
+   * FeatureTracker: Takes measurements of features in the environment
+   *  * Detector
+   *  * Tracker
+   * Estimator: Calculates position from measurements
+   *  * FeatureTracker
+   */
 
   // Set up camera parameters
   cv::Mat camera_matrix = (cv::Mat_<double>(3,3) << 718.856, 0.0, 607.1928, 0.0, 718.856, 185.2157, 0.0, 0.0, 1.0);
