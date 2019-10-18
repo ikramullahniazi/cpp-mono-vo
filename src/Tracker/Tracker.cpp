@@ -1,8 +1,9 @@
 #include "Tracker/Tracker.hpp"
 
-// Create a params object with defaults for given detector.
-// Parameters are changed after creation.
-
+/*
+ * This is the parent class for all TrackerParams.
+ * No functions are implemented.
+ */
 TrackerParams::TrackerParams()
 {
   config_();
@@ -14,8 +15,8 @@ void TrackerParams::config_()
 }
 
 /*
- * This is the default (reference) implementation of a feature tracker.
- * It uses sparse optical flow to track features into the next frame.
+ * This is the parent class for all Trackers.
+ * No functions are implemented.
  */
 
 Tracker::Tracker() 
@@ -34,11 +35,5 @@ std::vector<Feature> Tracker::track_features(
     const cv::Mat next_image)
 {
   std::vector<Feature> out_vec;
-  return out_vec;
-}
-
-std::vector<cv::Point2f> Tracker::unpack_feature_vector_(std::vector<Feature> features) 
-{
-  std::vector<cv::Point2f> out_vec;
   return out_vec;
 }

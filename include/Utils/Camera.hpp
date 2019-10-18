@@ -9,12 +9,16 @@
 class Camera {
   public:
     Camera();
-    Camera(cv::Mat K, cv::Mat dist);
+    Camera(cv::Mat K, cv::Mat dist, cv::Size size);
     std::vector<cv::Point2f> normalize_points(std::vector<cv::Point2f> pixel_coords);
     std::vector<cv::Point2f> project_points(std::vector<cv::Point3f> world_points);
+
+
   private:
     cv::Mat intrinsic_params_;
     cv::Mat distortion_coeffs_;
+
+    cv::Size size_;
 };
 
 #endif

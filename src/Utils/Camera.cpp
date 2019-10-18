@@ -2,11 +2,11 @@
 
 Camera::Camera()
 {
-
+  // DON'T USE THIS EVER, MAYBE REMOVE?
 }
 
 
-Camera::Camera(cv::Mat K, cv::Mat dist)
+Camera::Camera(cv::Mat K, cv::Mat dist, cv::Size size)
 {
   // Check K conforms
   // ...
@@ -15,6 +15,10 @@ Camera::Camera(cv::Mat K, cv::Mat dist)
   // Check dist conforms
   // ...
   distortion_coeffs_ = dist;
+
+  // Check size conforms
+  // ...
+  size_ = size;
 }
 
 std::vector<cv::Point2f> Camera::normalize_points(std::vector<cv::Point2f> pixel_coords)

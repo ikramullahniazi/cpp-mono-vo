@@ -1,47 +1,57 @@
 #include "FeatureTracker.hpp"
 
-FeatureTracker::FeatureTracker(Camera camera)
+FeatureTracker::FeatureTracker(Camera camera,
+    Detector detector,
+    Tracker tracker)
 {
   camera_ = camera;
+  detector_ = detector;
+  tracker_ = tracker;
   frame_counter_ = 0;
-  // TODO: mask_ = cv::Mat::zeros(cam_.width, cam_.height, CV_8UC1);
 }
 
 bool FeatureTracker::process_image(const cv::Mat image)
 {
-  new_pts.clear(); // This is where work is done before pushing to cur_pts
+  new_features_.clear(); // This is where work is done before pushing to cur_pts
 
-  if (cur_pts.size() == 0) { // Haven't processed an image yet
+  if (current_features_.size() == 0) { // Haven't processed an image yet
     // Initialize features
-    new_pts = detector_.detect_features(image);
+    new_features_ = detector_.detect_features(image);
 
     // TODO: populate frame_id field in points
 
     // Fill cur and prev 
-    cur_pts = new_pts;
-    prev_pts = new_pts;
+    current_features_ = new_features_;
+    previous_features_ = new_features_;
+
+    current_image_ = image;
+    previous_image_ = image;
 
     frame_counter_++;
     return true;
 
   } else {
     // Track features into new frame
+    previous_image_ = current_image_;
+    previous_features_ = current_features_;
+    current_image_ = image;
 
-    // 1. Build vector of points for optical flow tracking
+    new_features_ = tracker_.track_features(
+        previous_features_,
+        previous_image_,
+        current_image_);
 
-    // 2. Track into new frame
+    // New features contains features from previous image that have been
+    // successfully matched in the incoming image
 
-    // 3. Remove outliers?
+    // TODO: Detect more features to keep a minimum number
+    // Steps:
+    // 1. Create mask
+    // 2. Detect features using mask
+    // 3. Append to new_features
 
-    // 4. Detect new features
-    // TODO
-    // cur_pts = det_.detect_features(image)
-
-    // 5. If successful, cur -> prev, new -> cur
-    // TODO Implement check 
-    prev_pts = cur_pts;
-    cur_pts = new_pts;
-    new_pts.clear();
+    current_features_ = new_features_;
+    new_features_.clear();
 
     frame_counter_++;
     return true;
@@ -53,6 +63,36 @@ bool FeatureTracker::process_image(const cv::Mat image)
 
 std::vector<Feature> FeatureTracker::get_data()
 {
-  return cur_pts;
+  return current_features_;
 }
 
+void FeatureTracker::set_camera(Camera camera)
+{
+  camera_ = camera;
+}
+
+void FeatureTracker::set_detector(Detector detector)
+{
+  detector_ = detector;
+}
+
+void FeatureTracker::set_tracker(Tracker tracker)
+{
+  tracker_ = tracker;
+}
+
+cv::Mat FeatureTracker::generate_mask_from_features_(std::vector<Feature> features)
+{
+  cv::Mat mask = cv::Mat::ones(camera_.size_, CV_8UC1);
+
+  for (Feature f : features) {
+    // Mask out feature
+    cv::Point2f coords = f.raw_coords;
+    int col = coords.x;
+    int row = coords.y;
+    mask.at<uint8_t>(row, col) = 0;
+  }
+
+  return mask;
+
+}

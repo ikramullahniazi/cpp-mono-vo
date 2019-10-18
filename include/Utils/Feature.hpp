@@ -26,4 +26,13 @@ class Feature {
     // Nothing yet
 };
 
+// Generate a vector of pixel coordinates from a vector of features
+std::vector<cv::Point2f> unpack_features(std::vector<Feature> features);
+
+// Re-generate a vector of features from a vector of pixel coordinates.
+// Previous features are passed as input for feature IDs
+std::vector<Feature> pack_features(std::vector<cv::Point2f> points,
+    std::vector<Feature> previous_features);
+
+
 #endif

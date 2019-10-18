@@ -1,7 +1,9 @@
 #include "Detector/Detector.hpp"
 
-// Create a params object with defaults for given detector.
-// Parameters can then be changed after creation.
+/*
+ * This is the parent class for all DetectorParams.
+ * No functions are implemented.
+ */
 DetectorParams::DetectorParams()
 {
   config_();
@@ -15,16 +17,14 @@ void DetectorParams::config_()
 
 
 /*
- * This is the default (reference) implementation of a feature detector.
- * It uses goodFeaturesToTrack to detect corners.
- * TODO: Split this out from parent class
+ * This is the parent class for all Detectors.
+ * No functions are implemented.
  */
 
 Detector::Detector()
 {
   // If no params are passed, use the default parameters
   params_ = DetectorParams();
-  feature_counter_ = 0;
 }
 
 Detector::Detector(DetectorParams params)
