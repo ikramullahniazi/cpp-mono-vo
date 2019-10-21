@@ -15,6 +15,8 @@
 class Estimator {
   public:
     Estimator();
+
+    Estimator(std::shared_ptr<Camera> camera);
     Estimator(Camera camera);
 
     // Main function for this object
