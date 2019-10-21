@@ -24,7 +24,8 @@ class Estimator {
     // Different behavior based on:
     // * If map is initialized
     // * If a new keyframe is needed
-    Frame process_image(Frame frame);
+    Frame process_image(cv::Mat image,
+        std::vector<Feature> features);
 
   private:
     // Estimator needs to compare features to previously triangulated points,

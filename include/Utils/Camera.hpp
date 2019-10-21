@@ -17,9 +17,13 @@ class Camera {
     cv::Size get_size();
 
   private:
+    // Intrinsic Matrix (3x3)
     cv::Mat intrinsic_params_;
+
+    // Distortion Coefficients (idk what size)
     cv::Mat distortion_coeffs_;
 
+    // Image size (width, height)
     cv::Size size_;
 };
 
