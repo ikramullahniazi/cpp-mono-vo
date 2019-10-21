@@ -39,9 +39,13 @@ class Estimator {
     std::shared_ptr<Camera> camera_;
 
     // Functions
+    void initialize_position_();
+    void initialize_position_(cv::Mat r0,
+        cv::Mat t0);
     
     // Data
-    cv::Mat rvec_, tvec_; // Store current pose?
+    cv::Mat rotation_vector_;
+    cv::Mat translation_vector_;
 };
 
 #endif
