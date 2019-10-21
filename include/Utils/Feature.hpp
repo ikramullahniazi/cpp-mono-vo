@@ -5,6 +5,7 @@
 #include <opencv2/core.hpp>
 
 // This is a data class to store detected 2d features in an image
+// TODO: Should this be a struct?
 
 class Feature {
   public:

@@ -10,6 +10,7 @@
 #include "Utils/Camera.hpp" // Find a better way than to pass the camera around?
 #include "Utils/Feature.hpp"
 #include "Utils/Map.hpp"
+#include "Utils/Frame.hpp"
 
 class Estimator {
   public:
@@ -17,10 +18,13 @@ class Estimator {
     Estimator(Camera cam);
 
     // Main function for this object
+    //
+    // Fundamental purpose: Generate a frame that can be sent to the optimizer.
+    //
     // Different behavior based on:
     // * If map is initialized
     // * If a new keyframe is needed
-    bool process_image(Camera cam, std::vector<Feature> features); // note: this actually only takes in the features
+    Frame process_image(Camera cam, std::vector<Feature> features); // note: this actually only takes in the features
 
   private:
     // Estimator needs to compare features to previously triangulated points,
