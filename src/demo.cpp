@@ -1,5 +1,18 @@
+// Include all utility files
 #include "Utils/Camera.hpp"
+
+// Include estimator
 #include "Estimator/Estimator.hpp"
+
+// Include detectors
+#include "Detector/Detector.hpp"
+#include "Detector/Detectors/DefaultDetector.hpp"
+
+// Include trackers
+#include "Tracker/Tracker.hpp"
+#include "Tracker/Trackers/DefaultTracker.hpp"
+
+// Include featuretracker
 #include "FeatureTracker/FeatureTracker.hpp"
 
 #include <opencv2/core.hpp>
@@ -29,14 +42,14 @@ int main() {
       distortion_params,
       size);
 
-  // Create Tracker
-  // ...
-
   // Create Detector
-  // ...
+  std::shared_ptr<DefaultDetector> detector = std::make_shared<DefaultDetector>();
+  
+  // Create Tracker
+  std::shared_ptr<DefaultTracker> tracker = std::make_shared<DefaultTracker>();
 
   // Create FeatureTracker
-  // ...
+  FeatureTracker feature_tracker = FeatureTracker(camera, detector, tracker);
 
   // Create Estimator
   // ...

@@ -31,7 +31,7 @@ class FeatureTracker {
         std::shared_ptr<Detector> detector,
         std::shared_ptr<Tracker> tracker);
 
-    // TODO: Deprecate this
+    // Deprecated
     FeatureTracker(Camera camera,
         Detector detector,
         Tracker tracker);
