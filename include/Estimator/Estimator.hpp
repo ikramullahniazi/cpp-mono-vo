@@ -15,7 +15,7 @@
 class Estimator {
   public:
     Estimator();
-    Estimator(Camera cam);
+    Estimator(Camera camera);
 
     // Main function for this object
     //
@@ -24,7 +24,7 @@ class Estimator {
     // Different behavior based on:
     // * If map is initialized
     // * If a new keyframe is needed
-    Frame process_image(Camera cam, std::vector<Feature> features); // note: this actually only takes in the features
+    Frame process_image(Frame frame);
 
   private:
     // Estimator needs to compare features to previously triangulated points,
@@ -32,15 +32,12 @@ class Estimator {
     
     // Owned Objects
     Map map_;
-    Camera cam_;
+    std::shared_ptr<Camera> camera_;
 
     // Functions
     
     // Data
     cv::Mat rvec_, tvec_; // Store current pose?
-
-
-
 };
 
 #endif

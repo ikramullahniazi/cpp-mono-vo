@@ -42,6 +42,7 @@ add_library( ${PROJECT_NAME}
   src/Utils/Map.cpp
   src/Utils/Feature.cpp
   src/Utils/Landmark.cpp
+  src/Utils/Frame.cpp
 	)
 
 add_executable(${PROJECT_NAME}-demo src/demo.cpp)

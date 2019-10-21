@@ -12,7 +12,9 @@ class Camera {
     Camera(cv::Mat K, cv::Mat dist, cv::Size size);
     std::vector<cv::Point2f> normalize_points(std::vector<cv::Point2f> pixel_coords);
     std::vector<cv::Point2f> project_points(std::vector<cv::Point3f> world_points);
-
+    cv::Mat get_intrinsic_params();
+    cv::Mat get_distortion_coeffs();
+    cv::Size get_size();
 
   private:
     cv::Mat intrinsic_params_;

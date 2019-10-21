@@ -4,7 +4,9 @@ FeatureTracker::FeatureTracker(Camera camera,
     Detector detector,
     Tracker tracker)
 {
-  camera_ = camera;
+  camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
+      camera.get_distortion_coeffs(),
+      camera.get_size());
   detector_ = detector;
   tracker_ = tracker;
   frame_counter_ = 0;
@@ -68,7 +70,9 @@ std::vector<Feature> FeatureTracker::get_data()
 
 void FeatureTracker::set_camera(Camera camera)
 {
-  camera_ = camera;
+  camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
+      camera.get_distortion_coeffs(),
+      camera.get_size());
 }
 
 void FeatureTracker::set_detector(Detector detector)
@@ -83,7 +87,7 @@ void FeatureTracker::set_tracker(Tracker tracker)
 
 cv::Mat FeatureTracker::generate_mask_from_features_(std::vector<Feature> features)
 {
-  cv::Mat mask = cv::Mat::ones(camera_.size_, CV_8UC1);
+  cv::Mat mask = cv::Mat::ones(camera_->get_size(), CV_8UC1);
 
   for (Feature f : features) {
     // Mask out feature

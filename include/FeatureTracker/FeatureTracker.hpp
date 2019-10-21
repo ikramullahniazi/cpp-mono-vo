@@ -43,7 +43,7 @@ class FeatureTracker {
 
   private:
     // Owned objects
-    Camera camera_;
+    std::shared_ptr<Camera> camera_;
     Detector detector_;
     Tracker tracker_;
 

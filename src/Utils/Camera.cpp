@@ -37,3 +37,18 @@ std::vector<cv::Point2f> project_points(std::vector<cv::Point3f> world_points)
   return temp;
 }
 
+cv::Mat Camera::get_intrinsic_params()
+{
+  return intrinsic_params_;
+}
+
+cv::Mat Camera::get_distortion_coeffs()
+{
+  return distortion_coeffs_;
+}
+
+cv::Size Camera::get_size()
+{
+  return size_;
+}
+
