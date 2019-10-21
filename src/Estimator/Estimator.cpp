@@ -20,6 +20,7 @@ Estimator::Estimator(Camera camera, Map map)
   camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
       camera.get_distortion_coeffs(),
       camera.get_size());
+  map_ = std::make_shared<Map>();
 
   initialize_position_();
 }
