@@ -13,15 +13,18 @@
 class Frame {
   public:
     // Constructors
-    Frame(); // Do not use for the time being
     Frame(cv::Mat image,
         std::vector<Feature> features,
-        cv::Mat rvec_;
-        cv::Mat tvec_,
+        cv::Mat rotation_vector;
+        cv::Mat translation_vector,
         bool is_keyframe);
 
     // Functions
-    bool is_keyframe();
+    bool get_is_keyframe();
+    cv::Mat get_image();
+    std::vector<Feature> get_features();
+    cv::Mat get_rotation();
+    cv::Mat get_translation();
 
     // Data
 
@@ -37,8 +40,8 @@ class Frame {
     std::vector<Feature> features_;
 
     // Pose of the camera when this image was taken
-    cv::Mat rvec_;
-    cv::Mat tvec_;
+    cv::Mat rotation_vector_;
+    cv::Mat translation_vector_;
 
     // Whether or not this is a keyframe
     bool is_keyframe_;
