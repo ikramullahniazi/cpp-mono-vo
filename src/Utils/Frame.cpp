@@ -1,6 +1,12 @@
 #include "Utils/Frame.hpp"
 
 // Constructors
+Frame::Frame()
+{
+
+}
+
+
 Frame::Frame(cv::Mat image,
     std::vector<Feature> features,
     cv::Mat rotation_vector,

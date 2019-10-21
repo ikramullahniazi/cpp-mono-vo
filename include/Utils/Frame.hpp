@@ -13,6 +13,7 @@
 class Frame {
   public:
     // Constructors
+    Frame();
     Frame(cv::Mat image,
         std::vector<Feature> features,
         cv::Mat rotation_vector;
