@@ -14,27 +14,28 @@
 
 class Estimator {
   public:
+    // Constructors
     Estimator();
 
-    Estimator(std::shared_ptr<Camera> camera);
-    Estimator(Camera camera);
+    Estimator(std::shared_ptr<Camera> camera,
+        std::shared_ptr<Map> map);
 
-    // Main function for this object
-    //
-    // Fundamental purpose: Generate a frame that can be sent to the optimizer.
-    //
+    // Deprecated
+    Estimator(Camera camera, Map map);
+
+    // Functions
+
     // Different behavior based on:
     // * If map is initialized
     // * If a new keyframe is needed
     Frame process_image(cv::Mat image,
         std::vector<Feature> features);
 
+    // Data
+
   private:
-    // Estimator needs to compare features to previously triangulated points,
-    // so needs to store a map
-    
     // Owned Objects
-    Map map_;
+    std::shared_ptr<Map> map_;
     std::shared_ptr<Camera> camera_;
 
     // Functions

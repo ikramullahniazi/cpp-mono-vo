@@ -8,9 +8,11 @@ Estimator::Estimator()
   rvec_ = cv::Mat(3,1,CV_32F, r0);
 }
 
-Estimator::Estimator(std::shared_ptr<Camera> camera)
+Estimator::Estimator(std::shared_ptr<Camera> camera,
+    std::shared_ptr<Map> map)
 {
   camera_ = camera;
+  map_ = map;
 
   // Set starting location to origin of nav frame
   float t0[3] = {0, 0, 0};
@@ -18,8 +20,10 @@ Estimator::Estimator(std::shared_ptr<Camera> camera)
 
   float r0[3] = {0, 0, 0};
   rvec_ = cv::Mat(3, 1, CV_32F, r0);
+}
 
-Estimator::Estimator(Camera camera)
+// Deprecated
+Estimator::Estimator(Camera camera, Map map)
 {
   camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
       camera.get_distortion_coeffs(),
