@@ -26,6 +26,11 @@
 class FeatureTracker {
   public:
     // Constructor
+    // Prefer this one:
+    FeatureTracker(std::shared_ptr<Camera> camera,
+        Detector detector,
+        Tracker tracker);
+
     FeatureTracker(Camera camera,
         Detector detector,
         Tracker tracker);

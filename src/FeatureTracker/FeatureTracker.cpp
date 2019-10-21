@@ -1,5 +1,17 @@
 #include "FeatureTracker.hpp"
 
+// TODO: Convert detector_ to shared_ptr
+// TODO: Convert tracker_ to shared_ptr
+FeatureTracker::FeatureTracker(std::shared_ptr<Camera> camera,
+    Detector detector,
+    Tracker tracker)
+{
+  camera_ = camera;
+  detector_ = detector;
+  tracker_ = tracker;
+  frame_counter_ = 0;
+}
+
 FeatureTracker::FeatureTracker(Camera camera,
     Detector detector,
     Tracker tracker)
@@ -68,6 +80,7 @@ std::vector<Feature> FeatureTracker::get_data()
   return current_features_;
 }
 
+// TODO: Convert all setters to only use shared_ptrs
 void FeatureTracker::set_camera(Camera camera)
 {
   camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
@@ -98,5 +111,4 @@ cv::Mat FeatureTracker::generate_mask_from_features_(std::vector<Feature> featur
   }
 
   return mask;
-
 }
