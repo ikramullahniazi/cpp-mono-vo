@@ -23,6 +23,8 @@ class Tracker {
         const std::vector<Feature> previous_features,
         const cv::Mat previous_image,
         const cv::Mat new_image);
+
+    TrackerParams get_params();
   private:
     // This contains the parameters to pass to the tracking/matching method.
     TrackerParams params_;

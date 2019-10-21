@@ -40,6 +40,8 @@ class Detector {
     std::vector<Feature> detect_features(const cv::Mat image, 
         const cv::Mat mask);
 
+    DetectorParams get_params();
+
   private:
     // This contains the parameters to pass to the feature detection method.
     DetectorParams params_;

@@ -37,3 +37,8 @@ std::vector<Feature> Tracker::track_features(
   std::vector<Feature> out_vec;
   return out_vec;
 }
+
+TrackerParams Tracker::get_params()
+{
+  return params_;
+}

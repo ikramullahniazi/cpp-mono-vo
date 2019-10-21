@@ -1,10 +1,8 @@
 #include "FeatureTracker.hpp"
 
-// TODO: Convert detector_ to shared_ptr
-// TODO: Convert tracker_ to shared_ptr
 FeatureTracker::FeatureTracker(std::shared_ptr<Camera> camera,
-    Detector detector,
-    Tracker tracker)
+    std::shared_ptr<Detector> detector,
+    std::shared_ptr<Tracker> tracker)
 {
   camera_ = camera;
   detector_ = detector;
@@ -19,8 +17,8 @@ FeatureTracker::FeatureTracker(Camera camera,
   camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
       camera.get_distortion_coeffs(),
       camera.get_size());
-  detector_ = detector;
-  tracker_ = tracker;
+  detector_ = std::make_shared<Detector>(detector.get_params());
+  tracker_ = std::make_shared<Tracker>(tracker.get_params());
   frame_counter_ = 0;
 }
 
@@ -30,7 +28,7 @@ bool FeatureTracker::process_image(const cv::Mat image)
 
   if (current_features_.size() == 0) { // Haven't processed an image yet
     // Initialize features
-    new_features_ = detector_.detect_features(image);
+    new_features_ = detector_->detect_features(image);
 
     // TODO: populate frame_id field in points
 
@@ -50,7 +48,7 @@ bool FeatureTracker::process_image(const cv::Mat image)
     previous_features_ = current_features_;
     current_image_ = image;
 
-    new_features_ = tracker_.track_features(
+    new_features_ = tracker_->track_features(
         previous_features_,
         previous_image_,
         current_image_);
@@ -80,20 +78,17 @@ std::vector<Feature> FeatureTracker::get_data()
   return current_features_;
 }
 
-// TODO: Convert all setters to only use shared_ptrs
-void FeatureTracker::set_camera(Camera camera)
+void FeatureTracker::set_camera(std::shared_ptr<Camera> camera)
 {
-  camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
-      camera.get_distortion_coeffs(),
-      camera.get_size());
+  camera_ = camera;
 }
 
-void FeatureTracker::set_detector(Detector detector)
+void FeatureTracker::set_detector(std::shared_ptr<Detector> detector) 
 {
   detector_ = detector;
 }
 
-void FeatureTracker::set_tracker(Tracker tracker)
+void FeatureTracker::set_tracker(std::shared_ptr<Tracker> tracker)
 {
   tracker_ = tracker;
 }

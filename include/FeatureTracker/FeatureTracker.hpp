@@ -28,9 +28,10 @@ class FeatureTracker {
     // Constructor
     // Prefer this one:
     FeatureTracker(std::shared_ptr<Camera> camera,
-        Detector detector,
-        Tracker tracker);
+        std::shared_ptr<Detector> detector,
+        std::shared_ptr<Tracker> tracker);
 
+    // TODO: Deprecate this
     FeatureTracker(Camera camera,
         Detector detector,
         Tracker tracker);
@@ -49,8 +50,8 @@ class FeatureTracker {
   private:
     // Owned objects
     std::shared_ptr<Camera> camera_;
-    Detector detector_;
-    Tracker tracker_;
+    std::shared_ptr<Detector> detector_;
+    std::shared_ptr<Tracker> tracker_;
 
     // Functions
 

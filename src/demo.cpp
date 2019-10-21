@@ -24,7 +24,10 @@ int main() {
   cv::Mat camera_matrix = (cv::Mat_<double>(3,3) << 718.856, 0.0, 607.1928, 0.0, 718.856, 185.2157, 0.0, 0.0, 1.0);
   cv::Mat distortion_params;
   cv::Size size = cv::Size(1241, 376);
-  Camera cam = Camera(camera_matrix, distortion_params, size);
+
+  std::shared_ptr<Camera> camera = std::make_shared<Camera>(camera_matrix,
+      distortion_params,
+      size);
 
   // Create Tracker
   // ...

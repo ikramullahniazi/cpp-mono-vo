@@ -45,3 +45,8 @@ std::vector<Feature> Detector::detect_features(const cv::Mat image,
   return out;
 
 }
+
+DetectorParams Detector::get_params()
+{
+  return params_;
+}
