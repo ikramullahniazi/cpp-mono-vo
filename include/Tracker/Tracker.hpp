@@ -19,7 +19,7 @@ class Tracker {
     Tracker();
     Tracker(TrackerParams params);
 
-    std::vector<Feature> track_features(
+    virtual std::vector<Feature> track_features(
         const std::vector<Feature> previous_features,
         const cv::Mat previous_image,
         const cv::Mat new_image);
