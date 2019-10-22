@@ -12,7 +12,9 @@
 
 class Frame {
   public:
+    // ------------
     // Constructors
+    // ------------
     Frame();
     Frame(cv::Mat image,
         std::vector<Feature> features,
@@ -20,21 +22,31 @@ class Frame {
         cv::Mat translation_vector,
         bool is_keyframe);
 
+    // ---------
     // Functions
+    // ---------
     bool get_is_keyframe();
     cv::Mat get_image();
     std::vector<Feature> get_features();
     cv::Mat get_rotation();
     cv::Mat get_translation();
 
+    // ----
     // Data
+    // ----
 
   private:
-    // Owned objects
+    // -------------
+    // Owned Objects
+    // -------------
 
+    // ---------
     // Functions
+    // ---------
 
+    // ----
     // Data
+    // ----
     cv::Mat image_;
 
     // Feature observations in this image

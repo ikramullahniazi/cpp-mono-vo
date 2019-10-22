@@ -9,22 +9,38 @@
 
 class Feature {
   public:
+    // ------------
     // Constructors
+    // ------------
     Feature();
     Feature(cv::Point2f raw);
     Feature(cv::Point2f raw, cv::Point2f normalized);
 
-    // Data is publicly accessible
+    // ---------
+    // Functions
+    // ---------
+
+    // ----
+    // Data
+    // ----
     cv::Point2f normalized_coords;
     cv::Point2f raw_coords;
-
-    // If not using an actual descriptor (ie ORB), this can store the pixel 
-    // patch around the feature for direct methods(?).
     cv::Mat descriptor;
     uint64_t id; // unique identifier for this feature
     uint64_t frame_id; // what frame was this observation from?
+
   private:
-    // Nothing yet
+    // -------------
+    // Owned Objects
+    // -------------
+    
+    // ---------
+    // Functions 
+    // ---------
+    
+    // ----
+    // Data 
+    // ----
 };
 
 // Generate a vector of pixel coordinates from a vector of features

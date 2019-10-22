@@ -11,11 +11,37 @@
 
 class Landmark {
   public:
+    // ------------
+    // Constructors
+    // ------------
+    
+    // ---------
+    // Functions
+    // ---------
+    Feature project(std::shared_ptr<Camera> camera,
+        const Pose& pose);
+    
+    // ----
+    // Data
+    // ----
     // Location relative to origin of map
     cv::Point3f location;
 
     // Keep track of all observations of this landmark
     std::vector<Feature> observations;
+
+  private:
+    // -------------
+    // Owned Objects
+    // -------------
+    
+    // ---------
+    // Functions
+    // ---------
+    
+    // ----
+    // Data
+    // ----
 };
 
 #endif
