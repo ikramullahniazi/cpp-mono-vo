@@ -19,19 +19,39 @@
 
 class DefaultDetectorParams: public DetectorParams {
   public:
-    // Methods
+    // ------------
+    // Constructors
+    // ------------
     DefaultDetectorParams();
+
+    // ---------
+    // Functions
+    // ---------
     void config_();
 
+    // ----
     // Data
+    // ----
     int max_corners_;
     double quality_level_;
     double min_distance_;
     int block_size_;
-    // Note: Masks should be externally provided.
     int gradient_size_;
     bool use_harris_detector_;
     double k_;
+  private:
+    // -------------
+    // Owned Objects
+    // -------------
+    
+    // ---------
+    // Functions
+    // ---------
+
+    // ----
+    // Data
+    // ----
+
 };
 
 /*
@@ -40,31 +60,40 @@ class DefaultDetectorParams: public DetectorParams {
 
 class DefaultDetector: public Detector {
   public:
+    // ------------
+    // Constructors
+    // ------------
     DefaultDetector();
     DefaultDetector(DefaultDetectorParams params);
 
-    // Detect feature points in an incoming image.
-    // This expects a monochrome image.
-    // This should be overwritten by child classes. 
-    // TODO: Include functionality for forcing features to be 
-    // spread across image.
-    // TODO: Mask can also be used to add more features to an image that already
-    // has had features detected, should there be functionality to automatically
-    // form a mask from existing features?
+    // ---------
+    // Functions
+    // ---------
     std::vector<Feature> detect_features(const cv::Mat image);
     std::vector<Feature> detect_features(const cv::Mat image, 
         const cv::Mat mask);
-
     cv::Mat draw_features(const cv::Mat image, 
         const std::vector<Feature> features);
+
+    // ----
+    // Data
+    // ----
     
   private:
-    // This contains the parameters to pass to the feature detection method.
+    // -------------
+    // Owned Objects
+    // -------------
     DefaultDetectorParams params_;
+    
+    // ---------
+    // Functions
+    // ---------
 
-    // This increments every time a feature is detected.
-    // Use it to assign unique ids to new features.
+    // ----
+    // Data
+    // ----
     uint64_t feature_counter_;
+
 };
 
 
