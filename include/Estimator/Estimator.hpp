@@ -94,4 +94,13 @@ class Estimator {
     cv::Mat translation_vector_;
 };
 
+// -----------------
+// Utility Functions
+// -----------------
+// This function triangulates points between the given frames and creates
+// a map from the resulting landmarks.
+// This is exclusively to be used for simple manual initialization and 
+// should be deprecated when a real initialization method is written.
+std::shared_ptr<Map> create_map(Frame keyframe_1, Frame keyframe_2);
+
 #endif
