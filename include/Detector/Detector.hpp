@@ -36,8 +36,8 @@ class Detector {
     // Detect feature points in an incoming image.
     // This expects a monochrome image.
     // This should be overwritten by child classes. 
-    std::vector<Feature> detect_features(const cv::Mat image);
-    std::vector<Feature> detect_features(const cv::Mat image, 
+    virtual std::vector<Feature> detect_features(const cv::Mat image);
+    virtual std::vector<Feature> detect_features(const cv::Mat image, 
         const cv::Mat mask);
 
     DetectorParams get_params();
