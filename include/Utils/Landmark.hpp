@@ -18,8 +18,6 @@ class Landmark {
     // ---------
     // Functions
     // ---------
-    Feature project(std::shared_ptr<Camera> camera,
-        const Pose& pose);
     
     // ----
     // Data

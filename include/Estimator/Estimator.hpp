@@ -12,18 +12,54 @@
 #include "Utils/Map.hpp"
 #include "Utils/Frame.hpp"
 
+class EstimatorParams {
+  public:
+    // ------------
+    // Constructors
+    // ------------
+    EstimatorParams();
+
+    // ---------
+    // Functions
+    // ---------
+    void config_();
+
+    // ----
+    // Data
+    // ----
+    // This determines whether or not the estimator will attempt to initialize
+    // a map.
+    bool manual_initialization;
+
+  private:
+    // -------------
+    // Owned Objects
+    // -------------
+    
+    // ---------
+    // Functions
+    // ---------
+
+    // ----
+    // Data
+    // ----
+
+};
+
 class Estimator {
   public:
+    // ------------
     // Constructors
+    // ------------
     Estimator();
-
     Estimator(std::shared_ptr<Camera> camera,
         std::shared_ptr<Map> map);
-
     // Deprecated
     Estimator(Camera camera, Map map);
 
+    // ---------
     // Functions
+    // ---------
 
     // Different behavior based on:
     // * If map is initialized
@@ -31,19 +67,29 @@ class Estimator {
     Frame process_image(cv::Mat image,
         std::vector<Feature> features);
 
+    // ----
     // Data
+    // ----
 
   private:
+    // -------------
     // Owned Objects
+    // -------------
     std::shared_ptr<Map> map_;
     std::shared_ptr<Camera> camera_;
 
+    EstimatorParams params_;
+
+    // ---------
     // Functions
+    // ---------
     void initialize_position_();
     void initialize_position_(cv::Mat r0,
         cv::Mat t0);
     
+    // ----
     // Data
+    // ----
     cv::Mat rotation_vector_;
     cv::Mat translation_vector_;
 };
