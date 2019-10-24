@@ -5,6 +5,7 @@
 #include <opencv2/core.hpp>
 
 #include "Utils/Feature.hpp"
+#include "Utils/Pose.hpp"
 
 /*
  * 
@@ -18,18 +19,27 @@ class Frame {
     Frame();
     Frame(cv::Mat image,
         std::vector<Feature> features,
-        cv::Mat rotation_vector,
-        cv::Mat translation_vector,
+        Pose pose,
+        uint64_t frame_id,
         bool is_keyframe);
 
     // ---------
     // Functions
     // ---------
+    // Getters
     bool get_is_keyframe();
+    bool get_is_processed();
     cv::Mat get_image();
     std::vector<Feature> get_features();
-    cv::Mat get_rotation();
-    cv::Mat get_translation();
+    Pose get_pose();
+
+    // Setters
+    void set_is_keyframe(bool is_keyframe);
+    void set_is_processed(bool is_processed);
+    void set_image(cv::Mat image);
+    void set_features(std::vector<Feature> features);
+    void set_pose(Pose pose);
+
 
     // ----
     // Data
@@ -53,11 +63,16 @@ class Frame {
     std::vector<Feature> features_;
 
     // Pose of the camera when this image was taken
-    cv::Mat rotation_vector_;
-    cv::Mat translation_vector_;
+    Pose pose_;
 
     // Whether or not this is a keyframe
     bool is_keyframe_;
+    
+    // Whether or not the estimator has processed the frame
+    bool is_processed_;
+
+    // 
+    uint64_t frame_id_;
 };
 
 #endif
