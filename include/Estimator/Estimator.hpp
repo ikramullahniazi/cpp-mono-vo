@@ -67,9 +67,9 @@ class Estimator {
     // Different behavior based on:
     // * If map is initialized
     // * If a new keyframe is needed
-    Frame process_image(
-        cv::Mat image,
-        std::vector<Feature> features);
+    Frame process_frame(Frame frame);
+    
+    Pose get_pose();
 
     // ----
     // Data
@@ -94,7 +94,7 @@ class Estimator {
     void initialize_position_(
         Pose pose0);
 
-    std::shared_ptr<Map> manual_initialization_(
+    bool manual_initialization_(
         Frame keyframe_1,
         Frame keyframe_2);
 

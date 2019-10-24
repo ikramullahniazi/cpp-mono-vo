@@ -94,7 +94,7 @@ void Estimator::initialize_position_(Pose pose0)
 // Functions
 // ---------
 
-std::shared_ptr<Map> Estimator::manual_initialization_(
+bool Estimator::manual_initialization_(
     Frame keyframe_1,
     Frame keyframe_2)
 {
@@ -106,6 +106,6 @@ std::shared_ptr<Map> Estimator::manual_initialization_(
    * 4. Populate map
    */
 
-  return std::make_shared<Map>();
+  return false;
 }
 
