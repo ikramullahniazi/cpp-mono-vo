@@ -1,17 +1,28 @@
 #include "Detector/Detector.hpp"
 
+/**
+ * Parent class for storage of parameters needed for Detector objects.
+ */
+
 DetectorParams::DetectorParams()
 {
   config_();
 }
 
+// Set default params
 void DetectorParams::config_()
 {
 
 }
 
+
+/**
+ * Parent class for detecting features in an image.
+ */
+
 Detector::Detector()
 {
+  // If no params are passed, use the default parameters
   params_ = DetectorParams();
 }
 

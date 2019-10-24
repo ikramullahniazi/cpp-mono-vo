@@ -10,45 +10,77 @@
 
 #include "Utils/Feature.hpp"
 
-/*
- * Parameters class
+/**
+ * Parent class representing the parameters needed for performing feature
+ * detection in an image.
  */
-
 class DetectorParams {
   public:
-    // Methods
+    // ------------
+    // Constructors
+    // ------------
     DetectorParams();
 
-    // All DetectorParams objects must have this function for variable set-up.
+    // ---------
+    // Functions
+    // ---------
     void config_();
 
+    // ----
+    // Data
+    // ----
+  private:
+    // -------------
+    // Owned Objects
+    // -------------
+    
+    // ---------
+    // Functions
+    // ---------
+
+    // ----
+    // Data
+    // ----
 };
 
-/*
- * The detector class take in images and detects feature points.
+/**
+ * Parent class for implementing a feature detector.
  */
-
 class Detector {
   public:
+    // ------------
+    // Constructors
+    // ------------
     Detector();
     Detector(DetectorParams params);
-
-    // Detect feature points in an incoming image.
-    // This expects a monochrome image.
-    // This should be overwritten by child classes. 
+    
+    // ---------
+    // Functions
+    // ---------
     virtual std::vector<Feature> detect_features(const cv::Mat image);
     virtual std::vector<Feature> detect_features(const cv::Mat image, 
         const cv::Mat mask);
 
     DetectorParams get_params();
+    // ----
+    // Data
+    // ----
 
   private:
-    // This contains the parameters to pass to the feature detection method.
+    // -------------
+    // Owned Objects
+    // -------------
     DetectorParams params_;
+    
+    // ---------
+    // Functions
+    // ---------
 
-    // This increments every time a feature is detected.
-    // Use it to assign unique ids to new features.
+    // ----
+    // Data
+    // ----
     uint64_t feature_counter_;
+
 };
 
 
