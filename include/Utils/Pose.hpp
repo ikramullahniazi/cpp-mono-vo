@@ -2,6 +2,9 @@
 #define POSE_HPP_INCLUDE
 
 #include <opencv2/core.hpp>
+#include <opencv2/calib3d.hpp>
+
+#include "Utils/UtilityFunctions.hpp"
 
 class Pose {
   public:
@@ -14,10 +17,11 @@ class Pose {
     cv::Mat get_rotation_vector();
     cv::Mat get_rotation_matrix();
     cv::Mat get_translation_vector();
+    cv::Mat get_transformation_matrix();
 
     // Setters
-    void set_rotation(cv::Mat rotation);
-    void set_translation(cv::Mat translation);
+    bool set_pose(cv::Mat rotation,
+        cv::Mat translation);
 
 
     // Data
@@ -25,12 +29,19 @@ class Pose {
     // Owned Objects
 
     // Functions
+    bool set_rotation_vector_(cv::Mat rotation_vector);
+    bool set_rotation_matrix_(cv::Mat rotation_matrix);
+    bool set_translation_vector_(cv::Mat translation_vector);
+    bool set_transformation_matrix_(cv::Mat rotation_matrix,
+        cv::Mat translation_vector);
+
+    bool set_rotation_(cv::mat rotation); // easy way to handle both rot. types
 
     // Data
-    // Rotation is represented as a 3x1 vector in modified axis-angle form
-    cv::Mat rotation_;
-    // Translation is represented as a 3x1 vector
-    cv::Mat translation_;
+    cv::Mat rotation_vector_;
+    cv::Mat rotation_matrix_;
+    cv::Mat translation_vector_;
+    cv::Mat transformation_matrix_;
 };
 
 #endif
