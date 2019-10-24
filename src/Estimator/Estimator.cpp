@@ -49,12 +49,15 @@ void Estimator::initialize_position_()
   float t0[3] = {0, 0, 0};
   float r0[3] = {0, 0, 0};
 
-  initialize_position_(r0, t0);
+  cv::Mat rotation_vector = cv::Mat(3, 1, CV_32F, r0);
+  cv::Mat translation_vector = cv::Mat(3, 1, CV_32F, t0);
+
+  initialize_position_(rotation_vector, translation_vector);
 }
 
-void Estimator::Initialize_position_(cv::Mat r0,
+void Estimator::initialize_position_(cv::Mat r0,
     cv::Mat t0)
 {
-  rotation_vector_ = cv::Mat(3, 1, CV_32F, r0);
-  translation_vector_ = cv::Mat(3, 1, CV_32F, t0);
+  rotation_vector_ = r0;
+  translation_vector_ = t0;
 }

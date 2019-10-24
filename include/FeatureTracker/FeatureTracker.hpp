@@ -43,9 +43,9 @@ class FeatureTracker {
     std::vector<Feature> get_data();
 
     // Setters
-    void set_camera(Camera camera);
-    void set_detector(Detector detector);
-    void set_tracker(Tracker tracker);
+    void set_camera(std::shared_ptr<Camera> camera);
+    void set_detector(std::shared_ptr<Detector> detector);
+    void set_tracker(std::shared_ptr<Tracker> tracker);
 
   private:
     // Owned objects

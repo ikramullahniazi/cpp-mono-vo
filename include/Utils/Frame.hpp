@@ -18,7 +18,7 @@ class Frame {
     Frame();
     Frame(cv::Mat image,
         std::vector<Feature> features,
-        cv::Mat rotation_vector;
+        cv::Mat rotation_vector,
         cv::Mat translation_vector,
         bool is_keyframe);
 
@@ -59,3 +59,5 @@ class Frame {
     // Whether or not this is a keyframe
     bool is_keyframe_;
 };
+
+#endif

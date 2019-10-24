@@ -40,11 +40,11 @@ std::vector<Feature> Frame::get_features()
 
 cv::Mat Frame::get_rotation()
 {
-  return rvec_;
+  return rotation_vector_;
 }
 
 cv::Mat Frame::get_translation()
 {
-  return tvec_;
+  return translation_vector_;
 }
 

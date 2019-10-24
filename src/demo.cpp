@@ -31,6 +31,8 @@ int main() {
    *  * Tracker
    * Estimator: Calculates position from measurements
    *  * FeatureTracker
+   * TODO: Implement System object that handles obtaining sensor readings
+   * and passing them to assorted handlers.
    */
 
   // Create Camera
@@ -66,7 +68,7 @@ int main() {
   cv::glob(path, filenames);
   std::cout << filenames.size() << " images found" << std::endl;
 
-  for (filename : filenames)
+  for (std::string filename : filenames)
   {
     cv::Mat im = cv::imread(filename);
     images.push_back(im);

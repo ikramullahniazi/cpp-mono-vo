@@ -22,6 +22,8 @@ FeatureTracker::FeatureTracker(Camera camera,
   frame_counter_ = 0;
 }
 
+// TODO: Maybe make this a returning function instead of modifying internal 
+// state?
 bool FeatureTracker::process_image(const cv::Mat image)
 {
   new_features_.clear(); // This is where work is done before pushing to cur_pts
@@ -29,6 +31,11 @@ bool FeatureTracker::process_image(const cv::Mat image)
   if (current_features_.size() == 0) { // Haven't processed an image yet
     // Initialize features
     new_features_ = detector_->detect_features(image);
+
+    // Using & to modify object rather than a copy
+    for (Feature &feature : new_features_) {
+      feature.frame_id = frame_counter_;
+    }
 
     // TODO: populate frame_id field in points
 
