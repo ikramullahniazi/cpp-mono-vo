@@ -22,9 +22,7 @@ FeatureTracker::FeatureTracker(Camera camera,
   frame_counter_ = 0;
 }
 
-// TODO: Maybe make this a returning function instead of modifying internal 
-// state?
-bool FeatureTracker::process_image(const cv::Mat image)
+Frame FeatureTracker::process_image(const cv::Mat image)
 {
   new_features_.clear();
 
@@ -48,8 +46,14 @@ bool FeatureTracker::process_image(const cv::Mat image)
 
     // Generate frame 0
 
-    frame_counter_++;
-    return true;
+    // Generate frame n
+    Frame new_frame;
+    new_frame.set_image(current_image_);
+    new_frame.set_features(current_features_);
+    new_frame.set_is_processed(false);
+    new_frame.set_frame_id(frame_counter_++);
+
+    return new_frame;
 
   } else {
     // Track features into new frame
@@ -67,11 +71,8 @@ bool FeatureTracker::process_image(const cv::Mat image)
       feature.frame_id = frame_counter_;
     }
 
-    // New features contains features from previous image that have been
-    // successfully matched in the incoming image
-
-    // TODO: Detect more features to keep a minimum number
-    // Steps:
+    // Detect more features to keep a minimum number
+    //
     // 1. Create mask
     cv::Mat mask = generate_mask_from_features_(
         new_features_);
@@ -95,9 +96,9 @@ bool FeatureTracker::process_image(const cv::Mat image)
     new_frame.set_image(current_image_);
     new_frame.set_features(current_features_);
     new_frame.set_is_processed(false);
+    new_frame.set_frame_id(frame_counter_++);
 
-    frame_counter_++;
-    return true;
+    return new_frame;
   }
 }
 
