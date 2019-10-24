@@ -1,9 +1,5 @@
 #include "Estimator.hpp"
 
-/*
- * TODO: Should estimators and estimatorparams be parent classes?
- * Parameters for an estimator
- */
 EstimatorParams::EstimatorParams()
 {
   config_();
@@ -13,10 +9,6 @@ void EstimatorParams::config_()
 {
   manual_initialization = false;
 }
-
-/*
- *
- */
 
 Estimator::Estimator()
 {
@@ -32,7 +24,6 @@ Estimator::Estimator(std::shared_ptr<Camera> camera,
   initialize_position_();
 }
 
-// Deprecated
 Estimator::Estimator(Camera camera, Map map)
 {
   camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
