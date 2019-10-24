@@ -16,6 +16,7 @@
 
 #include "Utils/Camera.hpp"
 #include "Utils/Feature.hpp"
+#include "Utils/Frame.hpp"
 
 // Including superclass -> use any detector
 #include "Detector/Detector.hpp"
@@ -37,10 +38,7 @@ class FeatureTracker {
         Tracker tracker);
 
     // Create features from incoming image
-    bool process_image(const cv::Mat image);
-
-    // Return features
-    std::vector<Feature> get_data();
+    Frame process_image(const cv::Mat image);
 
     // Setters
     void set_camera(std::shared_ptr<Camera> camera);
@@ -54,8 +52,8 @@ class FeatureTracker {
     std::shared_ptr<Tracker> tracker_;
 
     // Functions
-
-    cv::Mat generate_mask_from_features_(std::vector<Feature> features);
+    cv::Mat generate_mask_from_features_(
+        std::vector<Feature> features);
 
     // Data
 

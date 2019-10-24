@@ -26,9 +26,9 @@ FeatureTracker::FeatureTracker(Camera camera,
 // state?
 bool FeatureTracker::process_image(const cv::Mat image)
 {
-  new_features_.clear(); // This is where work is done before pushing to cur_pts
+  new_features_.clear();
 
-  if (current_features_.size() == 0) { // Haven't processed an image yet
+  if (frame_counter_ == 0) {
     // Initialize features
     new_features_ = detector_->detect_features(image);
 
@@ -46,6 +46,8 @@ bool FeatureTracker::process_image(const cv::Mat image)
     current_image_ = image;
     previous_image_ = image;
 
+    // Generate frame 0
+
     frame_counter_++;
     return true;
 
@@ -60,29 +62,43 @@ bool FeatureTracker::process_image(const cv::Mat image)
         previous_image_,
         current_image_);
 
+    for (Feature &feature : new_features_)
+    {
+      feature.frame_id = frame_counter_;
+    }
+
     // New features contains features from previous image that have been
     // successfully matched in the incoming image
 
     // TODO: Detect more features to keep a minimum number
     // Steps:
     // 1. Create mask
+    cv::Mat mask = generate_mask_from_features_(
+        new_features_);
     // 2. Detect features using mask
+    std::vector<Feature> additional_features = 
+      detector_->detect_features(
+          current_image_,
+          mask);
     // 3. Append to new_features
+    for (Feature &feature : additional_features)
+    {
+      feature.frame_id = frame_counter_;
+      new_features_.push_back(feature);
+    }
 
     current_features_ = new_features_;
     new_features_.clear();
 
+    // Generate frame n
+    Frame new_frame;
+    new_frame.set_image(current_image_);
+    new_frame.set_features(current_features_);
+    new_frame.set_is_processed(false);
+
     frame_counter_++;
     return true;
   }
-  
-  frame_counter_++;
-  return false;
-}
-
-std::vector<Feature> FeatureTracker::get_data()
-{
-  return current_features_;
 }
 
 void FeatureTracker::set_camera(std::shared_ptr<Camera> camera)
@@ -100,7 +116,8 @@ void FeatureTracker::set_tracker(std::shared_ptr<Tracker> tracker)
   tracker_ = tracker;
 }
 
-cv::Mat FeatureTracker::generate_mask_from_features_(std::vector<Feature> features)
+cv::Mat FeatureTracker::generate_mask_from_features_(
+    std::vector<Feature> features)
 {
   cv::Mat mask = cv::Mat::ones(camera_->get_size(), CV_8UC1);
 
