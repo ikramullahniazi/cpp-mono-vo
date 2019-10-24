@@ -4,8 +4,6 @@
 #include <opencv2/core.hpp>
 #include <opencv2/calib3d.hpp>
 
-#include "Utils/UtilityFunctions.hpp"
-
 class Pose {
   public:
     // Constructors
@@ -35,7 +33,7 @@ class Pose {
     bool set_transformation_matrix_(cv::Mat rotation_matrix,
         cv::Mat translation_vector);
 
-    bool set_rotation_(cv::mat rotation); // easy way to handle both rot. types
+    bool set_rotation_(cv::Mat rotation); // easy way to handle both rot. types
 
     // Data
     cv::Mat rotation_vector_;

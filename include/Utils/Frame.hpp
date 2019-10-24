@@ -21,7 +21,8 @@ class Frame {
         std::vector<Feature> features,
         Pose pose,
         uint64_t frame_id,
-        bool is_keyframe);
+        bool is_keyframe,
+        bool is_processed);
 
     // ---------
     // Functions
@@ -39,7 +40,7 @@ class Frame {
     void set_image(cv::Mat image);
     void set_features(std::vector<Feature> features);
     void set_pose(Pose pose);
-
+    void set_frame_id(uint64_t id);
 
     // ----
     // Data

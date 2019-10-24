@@ -39,10 +39,10 @@ add_library( ${PROJECT_NAME}
   src/Tracker/Tracker.cpp
   src/Tracker/Trackers/DefaultTracker.cpp
   src/Utils/Camera.cpp
-  src/Utils/Map.cpp
   src/Utils/Feature.cpp
-  src/Utils/Landmark.cpp
   src/Utils/Frame.cpp
+  src/Utils/Landmark.cpp
+  src/Utils/Pose.cpp
 	)
 
 add_executable(${PROJECT_NAME}-demo src/demo.cpp)

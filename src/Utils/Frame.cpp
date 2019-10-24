@@ -15,7 +15,7 @@ Frame::Frame(cv::Mat image,
     Pose pose,
     uint64_t frame_id,
     bool is_keyframe,
-    bool is_processed);
+    bool is_processed)
 {
   image_ = image;
   features_ = features;
@@ -77,3 +77,9 @@ void Frame::set_pose(Pose pose)
 {
   pose_ = pose;
 }
+
+void Frame::set_frame_id(uint64_t id)
+{
+  frame_id_ = id;
+}
+

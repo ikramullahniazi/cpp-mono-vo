@@ -1,2 +1,4 @@
-#include "Utils/UtilityFunctions.hpp"
+#ifndef UTILITY_FUNCTIONS_HPP_INCLUDE
+#define UTILITY_FUNCTIONS_HPP_INCLUDE
 
+#endif
