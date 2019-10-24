@@ -1,15 +1,43 @@
 #include "Estimator.hpp"
 
+/*
+ * EstimatorParams implementations
+ */
+
+// Public
+
+// ------------
+// Constructors
+// ------------
 EstimatorParams::EstimatorParams()
 {
   config_();
 }
+
+// ---------
+// Functions
+// ---------
 
 void EstimatorParams::config_()
 {
   manual_initialization = false;
 }
 
+// Private
+
+// ---------
+// Functions
+// ---------
+
+/*
+ * Estimator implementations
+ */
+
+// Public
+
+// ------------
+// Constructors
+// ------------
 Estimator::Estimator()
 {
   initialize_position_();
@@ -34,6 +62,9 @@ Estimator::Estimator(Camera camera, Map map)
   initialize_position_();
 }
 
+// ---------
+// Functions
+// ---------
 
 void Estimator::initialize_position_()
 {
@@ -49,6 +80,32 @@ void Estimator::initialize_position_()
 void Estimator::initialize_position_(cv::Mat r0,
     cv::Mat t0)
 {
-  rotation_vector_ = r0;
-  translation_vector_ = t0;
+  pose_ = Pose(r0, t0);
 }
+
+void Estimator::initialize_position_(Pose pose0)
+{
+  pose_ = pose0;
+}
+
+// Private
+
+// ---------
+// Functions
+// ---------
+
+std::shared_ptr<Map> Estimator::manual_initialization_(
+    Frame keyframe_1,
+    Frame keyframe_2)
+{
+  /*
+   * Process:
+   * 1. Match features between frames
+   * 2. Triangulate features
+   * 3. Outlier rejection
+   * 4. Populate map
+   */
+
+  return std::make_shared<Map>();
+}
+

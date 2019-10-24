@@ -11,6 +11,7 @@
 #include "Utils/Feature.hpp"
 #include "Utils/Map.hpp"
 #include "Utils/Frame.hpp"
+#include "Utils/Pose.hpp"
 
 class EstimatorParams {
   public:
@@ -35,7 +36,7 @@ class EstimatorParams {
     // -------------
     // Owned Objects
     // -------------
-    
+
     // ---------
     // Functions
     // ---------
@@ -53,7 +54,8 @@ class Estimator {
     // Constructors
     // ------------
     Estimator();
-    Estimator(std::shared_ptr<Camera> camera,
+    Estimator(
+        std::shared_ptr<Camera> camera,
         std::shared_ptr<Map> map);
     // Deprecated
     Estimator(Camera camera, Map map);
@@ -65,7 +67,8 @@ class Estimator {
     // Different behavior based on:
     // * If map is initialized
     // * If a new keyframe is needed
-    Frame process_image(cv::Mat image,
+    Frame process_image(
+        cv::Mat image,
         std::vector<Feature> features);
 
     // ----
@@ -85,23 +88,20 @@ class Estimator {
     // Functions
     // ---------
     void initialize_position_();
-    void initialize_position_(cv::Mat r0,
+    void initialize_position_(
+        cv::Mat r0,
         cv::Mat t0);
-    
+    void initialize_position_(
+        Pose pose0);
+
+    std::shared_ptr<Map> manual_initialization_(
+        Frame keyframe_1,
+        Frame keyframe_2);
+
     // ----
     // Data
     // ----
-    cv::Mat rotation_vector_;
-    cv::Mat translation_vector_;
+    Pose pose_;
 };
-
-// -----------------
-// Utility Functions
-// -----------------
-// This function triangulates points between the given frames and creates
-// a map from the resulting landmarks.
-// This is exclusively to be used for simple manual initialization and 
-// should be deprecated when a real initialization method is written.
-std::shared_ptr<Map> create_map(Frame keyframe_1, Frame keyframe_2);
 
 #endif

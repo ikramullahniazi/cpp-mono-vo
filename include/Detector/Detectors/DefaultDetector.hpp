@@ -8,7 +8,6 @@
 #include <opencv2/core.hpp>
 
 #include "Utils/Feature.hpp"
-// TODO: Define params and detectors in same file
 
 // Superclasses
 #include "Detector/Detector.hpp"
