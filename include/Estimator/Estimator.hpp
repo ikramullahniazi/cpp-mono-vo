@@ -57,8 +57,6 @@ class Estimator {
     Estimator(
         std::shared_ptr<Camera> camera,
         std::shared_ptr<Map> map);
-    // Deprecated
-    Estimator(Camera camera, Map map);
 
     // ---------
     // Functions

@@ -1,4 +1,5 @@
 #include "Estimator.hpp"
+#include <iostream>
 
 /*
  * EstimatorParams implementations
@@ -20,7 +21,8 @@ EstimatorParams::EstimatorParams()
 
 void EstimatorParams::config_()
 {
-  manual_initialization = false;
+  // TODO: Change this when automatic initialization is implemented.
+  manual_initialization = true; 
 }
 
 // Private
@@ -40,26 +42,22 @@ void EstimatorParams::config_()
 // ------------
 Estimator::Estimator()
 {
+  std::cout << "Default estimator" << std::endl;
   initialize_position_();
 }
 
-Estimator::Estimator(std::shared_ptr<Camera> camera,
+Estimator::Estimator(
+    std::shared_ptr<Camera> camera,
     std::shared_ptr<Map> map)
 {
+  std::cout << "Assigning camera" << std::endl;
   camera_ = camera;
+  std::cout << "Camera assigned" << std::endl;
   map_ = map;
+  std::cout << "Map assigned" << std::endl;
 
   initialize_position_();
-}
-
-Estimator::Estimator(Camera camera, Map map)
-{
-  camera_ = std::make_shared<Camera>(camera.get_intrinsic_params(),
-      camera.get_distortion_coeffs(),
-      camera.get_size());
-  map_ = std::make_shared<Map>();
-
-  initialize_position_();
+  std::cout << "Position initialized" << std::endl;
 }
 
 // ---------

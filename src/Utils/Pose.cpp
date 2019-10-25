@@ -89,13 +89,12 @@ bool Pose::set_translation_vector_(cv::Mat translation_vector)
 bool Pose::set_transformation_matrix_(cv::Mat rotation_matrix,
     cv::Mat translation_vector)
 {
-  cv::Rect R_src_rect = cv::Rect(cv::Point(0,0), cv::Point(2,2));
-  cv::Rect t_src_rect = cv::Rect(cv::Point(0,0), cv::Point(0,2));
-  cv::Rect R_dst_rect = cv::Rect(cv::Point(0,0), cv::Point(2,2));
-  cv::Rect t_dst_rect = cv::Rect(cv::Point(3,0), cv::Point(3,2));
+  cv::Rect R_src_rect = cv::Rect(cv::Point(0,0), cv::Point(3,3));
+  cv::Rect t_src_rect = cv::Rect(cv::Point(0,0), cv::Point(1,3));
+  cv::Rect R_dst_rect = cv::Rect(cv::Point(0,0), cv::Point(3,3));
+  cv::Rect t_dst_rect = cv::Rect(cv::Point(3,0), cv::Point(4,3));
 
   cv::Mat T = cv::Mat::eye(4, 4, CV_32F);
-
   rotation_matrix(R_src_rect).copyTo(
       T(R_dst_rect));
   translation_vector(t_src_rect).copyTo(

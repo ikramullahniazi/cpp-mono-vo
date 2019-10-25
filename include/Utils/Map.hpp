@@ -14,6 +14,8 @@ class Map {
     // Constructors
     // ------------
     Map();
+    Map(std::vector<Landmark> landmarks,
+        std::vector<Frame> keyframes);
 
     // ---------
     // Functions

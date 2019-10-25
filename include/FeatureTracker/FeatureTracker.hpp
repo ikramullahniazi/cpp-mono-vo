@@ -32,11 +32,6 @@ class FeatureTracker {
         std::shared_ptr<Detector> detector,
         std::shared_ptr<Tracker> tracker);
 
-    // Deprecated
-    FeatureTracker(Camera camera,
-        Detector detector,
-        Tracker tracker);
-
     // Create features from incoming image
     Frame process_image(const cv::Mat image);
 

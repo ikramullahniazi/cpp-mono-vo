@@ -5,6 +5,13 @@ Map::Map()
 
 }
 
+Map::Map(std::vector<Landmark> landmarks,
+    std::vector<Frame> keyframes)
+{
+  landmarks_ = landmarks;
+  keyframes_ = keyframes;
+}
+
 bool Map::insert_frame(Frame frame)
 {
   return false;

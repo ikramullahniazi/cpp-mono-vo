@@ -42,6 +42,7 @@ add_library( ${PROJECT_NAME}
   src/Utils/Feature.cpp
   src/Utils/Frame.cpp
   src/Utils/Landmark.cpp
+  src/Utils/Map.cpp
   src/Utils/Pose.cpp
 	)
 
