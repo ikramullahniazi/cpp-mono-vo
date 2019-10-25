@@ -14,7 +14,6 @@ class Feature {
     // ------------
     Feature();
     Feature(cv::Point2f raw);
-    Feature(cv::Point2f raw, cv::Point2f normalized);
 
     // ---------
     // Functions
@@ -23,7 +22,6 @@ class Feature {
     // ----
     // Data
     // ----
-    cv::Point2f normalized_coords;
     cv::Point2f raw_coords;
     cv::Mat descriptor;
     uint64_t id; // unique identifier for this feature
@@ -42,14 +40,6 @@ class Feature {
     // Data 
     // ----
 };
-
-// Generate a vector of pixel coordinates from a vector of features
-std::vector<cv::Point2f> unpack_features(std::vector<Feature> features);
-
-// Re-generate a vector of features from a vector of pixel coordinates.
-// Previous features are passed as input for feature IDs
-std::vector<Feature> pack_features(std::vector<cv::Point2f> points,
-    std::vector<Feature> previous_features);
 
 
 #endif
