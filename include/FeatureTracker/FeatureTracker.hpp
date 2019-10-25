@@ -34,7 +34,7 @@ class FeatureTracker {
         std::shared_ptr<Tracker> tracker);
 
     // Create features from incoming image
-    Frame process_image(const cv::Mat image);
+    Frame process_image(cv::Mat image);
 
     // Setters
     void set_camera(std::shared_ptr<Camera> camera);

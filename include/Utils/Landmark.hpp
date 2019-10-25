@@ -14,6 +14,9 @@ class Landmark {
     // ------------
     // Constructors
     // ------------
+    Landmark();
+    Landmark(cv::Point3f location);
+    Landmark(cv::Point3f location, std::vector<Feature> observations);
     
     // ---------
     // Functions
@@ -27,19 +30,6 @@ class Landmark {
 
     // Keep track of all observations of this landmark
     std::vector<Feature> observations;
-
-  private:
-    // -------------
-    // Owned Objects
-    // -------------
-    
-    // ---------
-    // Functions
-    // ---------
-    
-    // ----
-    // Data
-    // ----
 };
 
 #endif

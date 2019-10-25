@@ -12,10 +12,10 @@ void DefaultTrackerParams::config_()
 {
   win_size = cv::Size(21,21);
   term_criteria = cv::TermCriteria(
-      cv::TermCriteria::COUNT|cv::TermCriteria::EPS,
-      30,
+      cv::TermCriteria::COUNT|cv::TermCriteria::EPS, 
+      30, 
       0.01);
-  flags = cv::OPTFLOW_LK_GET_MIN_EIGENVALS;
+  flags = 0;
   min_eig_threshold = 0.0001;
 }
 
@@ -46,8 +46,8 @@ std::vector<Feature> DefaultTracker::track_features(
 
   // 2. Track
   // TODO: Use subpixel optimization
-  std::vector<cv::Point2f> next_points = std::vector<cv::Point2f>();
-  std::vector<uint8_t> status = std::vector<uint8_t>();
+  std::vector<cv::Point2f> next_points;
+  std::vector<uint8_t> status;
   cv::Mat err;
 
   cv::calcOpticalFlowPyrLK(previous_image,
@@ -55,12 +55,7 @@ std::vector<Feature> DefaultTracker::track_features(
       previous_points,
       next_points,
       status, 
-      err,
-      params_.win_size,
-      params_.max_level,
-      params_.term_criteria,
-      params_.flags,
-      params_.min_eig_threshold);
+      err);
 
   // 3. Create new feature vector of features that tracked successfully
   // TODO: TEST THAT THIS PRODUCES THE CORRECT ANSWERS

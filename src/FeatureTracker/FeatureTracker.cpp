@@ -23,7 +23,7 @@ FeatureTracker::FeatureTracker(
   frame_counter_ = 0;
 }
 
-Frame FeatureTracker::process_image(const cv::Mat image)
+Frame FeatureTracker::process_image(cv::Mat image)
 {
   /*
    * Important cases:
@@ -55,7 +55,30 @@ Frame FeatureTracker::process_image(const cv::Mat image)
   } 
   else 
   {
-    return Frame();
+    // Track features into next frame
+    // TODO: Detect new features when too few survive
+    new_features_ = tracker_->track_features(
+        current_features_,
+        current_image_,
+        image);
+
+    for (Feature &feature : new_features_) {
+      feature.frame_id = frame_counter_;
+    }
+    
+    previous_features_ = current_features_;
+    previous_image_ = current_image_;
+
+    current_features_ = new_features_;
+    current_image_ = image;
+
+    Frame next_frame = Frame();
+    next_frame.set_image(current_image_);
+    next_frame.set_features(current_features_);
+    next_frame.set_is_processed(false);
+    next_frame.set_frame_id(frame_counter_++);
+
+    return next_frame;
   }
 }
 
