@@ -59,11 +59,16 @@ class FeatureTrackerParams {
 class FeatureTracker {
   public:
     // Constructor
-    // Prefer this one:
     FeatureTracker(
         std::shared_ptr<Camera> camera,
         std::shared_ptr<Detector> detector,
         std::shared_ptr<Tracker> tracker);
+
+    FeatureTracker(
+        std::shared_ptr<Camera> camera,
+        std::shared_ptr<Detector> detector,
+        std::shared_ptr<Tracker> tracker,
+        FeatureTrackerParams params);
 
     // Create features from incoming image
     Frame process_image(cv::Mat image);
@@ -78,6 +83,7 @@ class FeatureTracker {
     std::shared_ptr<Camera> camera_;
     std::shared_ptr<Detector> detector_;
     std::shared_ptr<Tracker> tracker_;
+    FeatureTrackerParams params_;
 
     // Functions
     cv::Mat generate_mask_from_features_(

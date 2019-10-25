@@ -11,7 +11,6 @@ void FeatureTrackerParams::config_()
   minimum_features = 500;
 }
 
-
 FeatureTracker::FeatureTracker(
     std::shared_ptr<Camera> camera,
     std::shared_ptr<Detector> detector,
@@ -20,6 +19,31 @@ FeatureTracker::FeatureTracker(
   camera_ = camera;
   detector_ = detector;
   tracker_ = tracker;
+  params_ = FeatureTrackerParams();
+
+
+  previous_features_ = std::vector<Feature>();
+  current_features_ = std::vector<Feature>();
+  new_features_ = std::vector<Feature>();
+
+  previous_image_ = cv::Mat();
+  current_image_ = cv::Mat();
+
+  mask_ = cv::Mat();
+
+  frame_counter_ = 0;
+}
+
+FeatureTracker::FeatureTracker(
+    std::shared_ptr<Camera> camera,
+    std::shared_ptr<Detector> detector,
+    std::shared_ptr<Tracker> tracker,
+    FeatureTrackerParams params)
+{
+  camera_ = camera;
+  detector_ = detector;
+  tracker_ = tracker;
+  params_ = params;
 
 
   previous_features_ = std::vector<Feature>();
@@ -162,11 +186,12 @@ std::vector<Feature> FeatureTracker::repopulate_features_(
       mask);
   
   // Merge vectors
-  // THIS CAUSES A SEGFAULT
-  existing_features.insert(
-      existing_features.end(),
-      new_features.begin(),
-      new_features.end());
+  int features_needed = params_.minimum_features - existing_features.size();
+
+  for (int i = 0; i < features_needed; i++)
+  {
+    existing_features.push_back(new_features.at(i));
+  }
 
   return existing_features;
 }
