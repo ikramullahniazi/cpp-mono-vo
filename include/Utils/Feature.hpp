@@ -14,7 +14,7 @@ class Feature {
     // ------------
     Feature();
     Feature(cv::Point2f coords,
-        cv::Mat descriptor,
+        // cv::Mat descriptor,
         int id,
         int frame_id,
         int age);
@@ -27,7 +27,7 @@ class Feature {
     // Data
     // ----
     cv::Point2f coords; // pixel observation 
-    cv::Mat descriptor; // feature descriptor
+    // cv::Mat descriptor; // feature descriptor
     int id; // unique identifier for this feature
     int frame_id; // what frame was this observation from?
     int age; // how many frames has this been seen in?

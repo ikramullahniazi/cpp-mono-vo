@@ -20,8 +20,7 @@ bool Pose::set_rotation_(cv::Mat rotation)
   int cols = rotation.cols;
   bool rotation_success;
   cv::Mat rotation_vector, rotation_matrix;
-  switch (cols)
-  {
+  switch (cols) {
     case 1: // rotation is a vector
       rotation_vector = rotation;
       cv::Rodrigues(rotation, rotation_matrix);

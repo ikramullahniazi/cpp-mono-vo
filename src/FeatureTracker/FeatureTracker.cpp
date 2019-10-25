@@ -30,15 +30,11 @@ Frame FeatureTracker::process_image(cv::Mat image)
    * - frame_counter_ == 0 -> create first frame, do nothing after
    * - frame_counter_ > 0 -> track + detect more features
    */
-  
+
   if (frame_counter_ == 0) 
   {
     // Initialize features
-    new_features_ = detector_->detect_features(image);
-
-    for (Feature &feature : new_features_) {
-      feature.frame_id = frame_counter_;
-    }
+    new_features_ = detect_features_(image);
 
     // Fill cur and prev 
     current_features_ = new_features_;
@@ -56,16 +52,20 @@ Frame FeatureTracker::process_image(cv::Mat image)
   else 
   {
     // Track features into next frame
-    // TODO: Detect new features when too few survive
-    new_features_ = tracker_->track_features(
+    // Process:
+    // 1. Find previous features in current frame
+    // 2. Detect new features if too few survive
+    // 3. Create frame with all features
+    new_features_ = track_features_(
         current_features_,
         current_image_,
         image);
 
-    for (Feature &feature : new_features_) {
-      feature.frame_id = frame_counter_;
-    }
+    std::cout << "Tracked features: " << new_features_.size() << std::endl;
     
+
+    new_features_ = repopulate_features_(new_features_,image);
+
     previous_features_ = current_features_;
     previous_image_ = current_image_;
 
@@ -111,3 +111,52 @@ cv::Mat FeatureTracker::generate_mask_from_features_(
 
   return mask;
 }
+
+std::vector<Feature> FeatureTracker::track_features_(
+    std::vector<Feature> current_features,
+    cv::Mat current_image,
+    cv::Mat new_image)
+{
+  std::vector<Feature> out_vector = tracker_->track_features(
+      current_features,
+      current_image,
+      new_image);
+
+  for (Feature &feature : out_vector) 
+  {
+    feature.frame_id = frame_counter_;
+  }
+
+  return out_vector;
+}
+
+std::vector<Feature> FeatureTracker::detect_features_(cv::Mat new_image)
+{
+  std::vector<Feature> out_vector = detector_->detect_features(new_image);
+
+  for (Feature &feature : out_vector) {
+    feature.frame_id = frame_counter_;
+  }
+
+  return out_vector;
+}
+
+std::vector<Feature> FeatureTracker::repopulate_features_(
+    std::vector<Feature> existing_features,
+    cv::Mat image)
+{
+  cv::Mat mask = generate_mask_from_features_(existing_features);
+  std::vector<Feature> new_features = detector_->detect_features(
+      image,
+      mask);
+  
+  // Merge vectors
+  // THIS CAUSES A SEGFAULT
+  existing_features.insert(
+      existing_features.end(),
+      new_features.begin(),
+      new_features.end());
+
+  return existing_features;
+}
+

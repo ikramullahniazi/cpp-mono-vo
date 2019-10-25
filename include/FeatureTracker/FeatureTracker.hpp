@@ -51,6 +51,16 @@ class FeatureTracker {
     cv::Mat generate_mask_from_features_(
         std::vector<Feature> features);
 
+    // Utility wrappers to access tracker and detector
+    std::vector<Feature> track_features_(
+        std::vector<Feature> current_features,
+        cv::Mat current_image,
+        cv::Mat new_image);
+    std::vector<Feature> detect_features_(cv::Mat new_image);
+    std::vector<Feature> repopulate_features_(
+        std::vector<Feature> existing_features,
+        cv::Mat image);
+
     // Data
 
     // Current and previous points for tracking

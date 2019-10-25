@@ -71,7 +71,7 @@ std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image,
   for (cv::Point2f pt : temp_output) {
     Feature temp_feature = Feature(
         pt,
-        cv::Mat(),
+        //cv::Mat(),
         feature_counter_++,
         -1,
         0);

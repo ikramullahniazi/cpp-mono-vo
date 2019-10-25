@@ -62,18 +62,19 @@ std::vector<Feature> DefaultTracker::track_features(
   std::vector<Feature> out_features = std::vector<Feature>();
 
   for (size_t i = 0; i < next_points.size(); i++) {
-    // If this point passses (check err/status), connect to feature in 
-    // previous image
-    if (status.at(i) != 0) {
+    // If this point passses (check err/status), connect to feature
+    // in previous image
+    cv::Point2f next_point = next_points.at(i);
+    
+    if (status.at(i) != 0 && is_in_frame_(next_point, next_image)) {
       // This point succeeded
       // TODO: Check that point hasn't left frame (because apparently 
       // that's a thing?
       Feature previous_feature = previous_features.at(i);
-      cv::Point2f next_point = next_points.at(i);
-      
+
       Feature temp_feature = Feature(
           next_point,
-          previous_feature.descriptor,
+          //previous_feature.descriptor,
           previous_feature.id,
           -1,
           previous_feature.age + 1);
@@ -99,4 +100,15 @@ std::vector<cv::Point2f> DefaultTracker::unpack_feature_vector_(std::vector<Feat
   }
 
   return out_vec;
+}
+
+bool DefaultTracker::is_in_frame_(cv::Point2f point, cv::Mat image)
+{
+  int width = image.cols;
+  int height = image.rows;
+  
+  float x = point.x;
+  float y = point.y;
+
+  return (y >= 0 && x >= 0 && y <= height && x <= width);
 }

@@ -16,9 +16,7 @@ void TrackerParams::config_()
 
 /*
  * This is the parent class for all Trackers.
- * No functions are implemented.
- */
-
+ * No functions are implemented.  */ 
 Tracker::Tracker() 
 {
   params_ = TrackerParams();
