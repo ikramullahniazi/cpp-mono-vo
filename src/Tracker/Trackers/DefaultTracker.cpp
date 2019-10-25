@@ -66,7 +66,7 @@ std::vector<Feature> DefaultTracker::track_features(
   // TODO: TEST THAT THIS PRODUCES THE CORRECT ANSWERS
   std::vector<Feature> out_features = std::vector<Feature>();
 
-  for (int i = 0; i < next_points.size(); i++) {
+  for (size_t i = 0; i < next_points.size(); i++) {
     // If this point passses (check err/status), connect to feature in 
     // previous image
     if (status.at(i) != 0) {

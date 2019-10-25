@@ -86,7 +86,8 @@ bool Pose::set_translation_vector_(cv::Mat translation_vector)
   }
 }
 
-bool Pose::set_transformation_matrix_(cv::Mat rotation_matrix,
+bool Pose::set_transformation_matrix_(
+    cv::Mat rotation_matrix,
     cv::Mat translation_vector)
 {
   cv::Rect R_src_rect = cv::Rect(cv::Point(0,0), cv::Point(3,3));
@@ -101,9 +102,11 @@ bool Pose::set_transformation_matrix_(cv::Mat rotation_matrix,
       T(t_dst_rect));
 
   transformation_matrix_ = T;
+  return true; // TODO: More checking
 }
 
-bool Pose::set_pose(cv::Mat rotation,
+bool Pose::set_pose(
+    cv::Mat rotation,
     cv::Mat translation)
 {
   bool rotation_success, translation_success, transformation_success;
