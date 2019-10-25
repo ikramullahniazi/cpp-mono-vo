@@ -13,7 +13,11 @@ class Feature {
     // Constructors
     // ------------
     Feature();
-    Feature(cv::Point2f raw);
+    Feature(cv::Point2f coords,
+        cv::Mat descriptor,
+        int id,
+        int frame_id,
+        int age);
 
     // ---------
     // Functions
@@ -22,23 +26,11 @@ class Feature {
     // ----
     // Data
     // ----
-    cv::Point2f raw_coords;
-    cv::Mat descriptor;
-    uint64_t id; // unique identifier for this feature
-    uint64_t frame_id; // what frame was this observation from?
-
-  private:
-    // -------------
-    // Owned Objects
-    // -------------
-    
-    // ---------
-    // Functions 
-    // ---------
-    
-    // ----
-    // Data 
-    // ----
+    cv::Point2f coords; // pixel observation 
+    cv::Mat descriptor; // feature descriptor
+    int id; // unique identifier for this feature
+    int frame_id; // what frame was this observation from?
+    int age; // how many frames has this been seen in?
 };
 
 

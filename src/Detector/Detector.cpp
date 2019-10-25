@@ -22,14 +22,14 @@ Detector::Detector(DetectorParams params)
 
 std::vector<Feature> Detector::detect_features(const cv::Mat image)
 {
-  std::vector<Feature> out;
+  std::vector<Feature> out = std::vector<Feature>();
   return out;
 }
 
 std::vector<Feature> Detector::detect_features(const cv::Mat image, 
     const cv::Mat mask)
 {
-  std::vector<Feature> out;
+  std::vector<Feature> out = std::vector<Feature>();
   return out;
 
 }

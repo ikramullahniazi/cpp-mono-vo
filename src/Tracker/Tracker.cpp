@@ -30,11 +30,11 @@ Tracker::Tracker(TrackerParams params)
 }
 
 std::vector<Feature> Tracker::track_features(
-    const std::vector<Feature> previous_features,
+    std::vector<Feature> previous_features,
     const cv::Mat previous_image,
     const cv::Mat next_image)
 {
-  std::vector<Feature> out_vec;
+  std::vector<Feature> out_vec = std::vector<Feature>();
   return out_vec;
 }
 

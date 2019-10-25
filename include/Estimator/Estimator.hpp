@@ -79,19 +79,13 @@ class Estimator {
     // -------------
     std::shared_ptr<Map> map_;
     std::shared_ptr<Camera> camera_;
+    Pose pose_;
 
     EstimatorParams params_;
 
     // ---------
     // Functions
     // ---------
-    void initialize_position_();
-    void initialize_position_(
-        cv::Mat r0,
-        cv::Mat t0);
-    void initialize_position_(
-        Pose pose0);
-
     bool manual_initialization_(
         Frame keyframe_1,
         Frame keyframe_2);
@@ -99,7 +93,6 @@ class Estimator {
     // ----
     // Data
     // ----
-    Pose pose_;
 };
 
 #endif

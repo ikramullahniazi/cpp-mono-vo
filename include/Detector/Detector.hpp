@@ -29,18 +29,6 @@ class DetectorParams {
     // ----
     // Data
     // ----
-  private:
-    // -------------
-    // Owned Objects
-    // -------------
-    
-    // ---------
-    // Functions
-    // ---------
-
-    // ----
-    // Data
-    // ----
 };
 
 /**
@@ -79,7 +67,7 @@ class Detector {
     // ----
     // Data
     // ----
-    uint64_t feature_counter_;
+    int feature_counter_;
 
 };
 

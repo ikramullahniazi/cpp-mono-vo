@@ -13,13 +13,13 @@ void DefaultDetectorParams::config_()
 {
   // Default values taken from
   // https://docs.opencv.org/4.1.0/d2/d1d/samples_2cpp_2lkdemo_8cpp-example.html
-  max_corners_ = 500;
-  quality_level_ = 0.01;
-  min_distance_ = 10;
-  block_size_ = 3;
-  gradient_size_ = 3;
-  use_harris_detector_ = 0;
-  k_ = 0.04;
+  max_corners = 500;
+  quality_level = 0.01;
+  min_distance = 10;
+  block_size = 3;
+  gradient_size = 3;
+  use_harris_detector = 0;
+  k = 0.04;
 }
 
 
@@ -45,7 +45,7 @@ DefaultDetector::DefaultDetector(DefaultDetectorParams params)
 
 std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image)
 {
-  cv::Mat mask;
+  cv::Mat mask = cv::Mat();
   // Run detect_features with an empty mask
   std::vector<Feature> out = detect_features(image, mask);
   return out;
@@ -54,23 +54,28 @@ std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image)
 std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image, 
     const cv::Mat mask)
 {
-  std::vector<cv::Point2f> temp_output;
-  std::vector<Feature> output;
+  std::vector<cv::Point2f> temp_output = std::vector<cv::Point2f>();
   cv::goodFeaturesToTrack(image, temp_output,
-      params_.max_corners_,
-      params_.quality_level_,
-      params_.min_distance_,
+      params_.max_corners,
+      params_.quality_level,
+      params_.min_distance,
       mask,
-      params_.block_size_,
-      params_.gradient_size_,
-      params_.use_harris_detector_,
-      params_.k_);
+      params_.block_size,
+      params_.gradient_size,
+      params_.use_harris_detector,
+      params_.k);
 
   // TODO: Use subpixel optimization
+  std::vector<Feature> output = std::vector<Feature>();
 
   for (cv::Point2f pt : temp_output) {
-    Feature temp_feature(pt);
-    temp_feature.id = feature_counter_++;
+    Feature temp_feature = Feature(
+        pt,
+        cv::Mat(),
+        feature_counter_++,
+        -1,
+        0);
+
     output.push_back(temp_feature);
   }
   
@@ -87,7 +92,7 @@ cv::Mat DefaultDetector::draw_features(const cv::Mat image,
 
   for (Feature f : features) {
     // Color the corresponding pixel red
-    cv::Point2f coords = f.raw_coords;
+    cv::Point2f coords = f.coords;
     int col = (int)coords.x;
     int row = (int)coords.y;
     color_image.at<cv::Vec3b>(row, col)[0] = 0;

@@ -10,13 +10,13 @@ DefaultTrackerParams::DefaultTrackerParams()
 
 void DefaultTrackerParams::config_()
 {
-  win_size_ = cv::Size(21,21);
-  term_criteria_ = 
-    cv::TermCriteria(cv::TermCriteria::COUNT|cv::TermCriteria::EPS,
-        30,
-        0.01);
-  flags_ = cv::OPTFLOW_LK_GET_MIN_EIGENVALS ;
-  min_eig_threshold_ = 0.0001;
+  win_size = cv::Size(21,21);
+  term_criteria = cv::TermCriteria(
+      cv::TermCriteria::COUNT|cv::TermCriteria::EPS,
+      30,
+      0.01);
+  flags = cv::OPTFLOW_LK_GET_MIN_EIGENVALS;
+  min_eig_threshold = 0.0001;
 }
 
 /*
@@ -35,7 +35,7 @@ DefaultTracker::DefaultTracker(DefaultTrackerParams params)
 }
 
 std::vector<Feature> DefaultTracker::track_features(
-    const std::vector<Feature> previous_features,
+    std::vector<Feature> previous_features,
     const cv::Mat previous_image,
     const cv::Mat next_image)
 {
@@ -46,8 +46,8 @@ std::vector<Feature> DefaultTracker::track_features(
 
   // 2. Track
   // TODO: Use subpixel optimization
-  std::vector<cv::Point2f> next_points;
-  std::vector<uint8_t> status;
+  std::vector<cv::Point2f> next_points = std::vector<cv::Point2f>();
+  std::vector<uint8_t> status = std::vector<uint8_t>();
   cv::Mat err;
 
   cv::calcOpticalFlowPyrLK(previous_image,
@@ -56,15 +56,15 @@ std::vector<Feature> DefaultTracker::track_features(
       next_points,
       status, 
       err,
-      params_.win_size_,
-      params_.max_level_,
-      params_.term_criteria_,
-      params_.flags_,
-      params_.min_eig_threshold_);
+      params_.win_size,
+      params_.max_level,
+      params_.term_criteria,
+      params_.flags,
+      params_.min_eig_threshold);
 
   // 3. Create new feature vector of features that tracked successfully
   // TODO: TEST THAT THIS PRODUCES THE CORRECT ANSWERS
-  std::vector<Feature> out_features;
+  std::vector<Feature> out_features = std::vector<Feature>();
 
   for (int i = 0; i < next_points.size(); i++) {
     // If this point passses (check err/status), connect to feature in 
@@ -75,9 +75,14 @@ std::vector<Feature> DefaultTracker::track_features(
       // that's a thing?
       Feature previous_feature = previous_features.at(i);
       cv::Point2f next_point = next_points.at(i);
+      
+      Feature temp_feature = Feature(
+          next_point,
+          previous_feature.descriptor,
+          previous_feature.id,
+          -1,
+          previous_feature.age + 1);
 
-      Feature temp_feature(next_point);
-      temp_feature.id = previous_feature.id;
       out_features.push_back(temp_feature);
     }
   }
@@ -88,17 +93,15 @@ std::vector<Feature> DefaultTracker::track_features(
 
 std::vector<cv::Point2f> DefaultTracker::unpack_feature_vector_(std::vector<Feature> features) 
 {
-  std::vector<cv::Point2f> out_vec;
+  std::vector<cv::Point2f> out_vec = std::vector<cv::Point2f>();
 
   for (Feature f : features) {
-    // Get pixel coords
-    cv::Point2f temp_point = f.raw_coords;
+    cv::Point2f temp_point = f.coords;
 
-    // Add pixel to back of vector (maintains order)
+    // Add pixel to back of vector (maintains order so can reassociate
+    // if needed)
     out_vec.push_back(temp_point);
-
   }
 
   return out_vec;
-
 }

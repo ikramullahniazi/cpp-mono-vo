@@ -51,22 +51,18 @@ int main() {
       camera_matrix,
       distortion_params,
       size);
-  std::cout << "Camera created" << std::endl;
 
   // Create Detector
   std::shared_ptr<DefaultDetector> detector_ptr = std::make_shared<DefaultDetector>();
-  std::cout << "Detector created" << std::endl;
   
   // Create Tracker
   std::shared_ptr<DefaultTracker> tracker_ptr = std::make_shared<DefaultTracker>();
-  std::cout << "Tracker created" << std::endl;
 
   // Create FeatureTracker
   FeatureTracker feature_tracker = FeatureTracker(
       camera_ptr, 
       detector_ptr, 
       tracker_ptr);
-  std::cout << "FeatureTracker created" << std::endl;
 
   // ----------------
   // Backend (no opt)
@@ -74,21 +70,18 @@ int main() {
   
   // Create map
   std::shared_ptr<Map> map_ptr = std::make_shared<Map>();
-  std::cout << "Map created" << std::endl;
 
   // Create Estimator
   Estimator estimator = Estimator();
 
-  std::cout << "Estimator created" << std::endl;
-  
   // Create Optimizer
   // ...
 
   // Now ready to actually process images
 
   // Grab images
-  std::vector<std::string> filenames;
-  std::vector<cv::Mat> images;
+  std::vector<std::string> filenames = std::vector<std::string>();
+  std::vector<cv::Mat> images = std::vector<cv::Mat>();
   std::string path = "../data/*.png";
   cv::glob(path, filenames);
   std::cout << filenames.size() << " images found" << std::endl;
@@ -96,6 +89,7 @@ int main() {
   for (std::string filename : filenames)
   {
     cv::Mat im = cv::imread(filename);
+    cv::cvtColor(im, im, cv::COLOR_BGR2GRAY);
     images.push_back(im);
   }
 

@@ -28,7 +28,8 @@ class FeatureTracker {
   public:
     // Constructor
     // Prefer this one:
-    FeatureTracker(std::shared_ptr<Camera> camera,
+    FeatureTracker(
+        std::shared_ptr<Camera> camera,
         std::shared_ptr<Detector> detector,
         std::shared_ptr<Tracker> tracker);
 
@@ -56,16 +57,20 @@ class FeatureTracker {
     // cur_pts is the features from the most recent image
     // prev_pts is the features from the image before that one
     // new_pts is a workspace for processing detections before adding to system
-    std::vector<Feature> previous_features_, current_features_, new_features_;
+    std::vector<Feature> previous_features_;
+    std::vector<Feature> current_features_;
+    std::vector<Feature> new_features_;
     
     // Current and previous images for tracking
-    cv::Mat previous_image_, current_image_;
-
-    // counter for number of frames processed
-    uint64_t frame_counter_;
+    cv::Mat previous_image_;
+    cv::Mat current_image_;
 
     // Mask for ignoring regions of image
     cv::Mat mask_;
+
+    // counter for number of frames processed
+    int frame_counter_;
+
 };
 
 #endif

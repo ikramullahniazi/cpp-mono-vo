@@ -16,11 +16,11 @@ class DefaultTrackerParams: public TrackerParams {
     void config_();
 
     // Data
-    cv::Size win_size_;
-    int max_level_;
-    cv::TermCriteria term_criteria_;
-    int flags_;
-    double min_eig_threshold_;
+    cv::Size win_size;
+    int max_level;
+    cv::TermCriteria term_criteria;
+    int flags;
+    double min_eig_threshold;
 };
 
 class DefaultTracker: public Tracker {
@@ -29,9 +29,10 @@ class DefaultTracker: public Tracker {
     DefaultTracker(DefaultTrackerParams params);
 
     std::vector<Feature> track_features(
-        const std::vector<Feature> previous_features,
+        std::vector<Feature> previous_features,
         const cv::Mat previous_image,
         const cv::Mat new_image);
+
   private:
     // This contains the parameters to pass to the tracking/matching method.
     DefaultTrackerParams params_;

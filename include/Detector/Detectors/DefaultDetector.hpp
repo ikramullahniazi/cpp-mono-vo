@@ -31,26 +31,13 @@ class DefaultDetectorParams: public DetectorParams {
     // ----
     // Data
     // ----
-    int max_corners_;
-    double quality_level_;
-    double min_distance_;
-    int block_size_;
-    int gradient_size_;
-    bool use_harris_detector_;
-    double k_;
-  private:
-    // -------------
-    // Owned Objects
-    // -------------
-    
-    // ---------
-    // Functions
-    // ---------
-
-    // ----
-    // Data
-    // ----
-
+    int max_corners;
+    double quality_level;
+    double min_distance;
+    int block_size;
+    int gradient_size;
+    bool use_harris_detector;
+    double k;
 };
 
 /*
@@ -69,9 +56,11 @@ class DefaultDetector: public Detector {
     // Functions
     // ---------
     std::vector<Feature> detect_features(const cv::Mat image);
-    std::vector<Feature> detect_features(const cv::Mat image, 
+    std::vector<Feature> detect_features(
+        const cv::Mat image, 
         const cv::Mat mask);
-    cv::Mat draw_features(const cv::Mat image, 
+    cv::Mat draw_features(
+        const cv::Mat image, 
         const std::vector<Feature> features);
 
     // ----
@@ -91,7 +80,7 @@ class DefaultDetector: public Detector {
     // ----
     // Data
     // ----
-    uint64_t feature_counter_;
+    int feature_counter_;
 
 };
 
