@@ -96,9 +96,6 @@ Frame FeatureTracker::process_image(cv::Mat image)
         current_image_,
         image);
 
-    std::cout << "Tracked features: " << new_features_.size() << std::endl;
-    
-
     new_features_ = repopulate_features_(new_features_,image);
 
     previous_features_ = current_features_;
