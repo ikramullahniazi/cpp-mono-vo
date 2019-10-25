@@ -23,7 +23,6 @@ class EstimatorParams {
     // ---------
     // Functions
     // ---------
-    void config_();
 
     // ----
     // Data
@@ -40,6 +39,7 @@ class EstimatorParams {
     // ---------
     // Functions
     // ---------
+    void config_();
 
     // ----
     // Data

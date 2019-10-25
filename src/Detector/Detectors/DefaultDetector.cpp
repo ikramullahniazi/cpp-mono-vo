@@ -83,6 +83,7 @@ std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image,
 
 }
 
+// TODO: Depreciate, move functionality to Frame
 cv::Mat DefaultDetector::draw_features(const cv::Mat image, 
     const std::vector<Feature> features) 
 {

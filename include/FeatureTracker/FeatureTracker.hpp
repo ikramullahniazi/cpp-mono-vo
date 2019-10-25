@@ -24,6 +24,38 @@
 // Including superclass -> use any tracker
 #include "Tracker/Tracker.hpp"
 
+class FeatureTrackerParams {
+  public:
+    // ------------
+    // Constructors
+    // ------------
+    FeatureTrackerParams();
+
+    // ---------
+    // Functions
+    // ---------
+
+    // ----
+    // Data
+    // ----
+    int minimum_features;
+
+  private:
+    // -------------
+    // Owned Objects
+    // -------------
+
+    // ---------
+    // Functions
+    // ---------
+    void config_();
+
+    // ----
+    // Data
+    // ----
+
+};
+
 class FeatureTracker {
   public:
     // Constructor

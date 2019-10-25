@@ -1,6 +1,17 @@
 #include "FeatureTracker.hpp"
 #include <iostream>
 
+FeatureTrackerParams::FeatureTrackerParams()
+{
+  config_();
+}
+
+void FeatureTrackerParams::config_()
+{
+  minimum_features = 500;
+}
+
+
 FeatureTracker::FeatureTracker(
     std::shared_ptr<Camera> camera,
     std::shared_ptr<Detector> detector,

@@ -26,7 +26,6 @@ class DefaultDetectorParams: public DetectorParams {
     // ---------
     // Functions
     // ---------
-    void config_();
 
     // ----
     // Data
@@ -38,6 +37,21 @@ class DefaultDetectorParams: public DetectorParams {
     int gradient_size;
     bool use_harris_detector;
     double k;
+
+  private:
+
+    // -------------
+    // Owned Objects
+    // -------------
+    
+    // ---------
+    // Functions
+    // ---------
+    void config_();
+
+    // ----
+    // Data
+    // ----
 };
 
 /*

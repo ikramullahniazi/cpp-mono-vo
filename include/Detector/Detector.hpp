@@ -24,6 +24,19 @@ class DetectorParams {
     // ---------
     // Functions
     // ---------
+
+    // ----
+    // Data
+    // ----
+
+  private:
+    // -------------
+    // Owned Objects
+    // -------------
+    
+    // ---------
+    // Functions
+    // ---------
     void config_();
 
     // ----
@@ -49,7 +62,6 @@ class Detector {
     virtual std::vector<Feature> detect_features(const cv::Mat image, 
         const cv::Mat mask);
 
-    DetectorParams get_params();
     // ----
     // Data
     // ----
