@@ -26,7 +26,9 @@ std::vector<Feature> Detector::detect_features(const cv::Mat image)
   return out;
 }
 
-std::vector<Feature> Detector::detect_features(const cv::Mat image, 
+std::vector<Feature> Detector::detect_features(
+    const cv::Mat image, 
+    const int num_current_features,
     const cv::Mat mask)
 {
   std::vector<Feature> out = std::vector<Feature>();

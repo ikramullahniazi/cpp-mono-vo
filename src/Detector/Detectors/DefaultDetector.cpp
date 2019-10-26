@@ -45,18 +45,26 @@ DefaultDetector::DefaultDetector(DefaultDetectorParams params)
 
 std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image)
 {
-  cv::Mat mask = cv::Mat();
+  cv::Mat empty_mask = cv::Mat();
+  int zero_int = 0;
   // Run detect_features with an empty mask
-  std::vector<Feature> out = detect_features(image, mask);
+  std::vector<Feature> out = detect_features(
+      image,
+      zero_int,
+      empty_mask);
   return out;
 }
 
-std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image, 
+std::vector<Feature> DefaultDetector::detect_features(
+    const cv::Mat image, 
+    const int num_current_features,
     const cv::Mat mask)
 {
   std::vector<cv::Point2f> temp_output = std::vector<cv::Point2f>();
-  cv::goodFeaturesToTrack(image, temp_output,
-      params_.max_corners,
+  cv::goodFeaturesToTrack(
+      image, 
+      temp_output,
+      params_.max_corners - num_current_features,
       params_.quality_level,
       params_.min_distance,
       mask,
@@ -78,7 +86,7 @@ std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image,
 
     output.push_back(temp_feature);
   }
-  
+
   return output;
 
 }

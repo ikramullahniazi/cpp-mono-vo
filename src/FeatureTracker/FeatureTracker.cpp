@@ -178,14 +178,16 @@ std::vector<Feature> FeatureTracker::repopulate_features_(
     cv::Mat image)
 {
   cv::Mat mask = generate_mask_from_features_(existing_features);
+  int num_features_needed = params_.minimum_features - existing_features.size();
+  
   std::vector<Feature> new_features = detector_->detect_features(
       image,
+      num_features_needed,
       mask);
   
   // Merge vectors
-  int features_needed = params_.minimum_features - existing_features.size();
-
-  for (int i = 0; i < features_needed; i++)
+  // Double check that this isn't necessary
+  for (int i = 0; i < num_features_needed; i++)
   {
     existing_features.push_back(new_features.at(i));
   }

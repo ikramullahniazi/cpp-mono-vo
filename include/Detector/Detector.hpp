@@ -58,8 +58,12 @@ class Detector {
     // ---------
     // Functions
     // ---------
+    // Detect features without constraints
     virtual std::vector<Feature> detect_features(const cv::Mat image);
-    virtual std::vector<Feature> detect_features(const cv::Mat image, 
+    // Detect features in an image that already has features
+    virtual std::vector<Feature> detect_features(
+        const cv::Mat image,
+        const int num_current_features,
         const cv::Mat mask);
 
     // ----
