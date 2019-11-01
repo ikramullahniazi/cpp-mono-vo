@@ -14,6 +14,12 @@
 #include "Utils/Frame.hpp"
 #include "Utils/Pose.hpp"
 
+/*
+ * This object takes in measurements in the form of features
+ * tracked between images and produces state estimates in the
+ * form of camera poses and landmark positions.
+ */
+
 class EstimatorParams {
   public:
     // ------------
@@ -28,8 +34,8 @@ class EstimatorParams {
     // ----
     // Data
     // ----
-    // This determines whether or not the estimator will attempt to initialize
-    // a map.
+    // Indicator for whether or not the estimator needs to run
+    // an initialization process.
     bool manual_initialization;
 
   private:
@@ -40,6 +46,10 @@ class EstimatorParams {
     // ---------
     // Functions
     // ---------
+
+    /*
+     * Initialize the default parameters
+     */
     void config_();
 
     // ----
