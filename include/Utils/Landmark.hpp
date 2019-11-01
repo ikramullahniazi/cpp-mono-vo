@@ -2,6 +2,7 @@
 #define LANDMARK_HPP_INCLUDE
 
 #include <vector>
+#include <map>
 
 #include <opencv2/core.hpp>
 
