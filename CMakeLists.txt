@@ -56,8 +56,15 @@ add_library( ${PROJECT_NAME}
 
 add_executable(${PROJECT_NAME}-demo src/demo.cpp)
 
-# This does not work
 target_link_libraries( ${PROJECT_NAME}-demo
+	${PROJECT_NAME}
+	${OpenCV_LIBRARIES}
+	${GTSAM_LIBRARIES}
+	)
+
+add_executable(testing src/testing.cpp)
+
+target_link_libraries( testing
 	${PROJECT_NAME}
 	${OpenCV_LIBRARIES}
 	${GTSAM_LIBRARIES}
