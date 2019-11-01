@@ -77,3 +77,19 @@ bool Estimator::manual_initialization_(
   return false;
 }
 
+std::vector<Landmark> Estimator::triangulate_points_(
+    Pose pose_1,
+    Pose pose_2,
+    std::vector<Feature> features_1,
+    std::vector<Feature> features_2)
+{
+  // Prep data to feed to cv::triangulatePoints
+  cv::Mat K = camera_->get_intrinsic_params();
+  cv::Mat T_1 = pose_1.get_transformation_matrix();
+  cv::Mat T_2 = pose_2.get_transformation_matrix();
+
+
+
+  std::vector<Landmark> out_vector;
+  return out_vector;
+}

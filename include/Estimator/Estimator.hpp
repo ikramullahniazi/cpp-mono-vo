@@ -9,6 +9,7 @@
 
 #include "Utils/Camera.hpp" // Find a better way than to pass the camera around?
 #include "Utils/Feature.hpp"
+#include "Utils/Landmark.hpp"
 #include "Utils/Map.hpp"
 #include "Utils/Frame.hpp"
 #include "Utils/Pose.hpp"
@@ -89,7 +90,11 @@ class Estimator {
     bool manual_initialization_(
         Frame keyframe_1,
         Frame keyframe_2);
-
+    std::vector<Landmark> triangulate_points_(
+        Pose pose_1,
+        Pose pose_2,
+        std::vector<Feature> features_1,
+        std::vector<Feature> features_2);
     // ----
     // Data
     // ----

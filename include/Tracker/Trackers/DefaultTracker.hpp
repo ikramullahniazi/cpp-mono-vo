@@ -37,9 +37,6 @@ class DefaultTracker: public Tracker {
     // This contains the parameters to pass to the tracking/matching method.
     DefaultTrackerParams params_;
 
-    // Unroll features into vector of 2d points
-    std::vector<cv::Point2f> unpack_feature_vector_(
-        std::vector<Feature> features);
     bool is_in_frame_(cv::Point2f point, cv::Mat image);
 };
 

@@ -21,3 +21,19 @@ Feature::Feature(cv::Point2f coords,
   this->frame_id = frame_id;
   this->age = age;
 }
+
+std::vector<cv::Point2f> unpack_feature_vector(
+    std::vector<Feature> features)
+{
+  std::vector<cv::Point2f> out_vec = std::vector<cv::Point2f>();
+
+  for (Feature f : features) {
+    cv::Point2f temp_point = f.coords;
+
+    // Add pixel to back of vector (maintains order so can reassociate
+    // if needed)
+    out_vec.push_back(temp_point);
+  }
+
+  return out_vec;
+}

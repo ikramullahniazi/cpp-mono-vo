@@ -33,5 +33,8 @@ class Feature {
     int age; // how many frames has this been seen in?
 };
 
+std::vector<cv::Point2f> unpack_feature_vector(
+    std::vector<Feature> features);
+
 
 #endif

@@ -42,7 +42,7 @@ std::vector<Feature> DefaultTracker::track_features(
   // Use PyrLK optical flow to propagate features
 
   // 1. Unroll features into array
-  std::vector<cv::Point2f> previous_points = unpack_feature_vector_(previous_features);
+  std::vector<cv::Point2f> previous_points = unpack_feature_vector(previous_features);
 
   // 2. Track
   // TODO: Use subpixel optimization
@@ -85,21 +85,6 @@ std::vector<Feature> DefaultTracker::track_features(
 
   return out_features;
 
-}
-
-std::vector<cv::Point2f> DefaultTracker::unpack_feature_vector_(std::vector<Feature> features) 
-{
-  std::vector<cv::Point2f> out_vec = std::vector<cv::Point2f>();
-
-  for (Feature f : features) {
-    cv::Point2f temp_point = f.coords;
-
-    // Add pixel to back of vector (maintains order so can reassociate
-    // if needed)
-    out_vec.push_back(temp_point);
-  }
-
-  return out_vec;
 }
 
 bool DefaultTracker::is_in_frame_(cv::Point2f point, cv::Mat image)
