@@ -74,7 +74,7 @@ std::vector<Feature> DefaultTracker::track_features(
 
       Feature temp_feature = Feature(
           next_point,
-          //previous_feature.descriptor,
+          previous_feature.descriptor,
           previous_feature.id,
           -1,
           previous_feature.age + 1);

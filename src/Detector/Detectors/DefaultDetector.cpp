@@ -79,9 +79,9 @@ std::vector<Feature> DefaultDetector::detect_features(
   for (cv::Point2f pt : temp_output) {
     Feature temp_feature = Feature(
         pt,
-        //cv::Mat(),
+        cv::Mat(),
         feature_counter_++,
-        -1,
+        -1, // -1 is used to indicate no frame assigned
         0);
 
     output.push_back(temp_feature);

@@ -127,7 +127,7 @@ std::vector<Landmark> Estimator::triangulate_points_(
         temp_col.at<float>(1,0),
         temp_col.at<float>(2,0));
     // Assign landmark same ID as corresponding features
-    int temp_id = points_1.at(i).id;
+    int temp_id = features_1.at(i).id;
     // Add to out_vector
     Landmark temp_landmark = Landmark(
         temp_id,
