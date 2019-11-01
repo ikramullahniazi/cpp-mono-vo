@@ -2,8 +2,11 @@
 #define FEATURE_TRACKER_HPP_INCLUDE
 
 /*
- * This class tracks features from a previous frame into the current frame.
- * If needed, it also detects new features to maintain a minimum number.
+ * This class is part of the front end of a visual odometry system.
+ * It takes in images and extracts measurements in the form of
+ * features tracked from image to image.
+ * If needed, it also detects new features to maintain a minimum
+ * number.
  */
 
 #include <vector>
@@ -12,7 +15,6 @@
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp> // for color map conversions, goodFeaturesToTrack
-#include <opencv2/video.hpp> // for optical flow
 
 #include "Utils/Camera.hpp"
 #include "Utils/Feature.hpp"

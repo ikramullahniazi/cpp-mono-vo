@@ -77,10 +77,9 @@ Frame FeatureTracker::process_image(cv::Mat image)
 
     // Generate frame 0
     Frame first_frame = Frame();
-    first_frame.set_image(current_image_);
-    first_frame.set_features(current_features_);
-    first_frame.set_is_processed(false);
-    first_frame.set_frame_id(frame_counter_++);
+    first_frame.features = current_features_;
+    first_frame.is_processed = false;
+    first_frame.frame_id = frame_counter_++;
 
     return first_frame;
   } 
@@ -105,10 +104,9 @@ Frame FeatureTracker::process_image(cv::Mat image)
     current_image_ = image;
 
     Frame next_frame = Frame();
-    next_frame.set_image(current_image_);
-    next_frame.set_features(current_features_);
-    next_frame.set_is_processed(false);
-    next_frame.set_frame_id(frame_counter_++);
+    next_frame.features = current_features_;
+    next_frame.is_processed = false;
+    next_frame.frame_id = frame_counter_++;
 
     return next_frame;
   }
@@ -132,7 +130,7 @@ void FeatureTracker::set_tracker(std::shared_ptr<Tracker> tracker)
 cv::Mat FeatureTracker::generate_mask_from_features_(
     std::vector<Feature> features)
 {
-  cv::Mat mask = cv::Mat::ones(camera_->get_size(), CV_8UC1);
+  cv::Mat mask = cv::Mat::ones(camera_->size, CV_8UC1);
 
   for (Feature f : features) {
     cv::Point2f coords = f.coords;
@@ -162,9 +160,11 @@ std::vector<Feature> FeatureTracker::track_features_(
   return out_vector;
 }
 
-std::vector<Feature> FeatureTracker::detect_features_(cv::Mat new_image)
+std::vector<Feature> FeatureTracker::detect_features_(
+    cv::Mat new_image)
 {
-  std::vector<Feature> out_vector = detector_->detect_features(new_image);
+  std::vector<Feature> out_vector = detector_->detect_features(
+      new_image);
 
   for (Feature &feature : out_vector) {
     feature.frame_id = frame_counter_;
@@ -179,6 +179,11 @@ std::vector<Feature> FeatureTracker::repopulate_features_(
 {
   cv::Mat mask = generate_mask_from_features_(existing_features);
   int num_features_needed = params_.minimum_features - existing_features.size();
+
+  if (num_features_needed < 0)
+  {
+    num_features_needed = 0;
+  }
   
   std::vector<Feature> new_features = detector_->detect_features(
       image,
@@ -186,7 +191,6 @@ std::vector<Feature> FeatureTracker::repopulate_features_(
       mask);
   
   // Merge vectors
-  // Double check that this isn't necessary
   for (int i = 0; i < num_features_needed; i++)
   {
     existing_features.push_back(new_features.at(i));

@@ -15,10 +15,23 @@
 #include "Utils/Pose.hpp"
 
 /*
- * This object takes in measurements in the form of features
- * tracked between images and produces state estimates in the
- * form of camera poses and landmark positions.
+ * This object is part of the front end of a visual odometry system.
+ * It takes in measurements in the form of features tracked 
+ * between images and produces state estimates in the form of 
+ * camera poses and landmark positions.
+ *
+ * For now, the poses produced will be relative to a reference
+ * keyframe, so that all keyframes before that one can be 
+ * optimized without complicating this module. 
+ * Ideally, in the future a small map will be maintained here
+ * that can be integrated piece by piece into the larger map.
+ *
+ * Functionality needed:
+ *  * PnP localization relative to a previous keyframe
+ *  * Triangulation of new points when a new keyframe is added
+ *  * Passing of replaced keyframe to a map
  */
+
 
 class EstimatorParams {
   public:
@@ -88,9 +101,10 @@ class Estimator {
     // -------------
     // Owned Objects
     // -------------
+    // Keep a pointer to the global map to make passing keyframes 
+    // around easier.
     std::shared_ptr<Map> map_;
     std::shared_ptr<Camera> camera_;
-    Pose pose_;
 
     EstimatorParams params_;
 

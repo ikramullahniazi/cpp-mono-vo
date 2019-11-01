@@ -34,3 +34,5 @@ An Odometry/SLAM system consists of the following components:
 * Optimizer: An object which optimizes a sequence of estimates from the Estimator
 
 An Optimizer is optional, while the others make up the minimum configuration for motion calculation.
+
+

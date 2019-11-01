@@ -31,8 +31,10 @@ class Landmark {
     // ----
     // Data
     // ----
+
     // Unique ID
     int id;
+
     // Location relative to origin of map
     cv::Point3f location;
 

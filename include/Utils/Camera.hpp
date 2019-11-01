@@ -12,44 +12,33 @@ class Camera {
     // Constructors
     // ------------
     Camera();
-    Camera(cv::Mat K, cv::Mat dist, cv::Size size);
+    Camera(
+        cv::Mat K, 
+        cv::Mat dist, 
+        cv::Size size);
 
     // ---------
     // Functions
     // ---------
-    std::vector<cv::Point2f> normalize_points(std::vector<cv::Point2f> pixel_coords);
-    std::vector<cv::Point2f> project_points(std::vector<cv::Point3f> world_points);
-    // Getters
-    cv::Mat get_intrinsic_params();
-    cv::Mat get_distortion_coeffs();
-    cv::Size get_size();
+    std::vector<cv::Point2f> normalize_points(
+        std::vector<cv::Point2f> pixel_coords);
 
-    // Setters
+    std::vector<cv::Point2f> project_points(
+        std::vector<cv::Point3f> world_points);
     
     // ----
     // Data
     // ----
-
-  private:
-    // -------------
-    // Owned Objects
-    // -------------
-
-    // ---------
-    // Functions
-    // ---------
-
-    // ----
-    // Data
-    // ----
     // Intrinsic Matrix (3x3)
-    cv::Mat intrinsic_params_;
+    cv::Mat K;
 
     // Distortion Coefficients (1x5)
-    cv::Mat distortion_coeffs_;
+    cv::Mat D;
 
     // Image size (width, height)
-    cv::Size size_;
+    cv::Size size;
+
+  private:
 };
 
 #endif

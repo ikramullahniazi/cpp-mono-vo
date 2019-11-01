@@ -44,7 +44,6 @@ Estimator::Estimator()
 {
   camera_ = nullptr;
   map_ = nullptr;
-  pose_ = Pose();
 }
 
 Estimator::Estimator(
@@ -53,7 +52,6 @@ Estimator::Estimator(
 {
   camera_ = camera;
   map_ = map;
-  pose_ = Pose();
 }
 
 // ---------
@@ -86,12 +84,16 @@ std::vector<Landmark> Estimator::triangulate_points_(
   // HUGE ASSUMPTION: features_1[i] matches to features_2[i]
 
   // Prep data to feed to cv::triangulatePoints
-  cv::Mat K = camera_->get_intrinsic_params();
+  cv::Mat K = camera_->K;
 
-  cv::Mat T_1 = pose_1.get_transformation_matrix();
+  cv::Mat T_1 = form_transformation_matrix(
+      pose_1.R,
+      pose_1.t);
   cv::Mat P_1 = K * T_1(cv::Rect(0,0, 4,3));
 
-  cv::Mat T_2 = pose_2.get_transformation_matrix();
+  cv::Mat T_2 = form_transformation_matrix(
+      pose_2.R,
+      pose_2.t);
   cv::Mat P_2 = K * T_2(cv::Rect(0,0, 4,3));
 
   std::vector<cv::Point2f> points_1 = unpack_feature_vector(

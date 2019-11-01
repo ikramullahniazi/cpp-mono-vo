@@ -8,7 +8,10 @@
 #include "Utils/Pose.hpp"
 
 /*
- * 
+ * Modelled after ORB-SLAM keyframes, which store
+ *  * T_iw which transform points from into the camera frame
+ *  * Camera intrinsics
+ *  * All features detected in the frame
  */
 
 class Frame {
@@ -17,7 +20,7 @@ class Frame {
     // Constructors
     // ------------
     Frame();
-    Frame(cv::Mat image,
+    Frame(
         std::vector<Feature> features,
         Pose pose,
         int frame_id,
@@ -27,53 +30,27 @@ class Frame {
     // ---------
     // Functions
     // ---------
-    // Getters
-    bool get_is_keyframe();
-    bool get_is_processed();
-    cv::Mat get_image();
-    std::vector<Feature> get_features();
-    Pose get_pose();
-
-    // Setters
-    void set_is_keyframe(bool is_keyframe);
-    void set_is_processed(bool is_processed);
-    void set_image(cv::Mat image);
-    void set_features(std::vector<Feature> features);
-    void set_pose(Pose pose);
-    void set_frame_id(int id);
 
     // ----
     // Data
     // ----
-
-  private:
-    // -------------
-    // Owned Objects
-    // -------------
-
-    // ---------
-    // Functions
-    // ---------
-
-    // ----
-    // Data
-    // ----
-    cv::Mat image_;
 
     // Feature observations in this image
-    std::vector<Feature> features_;
+    std::vector<Feature> features;
 
     // Pose of the camera when this image was taken
-    Pose pose_;
+    Pose pose;
 
     // Whether or not this is a keyframe
-    bool is_keyframe_;
+    bool is_keyframe;
     
     // Whether or not the estimator has processed the frame
-    bool is_processed_;
+    bool is_processed;
 
     // 
-    int frame_id_;
+    int frame_id;
+
+  private:
 };
 
 #endif
