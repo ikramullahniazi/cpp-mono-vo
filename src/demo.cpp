@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <chrono>
 
 int main() {
@@ -73,7 +74,11 @@ int main() {
   std::shared_ptr<Map> map_ptr = std::make_shared<Map>();
 
   // Create Estimator
-  Estimator estimator = Estimator();
+  EstimatorParams estimator_params;
+  Estimator estimator = Estimator(
+      camera_ptr,
+      map_ptr,
+      estimator_params);
 
   // Create Optimizer
   // ...
@@ -81,26 +86,44 @@ int main() {
   // Now ready to actually process images
 
   // Grab images
-  std::vector<std::string> filenames = std::vector<std::string>();
-  std::vector<cv::Mat> images = std::vector<cv::Mat>();
+  std::vector<std::string> filenames;
+  std::queue<cv::Mat> images;
   std::string path = "../data/*.png";
   cv::glob(path, filenames);
-  std::cout << filenames.size() << " images found" << std::endl;
 
   for (std::string filename : filenames)
   {
     cv::Mat im = cv::imread(filename);
     cv::cvtColor(im, im, cv::COLOR_BGR2GRAY);
-    images.push_back(im);
+    images.push(im);
   }
 
   // Initialize map from first two images
   // ...
   
-  for (cv::Mat image : images)
+  cv::Mat image_1 = images.front();
+  Frame frame_1 = feature_tracker.process_image(image_1);
+  images.pop();
+  // Skip second image
+  images.pop();
+
+  cv::Mat image_3 = images.front();
+  Frame frame_3 = feature_tracker.process_image(image_3);
+  images.pop();
+
+  estimator.manual_initialization(
+      frame_1,
+      frame_3);
+
+  // Initialize from frame 1 and 3
+  // ...
+  
+  // Run for rest of images
+  while (!images.empty())
   {
-    Frame current_frame = feature_tracker.process_image(image);
-    std::cout << "processed image" << std::endl;
+    Frame current_frame = feature_tracker.process_image(images.front());
+    current_frame = estimator.process_frame(current_frame);
+    images.pop();
   }
   
   return 0;

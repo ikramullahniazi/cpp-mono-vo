@@ -19,12 +19,12 @@ int main() {
   // Create detector
   DefaultDetector det;
 
-  std::vector<Feature> detections = det.detect_features(image_mono);
+  feature_map_t detections = det.detect_features(image_mono);
 
-  cv::Mat output_image = det.draw_features(image_mono, detections);
+  //cv::Mat output_image = det.draw_features(image_mono, detections);
 
-  cv::imshow("Detections", output_image);
-  cv::waitKey(0);
+  //cv::imshow("Detections", output_image);
+  //cv::waitKey(0);
 
   return 0;
 }

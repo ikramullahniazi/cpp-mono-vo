@@ -28,8 +28,8 @@ class DefaultTracker: public Tracker {
     DefaultTracker();
     DefaultTracker(DefaultTrackerParams params);
 
-    std::vector<Feature> track_features(
-        std::vector<Feature> previous_features,
+    feature_map_t track_features(
+        feature_map_t previous_features,
         const cv::Mat previous_image,
         const cv::Mat new_image);
 

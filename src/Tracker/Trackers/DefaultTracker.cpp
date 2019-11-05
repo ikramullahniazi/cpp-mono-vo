@@ -34,15 +34,16 @@ DefaultTracker::DefaultTracker(DefaultTrackerParams params)
   params_ = params;
 }
 
-std::vector<Feature> DefaultTracker::track_features(
-    std::vector<Feature> previous_features,
+feature_map_t DefaultTracker::track_features(
+    feature_map_t previous_features,
     const cv::Mat previous_image,
     const cv::Mat next_image)
 {
   // Use PyrLK optical flow to propagate features
 
   // 1. Unroll features into array
-  std::vector<cv::Point2f> previous_points = unpack_feature_vector(previous_features);
+  FeatureMapAsVectors previous_map = unpack_feature_map(previous_features);
+  std::vector<cv::Point2f> previous_points = previous_map.coords;
 
   // 2. Track
   // TODO: Use subpixel optimization
@@ -57,9 +58,8 @@ std::vector<Feature> DefaultTracker::track_features(
       status, 
       err);
 
-  // 3. Create new feature vector of features that tracked successfully
-  // TODO: TEST THAT THIS PRODUCES THE CORRECT ANSWERS
-  std::vector<Feature> out_features = std::vector<Feature>();
+  // 3. Create new feature map of features that tracked successfully
+  feature_map_t out_features;
 
   for (size_t i = 0; i < next_points.size(); i++) {
     // If this point passses (check err/status), connect to feature
@@ -70,16 +70,15 @@ std::vector<Feature> DefaultTracker::track_features(
       // This point succeeded
       // TODO: Check that point hasn't left frame (because apparently 
       // that's a thing?
-      Feature previous_feature = previous_features.at(i);
 
       Feature temp_feature = Feature(
           next_point,
-          previous_feature.descriptor,
-          previous_feature.id,
+          previous_map.descriptors.at(i),
+          previous_map.ids.at(i),
           -1,
-          previous_feature.age + 1);
+          previous_map.ages.at(i) + 1);
 
-      out_features.push_back(temp_feature);
+      out_features.insert({temp_feature.id, temp_feature});
     }
   }
 

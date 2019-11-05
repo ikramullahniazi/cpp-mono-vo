@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <tuple>
 #include <opencv2/core.hpp>
 
 // This is a data class to store detected 2d features in an image
@@ -37,8 +38,16 @@ class Feature {
 // Structure to map feature ID to feature object
 typedef std::map<int, Feature> feature_map_t;
 
-std::vector<cv::Point2f> unpack_feature_vector(
-    std::vector<Feature> features);
+// I hate this struct.
+typedef struct FeatureMapAsVectors {
+  std::vector<cv::Mat> descriptors;
+  std::vector<cv::Point2f> coords;
+  std::vector<int> ids;
+  std::vector<int> frame_ids;
+  std::vector<int> ages;
+} FeatureMapAsVectors;
+
+FeatureMapAsVectors unpack_feature_map(feature_map_t features);
 
 
 #endif

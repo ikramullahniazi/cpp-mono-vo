@@ -22,9 +22,9 @@ FeatureTracker::FeatureTracker(
   params_ = FeatureTrackerParams();
 
 
-  previous_features_ = std::vector<Feature>();
-  current_features_ = std::vector<Feature>();
-  new_features_ = std::vector<Feature>();
+  previous_features_ = feature_map_t();
+  current_features_ = feature_map_t();
+  new_features_ = feature_map_t();
 
   previous_image_ = cv::Mat();
   current_image_ = cv::Mat();
@@ -46,9 +46,9 @@ FeatureTracker::FeatureTracker(
   params_ = params;
 
 
-  previous_features_ = std::vector<Feature>();
-  current_features_ = std::vector<Feature>();
-  new_features_ = std::vector<Feature>();
+  previous_features_ = feature_map_t();
+  current_features_ = feature_map_t();
+  new_features_ = feature_map_t();
 
   previous_image_ = cv::Mat();
   current_image_ = cv::Mat();
@@ -107,7 +107,7 @@ Frame FeatureTracker::process_image(cv::Mat image)
     next_frame.features = current_features_;
     next_frame.is_processed = false;
     next_frame.frame_id = frame_counter_++;
-
+    
     return next_frame;
   }
 }
@@ -128,12 +128,12 @@ void FeatureTracker::set_tracker(std::shared_ptr<Tracker> tracker)
 }
 
 cv::Mat FeatureTracker::generate_mask_from_features_(
-    std::vector<Feature> features)
+    feature_map_t features)
 {
   cv::Mat mask = cv::Mat::ones(camera_->size, CV_8UC1);
 
-  for (Feature f : features) {
-    cv::Point2f coords = f.coords;
+  for (auto const& f : features) {
+    cv::Point2f coords = f.second.coords;
     int col = coords.x;
     int row = coords.y;
     mask.at<uint8_t>(row, col) = 0;
@@ -142,39 +142,39 @@ cv::Mat FeatureTracker::generate_mask_from_features_(
   return mask;
 }
 
-std::vector<Feature> FeatureTracker::track_features_(
-    std::vector<Feature> current_features,
+feature_map_t FeatureTracker::track_features_(
+    feature_map_t current_features,
     cv::Mat current_image,
     cv::Mat new_image)
 {
-  std::vector<Feature> out_vector = tracker_->track_features(
+  feature_map_t out_map = tracker_->track_features(
       current_features,
       current_image,
       new_image);
 
-  for (Feature &feature : out_vector) 
+  for (auto &f : out_map) 
   {
-    feature.frame_id = frame_counter_;
+    f.second.frame_id = frame_counter_;
   }
 
-  return out_vector;
+  return out_map;
 }
 
-std::vector<Feature> FeatureTracker::detect_features_(
+feature_map_t FeatureTracker::detect_features_(
     cv::Mat new_image)
 {
-  std::vector<Feature> out_vector = detector_->detect_features(
+  feature_map_t out_map = detector_->detect_features(
       new_image);
 
-  for (Feature &feature : out_vector) {
-    feature.frame_id = frame_counter_;
+  for (auto &f : out_map) {
+    f.second.frame_id = frame_counter_;
   }
 
-  return out_vector;
+  return out_map;
 }
 
-std::vector<Feature> FeatureTracker::repopulate_features_(
-    std::vector<Feature> existing_features,
+feature_map_t FeatureTracker::repopulate_features_(
+    feature_map_t existing_features,
     cv::Mat image)
 {
   cv::Mat mask = generate_mask_from_features_(existing_features);
@@ -185,16 +185,13 @@ std::vector<Feature> FeatureTracker::repopulate_features_(
     num_features_needed = 0;
   }
   
-  std::vector<Feature> new_features = detector_->detect_features(
+  feature_map_t new_features = detector_->detect_features(
       image,
       num_features_needed,
       mask);
   
-  // Merge vectors
-  for (int i = 0; i < num_features_needed; i++)
-  {
-    existing_features.push_back(new_features.at(i));
-  }
+  // Merge maps
+  existing_features.insert(new_features.begin(), new_features.end());
 
   return existing_features;
 }

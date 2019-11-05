@@ -27,13 +27,13 @@ Tracker::Tracker(TrackerParams params)
   params_ = params;
 }
 
-std::vector<Feature> Tracker::track_features(
-    std::vector<Feature> previous_features,
+feature_map_t Tracker::track_features(
+    feature_map_t previous_features,
     const cv::Mat previous_image,
     const cv::Mat next_image)
 {
-  std::vector<Feature> out_vec = std::vector<Feature>();
-  return out_vec;
+  feature_map_t output;
+  return output;
 }
 
 TrackerParams Tracker::get_params()

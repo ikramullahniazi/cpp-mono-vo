@@ -1,13 +1,12 @@
 #ifndef ESTIMATOR_HPP_INCLUDE
 #define ESTIMATOR_HPP_INCLUDE
-
 #include <vector>
 #include <iostream>
 
 #include <opencv2/core.hpp>
 #include <opencv2/calib3d.hpp> // For essential matrix/pnp/etc
 
-#include "Utils/Camera.hpp" // Find a better way than to pass the camera around?
+#include "Utils/Camera.hpp"
 #include "Utils/Feature.hpp"
 #include "Utils/Landmark.hpp"
 #include "Utils/Map.hpp"
@@ -47,9 +46,11 @@ class EstimatorParams {
     // ----
     // Data
     // ----
-    // Indicator for whether or not the estimator needs to run
-    // an initialization process.
-    bool manual_initialization;
+    //
+    // Params for findEssentialMat:
+    int method;
+    double prob;
+    double threshold;
 
   private:
     // -------------
@@ -80,7 +81,8 @@ class Estimator {
     Estimator();
     Estimator(
         std::shared_ptr<Camera> camera,
-        std::shared_ptr<Map> map);
+        std::shared_ptr<Map> map,
+        EstimatorParams params);
 
     // ---------
     // Functions
@@ -90,6 +92,10 @@ class Estimator {
     // * If map is initialized
     // * If a new keyframe is needed
     Frame process_frame(Frame frame);
+
+    bool manual_initialization(
+        Frame frame_1,
+        Frame frame_2);
     
     Pose get_pose();
 
@@ -111,17 +117,15 @@ class Estimator {
     // ---------
     // Functions
     // ---------
-    bool manual_initialization_(
-        Frame keyframe_1,
-        Frame keyframe_2);
-    std::vector<Landmark> triangulate_points_(
+    landmark_map_t triangulate_points_(
         Pose pose_1,
         Pose pose_2,
-        std::vector<Feature> features_1,
-        std::vector<Feature> features_2);
+        feature_map_t features_1,
+        feature_map_t features_2);
     // ----
     // Data
     // ----
+    bool is_initialized_;
 };
 
 #endif

@@ -21,7 +21,7 @@ class Frame {
     // ------------
     Frame();
     Frame(
-        std::vector<Feature> features,
+        feature_map_t features,
         Pose pose,
         int frame_id,
         bool is_keyframe,
@@ -36,7 +36,7 @@ class Frame {
     // ----
 
     // Feature observations in this image
-    std::vector<Feature> features;
+    feature_map_t features;
 
     // Pose of the camera when this image was taken
     Pose pose;

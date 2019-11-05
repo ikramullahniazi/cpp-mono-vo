@@ -22,18 +22,38 @@ Feature::Feature(cv::Point2f coords,
   this->age = age;
 }
 
-std::vector<cv::Point2f> unpack_feature_vector(
-    std::vector<Feature> features)
+// TODO: Expand to extract ALL information from a map
+// ex Descriptors, ids, etc
+FeatureMapAsVectors unpack_feature_map(
+    feature_map_t features)
 {
-  std::vector<cv::Point2f> out_vec = std::vector<cv::Point2f>();
 
-  for (Feature f : features) {
-    cv::Point2f temp_point = f.coords;
+  FeatureMapAsVectors out_struct;
 
-    // Add pixel to back of vector (maintains order so can reassociate
-    // if needed)
-    out_vec.push_back(temp_point);
+  std::vector<cv::Mat> descriptors;
+  std::vector<cv::Point2f> coords;
+  std::vector<int> ids;
+  std::vector<int> frame_ids;
+  std::vector<int> ages;
+
+  for (auto const& f : features) 
+  {
+    int temp_id = f.first;
+    Feature temp_feature = f.second;
+
+    coords.push_back(temp_feature.coords);
+    descriptors.push_back(temp_feature.descriptor);
+    ids.push_back(temp_feature.id);
+    frame_ids.push_back(temp_feature.frame_id);
+    ages.push_back(temp_feature.age);
+
   }
 
-  return out_vec;
+  out_struct.descriptors = descriptors;
+  out_struct.coords = coords;
+  out_struct.ids = ids;
+  out_struct.frame_ids = frame_ids;
+  out_struct.ages = ages;
+
+  return out_struct;
 }

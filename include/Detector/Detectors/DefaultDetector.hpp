@@ -69,16 +69,12 @@ class DefaultDetector: public Detector {
     // ---------
     // Functions
     // ---------
-    std::vector<Feature> detect_features(const cv::Mat image);
+    feature_map_t detect_features(const cv::Mat image);
 
-    std::vector<Feature> detect_features(
+    feature_map_t detect_features(
         const cv::Mat image, 
         const int num_current_features,
         const cv::Mat mask);
-
-    cv::Mat draw_features(
-        const cv::Mat image, 
-        const std::vector<Feature> features);
 
     // ----
     // Data

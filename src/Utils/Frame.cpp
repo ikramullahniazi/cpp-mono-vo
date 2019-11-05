@@ -10,7 +10,7 @@ Frame::Frame()
 }
 
 Frame::Frame(
-    std::vector<Feature> features,
+    feature_map_t features,
     Pose pose,
     int frame_id,
     bool is_keyframe,

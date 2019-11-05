@@ -1,7 +1,8 @@
 #include "Detector/Detectors/DefaultDetector.hpp"
 
 /*
- * This is the parameters class for the default detector implementation
+ * This is the parameters class for the default 
+ * detector implementation
  */
 
 DefaultDetectorParams::DefaultDetectorParams()
@@ -22,11 +23,9 @@ void DefaultDetectorParams::config_()
   k = 0.04;
 }
 
-
-
-
 /*
- * This is the default (reference) implementation of a feature detector.
+ * This is the default (reference) implementation of a 
+ * feature detector.
  * It uses goodFeaturesToTrack to detect corners.
  */
 
@@ -37,24 +36,25 @@ DefaultDetector::DefaultDetector()
   feature_counter_ = 0;
 }
 
-// Overloading constructor to require specifically DefaultDetectorParams object.
+// Overloading constructor to require specifically 
+// DefaultDetectorParams object.
 DefaultDetector::DefaultDetector(DefaultDetectorParams params)
 {
   params_ = params;
 }
 
-std::vector<Feature> DefaultDetector::detect_features(const cv::Mat image)
+feature_map_t DefaultDetector::detect_features(const cv::Mat image)
 {
   cv::Mat empty_mask = cv::Mat();
   // Run detect_features with an empty mask
-  std::vector<Feature> out = detect_features(
+  feature_map_t out = detect_features(
       image,
       params_.max_corners,
       empty_mask);
   return out;
 }
 
-std::vector<Feature> DefaultDetector::detect_features(
+feature_map_t DefaultDetector::detect_features(
     const cv::Mat image, 
     const int num_features_needed,
     const cv::Mat mask)
@@ -73,40 +73,20 @@ std::vector<Feature> DefaultDetector::detect_features(
       params_.k);
 
   // TODO: Use subpixel optimization
-  std::vector<Feature> output = std::vector<Feature>();
+  feature_map_t output;
 
   for (cv::Point2f pt : temp_output) {
     Feature temp_feature = Feature(
         pt,
         cv::Mat(),
-        feature_counter_++,
+        feature_counter_,
         -1, // -1 is used to indicate no frame assigned
         0);
 
-    output.push_back(temp_feature);
+    output.insert({feature_counter_, temp_feature});
+    feature_counter_++;
   }
 
   return output;
 
-}
-
-// TODO: Depreciate, move functionality to Frame
-cv::Mat DefaultDetector::draw_features(const cv::Mat image, 
-    const std::vector<Feature> features) 
-{
-  // Simply draw features as red dots
-  cv::Mat color_image;
-  cv::cvtColor(image, color_image, cv::COLOR_GRAY2BGR);
-
-  for (Feature f : features) {
-    // Color the corresponding pixel red
-    cv::Point2f coords = f.coords;
-    int col = (int)coords.x;
-    int row = (int)coords.y;
-    color_image.at<cv::Vec3b>(row, col)[0] = 0;
-    color_image.at<cv::Vec3b>(row, col)[1] = 0;
-    color_image.at<cv::Vec3b>(row, col)[2] = 255;
-  }
-
-  return color_image;
 }
