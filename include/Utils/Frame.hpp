@@ -53,4 +53,6 @@ class Frame {
   private:
 };
 
+typedef std::map<int, Frame> frame_map_t;
+
 #endif

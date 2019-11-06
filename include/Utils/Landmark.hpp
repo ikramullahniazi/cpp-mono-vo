@@ -45,6 +45,8 @@ class Landmark {
 // Map landmark ID to landmark object
 typedef std::map<int, Landmark> landmark_map_t;
 
+landmark_map_t filter_by_ids(std::vector<int> ids);
+
 std::vector<cv::Point3f> unpack_landmark_vector(
     std::vector<Landmark> landmarks);
 

@@ -15,8 +15,8 @@ class Map {
     // ------------
     Map();
     Map(
-        std::vector<Landmark> landmarks,
-        std::vector<Frame> keyframes);
+        landmark_map_t landmarks,
+        landmark_map_t frames);
 
     // ---------
     // Functions
@@ -25,12 +25,12 @@ class Map {
     bool insert_landmark(Landmark landmark);
 
     // Getters
-    std::vector<Landmark> get_landmarks();
-    std::vector<Frame> get_keyframes();
+    landmark_map_t get_landmarks();
+    frame_map_t get_frames();
 
     // Setters
-    void set_landmarks(std::vector<Landmark> landmarks);
-    void set_keyframes(std::vector<Frame> keyframes);
+    void set_landmarks(landmark_map_t landmarks);
+    void set_frames(frame_map_t frames);
 
     // ----
     // Data
@@ -48,8 +48,8 @@ class Map {
     // ----
     // Data
     // ----
-    std::vector<Landmark> landmarks_;
-    std::vector<Frame> keyframes_;
+    landmark_map_t landmarks_;
+    frame_map_t frames_;
 
 };
 

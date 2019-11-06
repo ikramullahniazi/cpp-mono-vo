@@ -5,11 +5,12 @@ Map::Map()
 
 }
 
-Map::Map(std::vector<Landmark> landmarks,
-    std::vector<Frame> keyframes)
+Map::Map(
+    landmark_map_t landmarks,
+    frame_map_t frames)
 {
   landmarks_ = landmarks;
-  keyframes_ = keyframes;
+  frames_ = frames;
 }
 
 bool Map::insert_frame(Frame frame)
@@ -22,23 +23,23 @@ bool Map::insert_landmark(Landmark landmark)
   return false;
 }
 
-std::vector<Landmark> Map::get_landmarks()
+landmark_map_t Map::get_landmarks()
 {
   return landmarks_;
 }
 
-std::vector<Frame> Map::get_keyframes()
+frame_map_t Map::get_frames()
 {
-  return keyframes_;
+  return frames_;
 }
 
-void Map::set_landmarks(std::vector<Landmark> landmarks)
+void Map::set_landmarks(landmark_map_t landmarks)
 {
   landmarks_ = landmarks;
 }
 
-void Map::set_keyframes(std::vector<Frame> keyframes)
+void Map::set_frames(frame_map_t frames)
 {
-  keyframes_ = keyframes;
+  frames_ = frames;
 }
 
