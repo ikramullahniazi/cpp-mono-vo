@@ -78,3 +78,24 @@ void Map::set_frames(frame_map_t frames)
   frames_ = frames;
 }
 
+std::pair<feature_map_t, landmark_map_t> Map::filter_by_features(
+    feature_map_t features)
+{
+  feature_map_t out_features;
+  landmark_map_t out_landmarks;
+
+  for (auto const& f : features)
+  {
+    int id = f.first;
+    if (contains_landmark(id))
+    {
+      out_features.insert({id, f.second});
+      out_landmarks.insert({id, get_landmark(id)});
+    }
+  }
+  
+  std::pair<feature_map_t, landmark_map_t> out_pair = 
+    std::make_pair(out_features, out_landmarks);
+  
+  return out_pair;
+}

@@ -6,6 +6,7 @@
 #include <opencv2/core.hpp> 
 
 #include "Utils/Landmark.hpp"
+#include "Utils/Feature.hpp"
 #include "Utils/Frame.hpp"
 
 class Map {
@@ -34,6 +35,9 @@ class Map {
 
     void set_landmarks(landmark_map_t landmarks);
     void set_frames(frame_map_t frames);
+
+    std::pair<feature_map_t, landmark_map_t> filter_by_features(
+        feature_map_t features);
 
     // ----
     // Data

@@ -70,6 +70,7 @@ Frame Estimator::process_frame(
 {
 
 
+
   return current_frame;
 }
 
@@ -118,6 +119,10 @@ bool Estimator::manual_initialization(
 
   cv::Mat R, rvec, t;
 
+  // Note:
+  // Avoid using recoverPose to triangulate points.
+  // It gives SIGNIFICANTLY worse resulting landmarks than triangulatePoints
+  // despite using the same (?) underlying functions.
   cv::recoverPose(
       E,
       pts_1,
@@ -136,11 +141,21 @@ bool Estimator::manual_initialization(
       matched_points.first,
       matched_points.second);
 
-
   frame_1.pose = pose_1;
+  frame_1.is_keyframe = true;
+  frame_1.is_processed = true;
+
   frame_2.pose = pose_2;
+  frame_2.is_keyframe = true;
+  frame_2.is_processed = true;
 
+  map_->insert_frame(frame_1);
+  map_->insert_frame(frame_2);
 
+  for (auto const& f : landmarks)
+  {
+    map_->insert_landmark(f.second);
+  }
 
   bool success = false;
   is_initialized_ = success;
@@ -155,6 +170,7 @@ landmark_map_t Estimator::triangulate_points_(
 {
   // Prep data to feed to cv::triangulatePoints
   cv::Mat K = camera_->K;
+  cv::Size size = camera_->size;
 
   cv::Mat T_1 = form_transformation_matrix(
       pose_1.R,
@@ -220,8 +236,6 @@ landmark_map_t Estimator::triangulate_points_(
 
     cv::Mat point_4d = points_4d.col(i);
 
-    cv::Size size = camera_->size;
-
     // Validate that point reprojects into both images
     bool is_valid = (
         point_1.x > 0 &&
@@ -240,7 +254,6 @@ landmark_map_t Estimator::triangulate_points_(
           point_4d.at<float>(0,0),
           point_4d.at<float>(1,0),
           point_4d.at<float>(2,0));
-
       // Assign landmark same ID as corresponding features
       int temp_id = ids.at(i);
 
