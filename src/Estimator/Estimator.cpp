@@ -68,8 +68,14 @@ Estimator::Estimator(
 Frame Estimator::process_frame(
     Frame current_frame)
 {
+  std::pair<feature_map_t, landmark_map_t> hypothesis_matches = 
+    map_->filter_by_features(current_frame.features);
 
+  FeatureMapAsVectors hypothesis_feature_vectors = unpack_feature_map(
+      hypothesis_matches.first);
 
+  LandmarkMapAsVectors hypothesis_landmark_vectors = unpack_landmark_map(
+      hypothesis_matches.second);
 
   return current_frame;
 }

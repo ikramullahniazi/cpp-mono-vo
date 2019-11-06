@@ -18,10 +18,10 @@ class Landmark {
     Landmark();
     Landmark(
         int id,
-        cv::Point3f location);
+        cv::Point3f coords);
     Landmark(
         int id,
-        cv::Point3f location, 
+        cv::Point3f coords, 
         std::vector<Feature> observations);
     
     // ---------
@@ -36,7 +36,7 @@ class Landmark {
     int id;
 
     // Location relative to origin of map
-    cv::Point3f location;
+    cv::Point3f coords;
 
     // Keep track of all observations of this landmark
     std::vector<Feature> observations;
@@ -45,9 +45,16 @@ class Landmark {
 // Map landmark ID to landmark object
 typedef std::map<int, Landmark> landmark_map_t;
 
-landmark_map_t filter_by_ids(std::vector<int> ids);
+typedef struct LandmarkMapAsVectors {
+  std::vector<cv::Point3f> coords;
+  std::vector<int> ids;
+  std::vector<std::vector<Feature>> observations;
+} LandmarkMapAsVectors;
 
 std::vector<cv::Point3f> unpack_landmark_vector(
     std::vector<Landmark> landmarks);
+
+LandmarkMapAsVectors unpack_landmark_map(
+    landmark_map_t landmarks);
 
 #endif
