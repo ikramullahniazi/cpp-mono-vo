@@ -23,7 +23,7 @@ class Frame {
     Frame(
         feature_map_t features,
         Pose pose,
-        int frame_id,
+        int id,
         bool is_keyframe,
         bool is_processed);
 
@@ -48,7 +48,7 @@ class Frame {
     bool is_processed;
 
     // 
-    int frame_id;
+    int id;
 
   private:
 };

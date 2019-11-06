@@ -68,6 +68,8 @@ Estimator::Estimator(
 Frame Estimator::process_frame(
     Frame current_frame)
 {
+
+
   return current_frame;
 }
 
@@ -187,15 +189,18 @@ landmark_map_t Estimator::triangulate_points_(
   points_4d.row(0) /= points_4d.row(3);
   points_4d.row(1) /= points_4d.row(3);
   points_4d.row(2) /= points_4d.row(3);
+  points_4d.row(3) /= points_4d.row(3);
 
   // Project into each image to check
   projections_1 = P_1 * points_4d;
   projections_1.row(0) /= projections_1.row(2);
   projections_1.row(1) /= projections_1.row(2);
+  projections_1.row(2) /= projections_1.row(2);
 
   projections_2 = P_2 * points_4d;
   projections_2.row(0) /= projections_2.row(2);
   projections_2.row(1) /= projections_2.row(2);
+  projections_2.row(2) /= projections_2.row(2);
 
   landmark_map_t out_map;
 
@@ -217,7 +222,7 @@ landmark_map_t Estimator::triangulate_points_(
 
     cv::Size size = camera_->size;
 
-    // TODO: Check that points are in front of both cameras
+    // Validate that point reprojects into both images
     bool is_valid = (
         point_1.x > 0 &&
         point_1.x < size.width &&
@@ -235,7 +240,6 @@ landmark_map_t Estimator::triangulate_points_(
           point_4d.at<float>(0,0),
           point_4d.at<float>(1,0),
           point_4d.at<float>(2,0));
-      std::cout << temp_point.z << std::endl;
 
       // Assign landmark same ID as corresponding features
       int temp_id = ids.at(i);

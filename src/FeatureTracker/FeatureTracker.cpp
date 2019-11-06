@@ -79,7 +79,7 @@ Frame FeatureTracker::process_image(cv::Mat image)
     Frame first_frame = Frame();
     first_frame.features = current_features_;
     first_frame.is_processed = false;
-    first_frame.frame_id = frame_counter_++;
+    first_frame.id = frame_counter_++;
 
     return first_frame;
   } 
@@ -106,7 +106,7 @@ Frame FeatureTracker::process_image(cv::Mat image)
     Frame next_frame = Frame();
     next_frame.features = current_features_;
     next_frame.is_processed = false;
-    next_frame.frame_id = frame_counter_++;
+    next_frame.id = frame_counter_++;
     
     return next_frame;
   }

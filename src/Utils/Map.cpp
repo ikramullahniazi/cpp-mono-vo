@@ -15,12 +15,18 @@ Map::Map(
 
 bool Map::insert_frame(Frame frame)
 {
-  return false;
+  // TODO: Any needed checking
+  // Use [] rather than .insert() to allow overwriting of a frame
+  frames_[frame.id] = frame;
+  return true;
 }
 
 bool Map::insert_landmark(Landmark landmark)
 {
-  return false;
+  // TODO: Any needed checking
+  // Use [] rather than .insert() to allow overwriting
+  landmarks_[landmark.id] = landmark;
+  return true;
 }
 
 landmark_map_t Map::get_landmarks()
@@ -28,9 +34,38 @@ landmark_map_t Map::get_landmarks()
   return landmarks_;
 }
 
+bool Map::contains_landmark(int id)
+{
+  if (landmarks_.find(id) == landmarks_.end())
+  {
+    return false;
+  }
+  return true;
+}
+
+Landmark Map::get_landmark(int id)
+{
+  // CALL CONTAINS_LANDMARK FIRST
+  return landmarks_.at(id);
+}
+
 frame_map_t Map::get_frames()
 {
   return frames_;
+}
+
+bool Map::contains_frame(int id)
+{
+  if (frames_.find(id) == frames_.end())
+  {
+    return false;
+  }
+  return true;
+}
+
+Frame Map::get_frame(int id)
+{
+  return frames_.at(id);
 }
 
 void Map::set_landmarks(landmark_map_t landmarks)

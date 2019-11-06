@@ -4,7 +4,7 @@
 Frame::Frame()
 {
   pose = Pose();
-  frame_id = 0;
+  id = -1;
   is_keyframe = false;
   is_processed = false;
 }
@@ -12,13 +12,13 @@ Frame::Frame()
 Frame::Frame(
     feature_map_t features,
     Pose pose,
-    int frame_id,
+    int id,
     bool is_keyframe,
     bool is_processed)
 {
   features = features;
   pose = pose;
-  frame_id = frame_id;
+  id = id;
   is_keyframe = is_keyframe;
   is_processed = is_processed;
 }

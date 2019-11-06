@@ -24,11 +24,14 @@ class Map {
     bool insert_frame(Frame frame);
     bool insert_landmark(Landmark landmark);
 
-    // Getters
     landmark_map_t get_landmarks();
-    frame_map_t get_frames();
+    bool contains_landmark(int id);
+    Landmark get_landmark(int id);
 
-    // Setters
+    frame_map_t get_frames();
+    bool contains_frame(int id);
+    Frame get_frame(int id);
+
     void set_landmarks(landmark_map_t landmarks);
     void set_frames(frame_map_t frames);
 
