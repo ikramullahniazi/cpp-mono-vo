@@ -49,5 +49,8 @@ typedef struct FeatureMapAsVectors {
 
 FeatureMapAsVectors unpack_feature_map(feature_map_t features);
 
+std::pair<feature_map_t, feature_map_t> match_feature_maps(
+    feature_map_t features_1,
+    feature_map_t features_2);
 
 #endif

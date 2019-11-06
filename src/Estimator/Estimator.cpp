@@ -85,13 +85,26 @@ bool Estimator::manual_initialization(
   // Since we can only find up to scale poses anyway, we'll
   // use the generated unit vector in the direction of 
   // translation as the actual translation vector.
-  
-  cv::Mat K = camera_->K;
-  std::vector<cv::Point2f> pts_1 = 
-    unpack_feature_map(frame_1.features).coords;
-  std::vector<cv::Point2f> pts_2 = 
-    unpack_feature_map(frame_2.features).coords;
 
+  cv::Mat K = camera_->K;
+
+  // Need to get all points seen in both frames
+  std::pair<feature_map_t, feature_map_t> matched_points = 
+    match_feature_maps(frame_1.features, frame_2.features);
+
+  FeatureMapAsVectors feature_vectors_1 = unpack_feature_map(
+      matched_points.first);
+
+  FeatureMapAsVectors feature_vectors_2 = unpack_feature_map(
+      matched_points.second);
+
+  std::vector<cv::Point2f> pts_1 = feature_vectors_1.coords;
+  std::vector<cv::Point2f> pts_2 = feature_vectors_2.coords;
+
+  cv::Mat mask;
+
+  // TODO: compute essential mat and homography, only try to reconstruct
+  // if one is good enough
   cv::Mat E = cv::findEssentialMat(
       pts_1,
       pts_2,
@@ -99,9 +112,33 @@ bool Estimator::manual_initialization(
       params_.method,
       params_.prob,
       params_.threshold,
-      cv::noArray());
+      mask);
 
-  cv::Mat R, t;
+  cv::Mat R, rvec, t;
+
+  cv::recoverPose(
+      E,
+      pts_1,
+      pts_2,
+      K,
+      R,
+      t,
+      mask);
+
+  Pose pose_1 = Pose();
+  Pose pose_2 = Pose(R, t);
+
+  landmark_map_t landmarks = triangulate_points_(
+      pose_1,
+      pose_2,
+      matched_points.first,
+      matched_points.second);
+
+
+  frame_1.pose = pose_1;
+  frame_2.pose = pose_2;
+
+
 
   bool success = false;
   is_initialized_ = success;
@@ -134,9 +171,10 @@ landmark_map_t Estimator::triangulate_points_(
 
   std::vector<cv::Point2f> points_1 = map_vectors_1.coords;
   std::vector<cv::Point2f> points_2 = map_vectors_2.coords;
+  std::vector<int> ids = map_vectors_1.ids;
 
   // 4xn vector of results
-  cv::Mat points_4d;
+  cv::Mat points_4d, projections_1, projections_2;
 
   cv::triangulatePoints(
       P_1,
@@ -144,32 +182,69 @@ landmark_map_t Estimator::triangulate_points_(
       points_1,
       points_2,
       points_4d);
-  
+
   // Normalize homogeneous vector
   points_4d.row(0) /= points_4d.row(3);
   points_4d.row(1) /= points_4d.row(3);
   points_4d.row(2) /= points_4d.row(3);
-  points_4d.row(3) /= points_4d.row(3);
+
+  // Project into each image to check
+  projections_1 = P_1 * points_4d;
+  projections_1.row(0) /= projections_1.row(2);
+  projections_1.row(1) /= projections_1.row(2);
+
+  projections_2 = P_2 * points_4d;
+  projections_2.row(0) /= projections_2.row(2);
+  projections_2.row(1) /= projections_2.row(2);
 
   landmark_map_t out_map;
 
   // Now build vector of landmarks
   for (int i = 0; i < points_4d.cols; i++)
   {
-    // Convert point in mat to Point3f
-    cv::Mat temp_col = points_4d.col(i);
-    cv::Point3f temp_point = cv::Point3f(
-        temp_col.at<float>(0,0),
-        temp_col.at<float>(1,0),
-        temp_col.at<float>(2,0));
+    // Check point is in reasonable place
+    cv::Mat pixels_1 = projections_1.col(i);
+    cv::Point2f point_1 = cv::Point2f(
+        pixels_1.at<float>(0,0),
+        pixels_1.at<float>(1,0));
 
-    // Assign landmark same ID as corresponding features
-    int temp_id = features_1.at(i).id;
+    cv::Mat pixels_2 = projections_2.col(i);
+    cv::Point2f point_2 = cv::Point2f(
+        pixels_2.at<float>(0,0),
+        pixels_2.at<float>(1,0));
 
-    Landmark temp_landmark = Landmark(
-        temp_id,
-        temp_point);
-    out_map.insert({temp_id, temp_landmark});
+    cv::Mat point_4d = points_4d.col(i);
+
+    cv::Size size = camera_->size;
+
+    // TODO: Check that points are in front of both cameras
+    bool is_valid = (
+        point_1.x > 0 &&
+        point_1.x < size.width &&
+        point_1.y > 0 &&
+        point_1.y < size.height &&
+        point_2.x > 0 &&
+        point_2.x < size.width &&
+        point_2.y > 0 &&
+        point_2.y < size.height);
+
+    if (is_valid)
+    {
+      // Convert point in mat to Point3f
+      cv::Point3f temp_point = cv::Point3f(
+          point_4d.at<float>(0,0),
+          point_4d.at<float>(1,0),
+          point_4d.at<float>(2,0));
+      std::cout << temp_point.z << std::endl;
+
+      // Assign landmark same ID as corresponding features
+      int temp_id = ids.at(i);
+
+      Landmark temp_landmark = Landmark(
+          temp_id,
+          temp_point);
+      out_map.insert({temp_id, temp_landmark});
+    }
   }
   return out_map;
 }

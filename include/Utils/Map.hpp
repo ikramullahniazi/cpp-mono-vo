@@ -16,7 +16,7 @@ class Map {
     Map();
     Map(
         landmark_map_t landmarks,
-        landmark_map_t frames);
+        frame_map_t frames);
 
     // ---------
     // Functions

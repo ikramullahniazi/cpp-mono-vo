@@ -57,3 +57,30 @@ FeatureMapAsVectors unpack_feature_map(
 
   return out_struct;
 }
+
+std::pair<feature_map_t, feature_map_t> match_feature_maps(
+    feature_map_t features_1,
+    feature_map_t features_2)
+{
+  feature_map_t pruned_1;
+  feature_map_t pruned_2;
+
+  for (const auto& f : features_1)
+  {
+    int id = f.first;
+    if (features_2.find(id) != features_2.end())
+    {
+      // Feature is in both!
+      pruned_1.insert({id, f.second});
+      pruned_2.insert({id, features_2.at(id)});
+    }
+  }
+
+  std::pair<feature_map_t, feature_map_t> matches = std::make_pair(
+      pruned_1,
+      pruned_2);
+
+  return matches;
+
+}
+

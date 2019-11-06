@@ -45,7 +45,7 @@ int main() {
   // --------
 
   // Create Camera
-  cv::Mat camera_matrix = (cv::Mat_<double>(3,3) << 718.856, 0.0, 607.1928, 0.0, 718.856, 185.2157, 0.0, 0.0, 1.0);
+  cv::Mat camera_matrix = (cv::Mat_<float>(3,3) << 718.856, 0.0, 607.1928, 0.0, 718.856, 185.2157, 0.0, 0.0, 1.0);
   cv::Mat distortion_params = cv::Mat();
   cv::Size size = cv::Size(1241, 376);
 
