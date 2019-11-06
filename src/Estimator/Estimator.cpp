@@ -26,6 +26,12 @@ void EstimatorParams::config_()
   method = cv::RANSAC;
   prob = 0.999;
   threshold = 1.0;
+
+  use_extrinsic_guess = false;
+  iterations_count = 100;
+  reprojection_error = 8.0;
+  confidence = 0.99;
+  solve_pnp_method = cv::SOLVEPNP_ITERATIVE;
 }
 
 // Private
@@ -43,6 +49,8 @@ void EstimatorParams::config_()
 // ------------
 // Constructors
 // ------------
+
+// Don't use this one!
 Estimator::Estimator()
 {
   camera_ = nullptr;
@@ -68,14 +76,49 @@ Estimator::Estimator(
 Frame Estimator::process_frame(
     Frame current_frame)
 {
+  cv::Mat K = camera_->K;
+  cv::Mat D = camera_->D;
   std::pair<feature_map_t, landmark_map_t> hypothesis_matches = 
     map_->filter_by_features(current_frame.features);
 
-  FeatureMapAsVectors hypothesis_feature_vectors = unpack_feature_map(
-      hypothesis_matches.first);
+  FeatureMapAsVectors hypothesis_feature_vectors = 
+    unpack_feature_map(hypothesis_matches.first);
 
-  LandmarkMapAsVectors hypothesis_landmark_vectors = unpack_landmark_map(
-      hypothesis_matches.second);
+  LandmarkMapAsVectors hypothesis_landmark_vectors = 
+    unpack_landmark_map(hypothesis_matches.second);
+
+  std::vector<cv::Point2f> image_points = 
+    hypothesis_feature_vectors.coords;
+  
+  std::vector<cv::Point3f> world_points = 
+    hypothesis_landmark_vectors.coords;
+
+  std::vector<int> ids = 
+    hypothesis_feature_vectors.ids;
+
+  cv::Mat rvec, R, t, mask;
+  
+  // Do not pass in distortion coefficients if points are already
+  // undistorted.
+  cv::solvePnPRansac(
+      world_points,
+      image_points,
+      K,
+      D,
+      rvec,
+      t,
+      params_.use_extrinsic_guess,
+      params_.iterations_count,
+      params_.reprojection_error,
+      params_.confidence,
+      mask,
+      params_.solve_pnp_method);
+
+  cv::Rodrigues(rvec, R);
+
+  Pose current_pose = Pose(R, t);
+
+  current_frame.pose = current_pose;
 
   return current_frame;
 }

@@ -52,6 +52,13 @@ class EstimatorParams {
     double prob;
     double threshold;
 
+    // Params for solvePnPRansac
+    bool use_extrinsic_guess;
+    int iterations_count;
+    float reprojection_error;
+    double confidence;
+    int solve_pnp_method;
+
   private:
     // -------------
     // Owned Objects
