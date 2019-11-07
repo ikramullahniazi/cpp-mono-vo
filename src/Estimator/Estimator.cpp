@@ -312,7 +312,7 @@ bool Estimator::keyframe_needed_(
   // TODO: Actually do something smart here.
 
   // Just select every 4th frame as a keyframe
-  return ( (incoming_frame.id - reference_frame_.id) > 3);
+  return ( (incoming_frame.id - reference_frame_.id) > 4);
 
 }
 
