@@ -33,3 +33,18 @@ cv::Mat form_transformation_matrix(
   return T;
 }
 
+std::ostream& operator<< (std::ostream &out, Pose const& pose)
+{
+  cv::Mat T = form_transformation_matrix(pose.R, pose.t);
+
+  for (int i = 0; i < T.rows; ++i)
+  {
+    for (int j = 0; j < T.cols; ++j)
+    {
+      out << T.at<float>(i,j) << " ";
+    }
+  }
+
+  return out;
+
+}

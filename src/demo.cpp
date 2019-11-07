@@ -125,10 +125,7 @@ int main() {
     current_frame = estimator.process_frame(current_frame);
     if (current_frame.is_keyframe)
     {
-      std::cout << "Keyframe: " << current_frame.id << std::endl;
-      std::cout << current_frame.pose.R << std::endl;
-      std::cout << current_frame.pose.t << std::endl;
-      std::cout << std::endl;
+      std::cout << current_frame.pose << std::endl;
     }
 
     images.pop();
