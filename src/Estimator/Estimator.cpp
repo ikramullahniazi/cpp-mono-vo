@@ -21,8 +21,7 @@ EstimatorParams::EstimatorParams()
 
 void EstimatorParams::config_()
 {
-  // Defaults from:
-  // https://docs.opencv.org/4.1.0/d9/d0c/group__calib3d.html#ga13f7e34de8fa516a686a56af1196247f
+  // Defaults from: https://docs.opencv.org/4.1.0/d9/d0c/group__calib3d.html#ga13f7e34de8fa516a686a56af1196247f
   method = cv::RANSAC;
   prob = 0.999;
   threshold = 1.0;
@@ -81,11 +80,14 @@ Frame Estimator::process_frame(
 
   // Localize
   Frame localized_frame = localize_pnp_(current_frame);
+  localized_frame.is_processed = true;
 
-  bool keyframe = keyframe_needed_(current_frame);
+  bool keyframe = keyframe_needed_(localized_frame);
 
   if (keyframe)
   {
+    localized_frame.is_keyframe = true;
+
     std::pair<feature_map_t, feature_map_t> feature_matches = 
       match_feature_maps(
           reference_frame_.features,
@@ -93,7 +95,7 @@ Frame Estimator::process_frame(
 
     landmark_map_t new_landmarks = triangulate_points_(
         reference_frame_.pose,
-        current_frame.pose,
+        localized_frame.pose,
         feature_matches.first,
         feature_matches.second);
 
@@ -102,11 +104,10 @@ Frame Estimator::process_frame(
       map_->insert_landmark(f.second);
     }
 
-    reference_frame_ = current_frame;
-    std::cout << reference_frame_.id << std::endl;
+    reference_frame_ = localized_frame;
   }
 
-  map_->insert_frame(current_frame);
+  map_->insert_frame(localized_frame);
 
   return localized_frame;
 }
@@ -309,7 +310,7 @@ bool Estimator::keyframe_needed_(
     Frame incoming_frame)
 {
   // TODO: Actually do something smart here.
-  return ( (incoming_frame.id - reference_frame_.id) > 3);
+  return ( (incoming_frame.id - reference_frame_.id) > 5);
 
 }
 
