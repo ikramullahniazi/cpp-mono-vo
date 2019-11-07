@@ -76,51 +76,39 @@ Estimator::Estimator(
 Frame Estimator::process_frame(
     Frame current_frame)
 {
-  cv::Mat K = camera_->K;
-  cv::Mat D = camera_->D;
-  std::pair<feature_map_t, landmark_map_t> hypothesis_matches = 
-    map_->filter_by_features(current_frame.features);
 
-  FeatureMapAsVectors hypothesis_feature_vectors = 
-    unpack_feature_map(hypothesis_matches.first);
+  // TODO: Determine if keyframe or not
 
-  LandmarkMapAsVectors hypothesis_landmark_vectors = 
-    unpack_landmark_map(hypothesis_matches.second);
+  // Localize
+  Frame localized_frame = localize_pnp_(current_frame);
 
-  std::vector<cv::Point2f> image_points = 
-    hypothesis_feature_vectors.coords;
-  
-  std::vector<cv::Point3f> world_points = 
-    hypothesis_landmark_vectors.coords;
+  bool keyframe = keyframe_needed_(current_frame);
 
-  std::vector<int> ids = 
-    hypothesis_feature_vectors.ids;
+  if (keyframe)
+  {
+    std::pair<feature_map_t, feature_map_t> feature_matches = 
+      match_feature_maps(
+          reference_frame_.features,
+          current_frame.features);
 
-  cv::Mat rvec, R, t, mask;
-  
-  // Do not pass in distortion coefficients if points are already
-  // undistorted.
-  cv::solvePnPRansac(
-      world_points,
-      image_points,
-      K,
-      D,
-      rvec,
-      t,
-      params_.use_extrinsic_guess,
-      params_.iterations_count,
-      params_.reprojection_error,
-      params_.confidence,
-      mask,
-      params_.solve_pnp_method);
+    landmark_map_t new_landmarks = triangulate_points_(
+        reference_frame_.pose,
+        current_frame.pose,
+        feature_matches.first,
+        feature_matches.second);
 
-  cv::Rodrigues(rvec, R);
+    for (auto const& f : new_landmarks)
+    {
+      map_->insert_landmark(f.second);
+    }
 
-  Pose current_pose = Pose(R, t);
+    reference_frame_ = current_frame;
+    std::cout << reference_frame_.id << std::endl;
+  }
 
-  current_frame.pose = current_pose;
+  map_->insert_frame(current_frame);
 
-  return current_frame;
+  return localized_frame;
 }
 
 
@@ -137,8 +125,6 @@ bool Estimator::manual_initialization(
   // Since we can only find up to scale poses anyway, we'll
   // use the generated unit vector in the direction of 
   // translation as the actual translation vector.
-
-  cv::Mat K = camera_->K;
 
   // Need to get all points seen in both frames
   std::pair<feature_map_t, feature_map_t> matched_points = 
@@ -160,7 +146,7 @@ bool Estimator::manual_initialization(
   cv::Mat E = cv::findEssentialMat(
       pts_1,
       pts_2,
-      K,
+      camera_->K,
       params_.method,
       params_.prob,
       params_.threshold,
@@ -176,7 +162,7 @@ bool Estimator::manual_initialization(
       E,
       pts_1,
       pts_2,
-      K,
+      camera_->K,
       R,
       t,
       mask);
@@ -201,16 +187,20 @@ bool Estimator::manual_initialization(
   map_->insert_frame(frame_1);
   map_->insert_frame(frame_2);
 
+  reference_frame_ = frame_2;
+
   for (auto const& f : landmarks)
   {
     map_->insert_landmark(f.second);
   }
 
-  bool success = false;
+  // TODO: some checks here
+  bool success = true;
   is_initialized_ = success;
   return success;
 }
 
+// TODO: just take two frames as input
 landmark_map_t Estimator::triangulate_points_(
     Pose pose_1,
     Pose pose_2,
@@ -314,3 +304,51 @@ landmark_map_t Estimator::triangulate_points_(
   }
   return out_map;
 }
+
+bool Estimator::keyframe_needed_(
+    Frame incoming_frame)
+{
+  // TODO: Actually do something smart here.
+  return ( (incoming_frame.id - reference_frame_.id) > 3);
+
+}
+
+Frame Estimator::localize_pnp_(
+    Frame incoming_frame)
+{
+  std::pair<feature_map_t, landmark_map_t> hypothesis_matches = 
+    map_->filter_by_features(incoming_frame.features);
+
+  FeatureMapAsVectors hypothesis_feature_vectors = 
+    unpack_feature_map(hypothesis_matches.first);
+
+  LandmarkMapAsVectors hypothesis_landmark_vectors = 
+    unpack_landmark_map(hypothesis_matches.second);
+
+  cv::Mat rvec, R, t, mask;
+
+  // NOTE: Do not pass in distortion coefficients if points are already
+  // undistorted.
+  cv::solvePnPRansac(
+      hypothesis_landmark_vectors.coords,
+      hypothesis_feature_vectors.coords,
+      camera_->K,
+      camera_->D,
+      rvec,
+      t,
+      params_.use_extrinsic_guess,
+      params_.iterations_count,
+      params_.reprojection_error,
+      params_.confidence,
+      mask,
+      params_.solve_pnp_method);
+
+  cv::Rodrigues(rvec, R);
+
+  Pose current_pose = Pose(R, t);
+
+  incoming_frame.pose = current_pose;
+
+  return incoming_frame;
+}
+

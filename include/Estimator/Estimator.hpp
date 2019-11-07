@@ -121,6 +121,8 @@ class Estimator {
 
     EstimatorParams params_;
 
+    Frame reference_frame_;
+
     // ---------
     // Functions
     // ---------
@@ -129,6 +131,12 @@ class Estimator {
         Pose pose_2,
         feature_map_t features_1,
         feature_map_t features_2);
+
+    bool keyframe_needed_(
+        Frame incoming_frame);
+
+    Frame localize_pnp_(
+        Frame incoming_frame);
     // ----
     // Data
     // ----
