@@ -13,6 +13,9 @@ Map::Map(
   frames_ = frames;
 }
 
+
+// TODO: Maybe use two functions insert_obj and update_obj, where
+// insert doesn't overwrite if the obj exists already and update does.
 bool Map::insert_frame(Frame frame)
 {
   // TODO: Any needed checking

@@ -202,6 +202,8 @@ bool Estimator::manual_initialization(
 }
 
 // TODO: just take two frames as input
+// TODO: this re-triangulates features that have already been seen, 
+// maybe give the option to only triangulate new landmarks?
 landmark_map_t Estimator::triangulate_points_(
     Pose pose_1,
     Pose pose_2,
