@@ -12,7 +12,6 @@
 #include "Utils/Map.hpp"
 #include "Utils/Frame.hpp"
 #include "Utils/Pose.hpp"
-
 /*
  * This object is part of the front end of a visual odometry system.
  * It takes in measurements in the form of features tracked 
@@ -58,6 +57,8 @@ class EstimatorParams {
     float reprojection_error;
     double confidence;
     int solve_pnp_method;
+
+    float keyframe_threshold;
 
   private:
     // -------------

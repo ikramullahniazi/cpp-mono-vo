@@ -35,9 +35,10 @@ cv::Mat form_transformation_matrix(
 
 std::ostream& operator<< (std::ostream &out, Pose const& pose)
 {
+  // Print in the form of KITTI pose
   cv::Mat T = form_transformation_matrix(pose.R, pose.t);
 
-  for (int i = 0; i < T.rows; ++i)
+  for (int i = 0; i < T.rows-1; ++i)
   {
     for (int j = 0; j < T.cols; ++j)
     {

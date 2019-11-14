@@ -26,11 +26,16 @@ void EstimatorParams::config_()
   prob = 0.999;
   threshold = 1.0;
 
+
+  // Defaults for PnP
   use_extrinsic_guess = false;
   iterations_count = 100;
   reprojection_error = 8.0;
   confidence = 0.99;
   solve_pnp_method = cv::SOLVEPNP_ITERATIVE;
+
+  // What percentage of lost features causes new keyframe?
+  keyframe_threshold = 0.9;
 }
 
 // Private
@@ -311,10 +316,22 @@ landmark_map_t Estimator::triangulate_points_(
 bool Estimator::keyframe_needed_(
     Frame incoming_frame)
 {
-  // TODO: Actually do something smart here.
+  // Determine how many features are lost between reference
+  // and this frame
+  std::pair<feature_map_t, feature_map_t> feature_matches = 
+    match_feature_maps(
+        reference_frame_.features,
+        incoming_frame.features);
 
-  // Just select every 4th frame as a keyframe
-  return ( (incoming_frame.id - reference_frame_.id) > 4);
+  auto matched_features = feature_matches.first;
+  auto initial_features = reference_frame_.features;
+
+  double num_matched = matched_features.size();
+  double num_init = initial_features.size();
+
+  double percent_kept = (num_matched / num_init);
+
+  return ( percent_kept < params_.keyframe_threshold);
 
 }
 
