@@ -35,7 +35,8 @@ void EstimatorParams::config_()
   solve_pnp_method = cv::SOLVEPNP_ITERATIVE;
 
   // What percentage of lost features causes new keyframe?
-  keyframe_threshold = 0.9;
+  keyframe_percent_threshold = 0.9;
+  keyframe_distance_threshold = 10;
 }
 
 // Private
@@ -331,7 +332,9 @@ bool Estimator::keyframe_needed_(
 
   double percent_kept = (num_matched / num_init);
 
-  return ( percent_kept < params_.keyframe_threshold);
+  int keyframe_distance = incoming_frame.id - reference_frame_.id;
+
+  return (percent_kept < params_.keyframe_percent_threshold) || (keyframe_distance > params_.keyframe_distance_threshold);
 
 }
 

@@ -58,7 +58,8 @@ class EstimatorParams {
     double confidence;
     int solve_pnp_method;
 
-    float keyframe_threshold;
+    float keyframe_percent_threshold;
+    int keyframe_distance_threshold;
 
   private:
     // -------------
