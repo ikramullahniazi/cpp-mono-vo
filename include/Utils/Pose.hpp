@@ -15,6 +15,7 @@ class Pose {
 
     // Functions
     friend std::ostream& operator<< (std::ostream &out, const Pose& pose);
+    Pose inv();
 
     // Data
     cv::Mat R;
@@ -26,6 +27,8 @@ class Pose {
 cv::Mat form_transformation_matrix(
     cv::Mat R,
     cv::Mat t);
+
+Pose get_inverse_pose(Pose pose);
 
 
 #endif

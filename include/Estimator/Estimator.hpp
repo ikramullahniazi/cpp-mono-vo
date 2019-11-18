@@ -116,8 +116,10 @@ class Estimator {
     // -------------
     // Owned Objects
     // -------------
-    // Keep a pointer to the global map to make passing keyframes 
-    // around easier.
+
+    // NOTE: This is a local map only.
+    // When landmarks fail to track, they are pruned.
+    // An optimizer should be implemented if a global map is desired.
     std::shared_ptr<Map> map_;
     std::shared_ptr<Camera> camera_;
 

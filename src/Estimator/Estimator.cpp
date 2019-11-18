@@ -35,7 +35,7 @@ void EstimatorParams::config_()
   solve_pnp_method = cv::SOLVEPNP_ITERATIVE;
 
   // What percentage of lost features causes new keyframe?
-  keyframe_percent_threshold = 0.9;
+  keyframe_percent_threshold = 0.90;
   keyframe_distance_threshold = 10;
 }
 
@@ -343,6 +343,9 @@ Frame Estimator::localize_pnp_(
 {
   std::pair<feature_map_t, landmark_map_t> hypothesis_matches = 
     map_->filter_by_features(incoming_frame.features);
+
+  // Remove landmarks that failed to track from local map
+  map_->set_landmarks(hypothesis_matches.second);
 
   FeatureMapAsVectors hypothesis_feature_vectors = 
     unpack_feature_map(hypothesis_matches.first);

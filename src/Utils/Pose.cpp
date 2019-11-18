@@ -15,6 +15,14 @@ Pose::Pose(cv::Mat rotation, cv::Mat translation)
   t = translation;
 }
 
+Pose Pose::inv()
+{
+  cv::Mat new_R, new_t;
+  new_R = R.inv();
+  new_t = -new_R * t;
+
+  return Pose(new_R, new_t);
+}
 cv::Mat form_transformation_matrix(
     cv::Mat rotation_matrix,
     cv::Mat translation_vector)
@@ -33,6 +41,7 @@ cv::Mat form_transformation_matrix(
   return T;
 }
 
+
 std::ostream& operator<< (std::ostream &out, Pose const& pose)
 {
   // Print in the form of KITTI pose
@@ -42,7 +51,11 @@ std::ostream& operator<< (std::ostream &out, Pose const& pose)
   {
     for (int j = 0; j < T.cols; ++j)
     {
-      out << T.at<float>(i,j) << " ";
+      out << T.at<float>(i,j);
+      if (i != 2 || j != 3)
+      {
+        out << " ";
+      }
     }
   }
 

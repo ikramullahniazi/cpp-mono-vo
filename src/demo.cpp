@@ -18,6 +18,9 @@
 // Include estimator
 #include "Estimator/Estimator.hpp"
 
+// Utils
+#include "Utils/Pose.hpp"
+
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp> // for imshow
 #include <opencv2/imgcodecs.hpp> // for imread()
@@ -46,8 +49,10 @@ int main() {
 
   // Create Camera
   cv::Mat camera_matrix = (cv::Mat_<float>(3,3) << 718.856, 0.0, 607.1928, 0.0, 718.856, 185.2157, 0.0, 0.0, 1.0);
+  //cv::Mat camera_matrix = (cv::Mat_<float>(3,3) << 707.0912, 0.0, 601.8873, 0.0, 707.0912, 183.1104, 0.0, 0.0, 1.0);
   cv::Mat distortion_params = cv::Mat();
   cv::Size size = cv::Size(1241, 376);
+  //cv::Size size = cv::Size(1226, 370);
 
   std::shared_ptr<Camera> camera_ptr = std::make_shared<Camera>(
       camera_matrix,
@@ -88,7 +93,7 @@ int main() {
   // Grab images
   std::vector<std::string> filenames;
   std::queue<cv::Mat> images;
-  std::string path = "../data/*.png";
+  std::string path = "../data/00/*.png";
   cv::glob(path, filenames);
 
   for (std::string filename : filenames)
@@ -104,8 +109,9 @@ int main() {
   cv::Mat image_1 = images.front();
   Frame frame_1 = feature_tracker.process_image(image_1);
   images.pop();
-  // Skip second image
+  // Skip second
   images.pop();
+
 
   cv::Mat image_3 = images.front();
   Frame frame_3 = feature_tracker.process_image(image_3);
@@ -125,7 +131,7 @@ int main() {
     current_frame = estimator.process_frame(current_frame);
     if (current_frame.is_keyframe)
     {
-      std::cout << current_frame.pose << std::endl;
+      std::cout << current_frame.pose.inv() << std::endl;
     }
 
     images.pop();

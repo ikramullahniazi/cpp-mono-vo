@@ -2,7 +2,7 @@ clc;
 clear all;
 close all;
 
-data = load('results.txt');
+data = load('build/KITTI_00.txt');
 num_frames = size(data, 1);
 num_poses = 300;
 
@@ -30,10 +30,10 @@ for i = 1:num_frames
    t(:,i) = t_cell{i};
 end
 
-gt_arr = load('poses.txt');
+gt_arr = load('data/00/poses.txt');
 for i = 1:num_poses
     gt_flat = gt_arr(i,:);
-    T_w_c = [reshape(gt_flat, 4, 3)'; 0 0 0 1]
+    T_w_c = [reshape(gt_flat, 4, 3)'; 0 0 0 1];
     gt_t(:,i) = T_w_c(1:3, 4);;
 end
 
@@ -46,3 +46,4 @@ scatter(gt_t(3,:), -gt_t(1,:), 'b*');
 xlabel("Local N");
 ylabel("Local W");
 legend('Estimate', 'Ground Truth');
+title("KITTI 00 Trajectory Estimate");
