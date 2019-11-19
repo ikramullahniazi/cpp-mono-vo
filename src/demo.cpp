@@ -19,7 +19,7 @@
 #include "Estimator/Estimator.hpp"
 
 // Utils
-#include "Utils/Pose.hpp"
+#include "Utils/ImageGenerator.hpp"
 
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp> // for imshow
@@ -89,33 +89,20 @@ int main() {
   // ...
 
   // Now ready to actually process images
-
-  // Grab images
-  std::vector<std::string> filenames;
-  std::queue<cv::Mat> images;
-  std::string path = "../data/00/*.png";
-  cv::glob(path, filenames);
-
-  for (std::string filename : filenames)
-  {
-    cv::Mat im = cv::imread(filename);
-    cv::cvtColor(im, im, cv::COLOR_BGR2GRAY);
-    images.push(im);
-  }
+  ImageGenerator image_generator;
+  image_generator.load_images("../data/00/", ".png");
 
   // Initialize map from first two images
-  // ...
+  // TODO: Replace this with real initialization process
   
-  cv::Mat image_1 = images.front();
+  cv::Mat image_1 = image_generator.get_next_image();
   Frame frame_1 = feature_tracker.process_image(image_1);
-  images.pop();
-  // Skip second
-  images.pop();
+
+  cv::Mat throwaway_image = image_generator.get_next_image();
 
 
-  cv::Mat image_3 = images.front();
+  cv::Mat image_3 = image_generator.get_next_image();
   Frame frame_3 = feature_tracker.process_image(image_3);
-  images.pop();
 
   estimator.manual_initialization(
       frame_1,
@@ -125,16 +112,14 @@ int main() {
   // ...
   
   // Run for rest of images
-  while (!images.empty())
+  while (!image_generator.empty())
   {
-    Frame current_frame = feature_tracker.process_image(images.front());
-    current_frame = estimator.process_frame(current_frame);
-    if (current_frame.is_keyframe)
-    {
-      std::cout << current_frame.pose.inv() << std::endl;
-    }
+    Frame current_frame = feature_tracker.process_image(
+        image_generator.get_next_image());
 
-    images.pop();
+    current_frame = estimator.process_frame(current_frame);
+
+    std::cout << current_frame.pose.inv() << std::endl;
   }
   
   return 0;

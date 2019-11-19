@@ -46,9 +46,11 @@ add_library( ${PROJECT_NAME}
   src/Detector/Detectors/DefaultDetector.cpp
   src/Tracker/Tracker.cpp
   src/Tracker/Trackers/DefaultTracker.cpp
+  # Utils
   src/Utils/Camera.cpp
   src/Utils/Feature.cpp
   src/Utils/Frame.cpp
+  src/Utils/ImageGenerator.cpp
   src/Utils/Landmark.cpp
   src/Utils/Map.cpp
   src/Utils/Pose.cpp
